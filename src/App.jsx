@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import Navbar from './components/Navbar';
 import LoadingScreen from './components/LoadingScreen';
 import HeroSection from './components/HeroSection';
@@ -18,33 +19,43 @@ import Footer from './components/Footer';
 function App() {
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 2800);
-    return () => clearTimeout(timer);
-  }, []);
-
-  if (loading) {
-    return <LoadingScreen />;
-  }
-
   return (
     <div className="min-h-screen bg-dark">
-      <Navbar />
-      <main>
-        <HeroSection />
-        <AboutSection />
-        <EducationSection />
-        <SkillsIntro />
-        <SkillsSection />
-        <ProjectsSection />
-        <CertificationsSection />
-        <AchievementsSection />
-        <ExperienceSection />
-        <CodingPlatforms />
-        <ActivitiesSection />
-        <ContactSection />
-      </main>
-      <Footer />
+      <AnimatePresence mode="wait">
+        {loading ? (
+          <motion.div
+            key="loader"
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <LoadingScreen onComplete={() => setLoading(false)} />
+          </motion.div>
+        ) : (
+          <motion.div
+            key="main"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.2, ease: 'easeOut' }}
+          >
+            <Navbar />
+            <main>
+              <HeroSection />
+              <AboutSection />
+              <EducationSection />
+              <SkillsIntro />
+              <SkillsSection />
+              <ProjectsSection />
+              <CertificationsSection />
+              <AchievementsSection />
+              <ExperienceSection />
+              <CodingPlatforms />
+              <ActivitiesSection />
+              <ContactSection />
+            </main>
+            <Footer />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
