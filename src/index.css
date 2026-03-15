@@ -19,6 +19,8 @@
   --color-text-secondary: #9ca3b0;
   --font-family-heading: 'Outfit', sans-serif;
   --font-family-body: 'Inter', sans-serif;
+  --font-family-quote: 'Great Vibes', cursive;
+  --font-family-signature: 'Dancing Script', cursive;
 }
 
 /* --- Base Resets --- */
