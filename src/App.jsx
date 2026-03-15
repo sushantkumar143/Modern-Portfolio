@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import AnimatedBackground from './components/AnimatedBackground';
 import Navbar from './components/Navbar';
 import LoadingScreen from './components/LoadingScreen';
 import HeroSection from './components/HeroSection';
@@ -20,9 +21,11 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   return (
-    <div className="min-h-screen bg-dark">
+    <div className="min-h-screen bg-transparent relative">
+      <AnimatedBackground />
+
       {/* Main Content always in DOM so it can be revealed by the split */}
-      <div className="relative z-0">
+      <div className="relative z-10 w-full">
         <Navbar />
         <main>
           <HeroSection />
