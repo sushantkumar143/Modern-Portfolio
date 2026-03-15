@@ -21,39 +21,29 @@ function App() {
 
   return (
     <div className="min-h-screen bg-dark">
-      <AnimatePresence mode="wait">
-        {loading ? (
-          <motion.div
-            key="loader"
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <LoadingScreen onComplete={() => setLoading(false)} />
-          </motion.div>
-        ) : (
-          <motion.div
-            key="main"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.2, ease: 'easeOut' }}
-          >
-            <Navbar />
-            <main>
-              <HeroSection />
-              <AboutSection />
-              <EducationSection />
-              <SkillsIntro />
-              <SkillsSection />
-              <ProjectsSection />
-              <CertificationsSection />
-              <AchievementsSection />
-              <ExperienceSection />
-              <CodingPlatforms />
-              <ActivitiesSection />
-              <ContactSection />
-            </main>
-            <Footer />
-          </motion.div>
+      {/* Main Content always in DOM so it can be revealed by the split */}
+      <div className="relative z-0">
+        <Navbar />
+        <main>
+          <HeroSection />
+          <AboutSection />
+          <EducationSection />
+          <SkillsIntro />
+          <SkillsSection />
+          <ProjectsSection />
+          <CertificationsSection />
+          <AchievementsSection />
+          <ExperienceSection />
+          <CodingPlatforms />
+          <ActivitiesSection />
+          <ContactSection />
+        </main>
+        <Footer />
+      </div>
+
+      <AnimatePresence>
+        {loading && (
+          <LoadingScreen onComplete={() => setLoading(false)} />
         )}
       </AnimatePresence>
     </div>
