@@ -66,62 +66,63 @@ export const skillCategories = [
     name: "Data Science & ML",
     icon: "🧠",
     skills: [
-      { name: "Python", level: 92 },
-      { name: "TensorFlow / Keras", level: 85 },
-      { name: "PyTorch", level: 78 },
-      { name: "Scikit-Learn", level: 88 },
-      { name: "Pandas / NumPy", level: 90 },
-      { name: "NLP / LLMs", level: 82 },
+      { name: "Python", level: 92, icon: "/models/icons/numpy.png" }, // No native python icon available, using numpy approximation
+      { name: "TensorFlow / Keras", level: 85, icon: "/models/icons/tensorflow.png" },
+      { name: "PyTorch", level: 78, icon: "/models/icons/tensorflow.png" }, // Fallback to TF
+      { name: "Scikit-Learn", level: 88, icon: "/models/icons/Prompt.png" }, // Approximate fallback
+      { name: "Pandas / NumPy", level: 90, icon: "/models/icons/numpy.png" },
+      { name: "NLP / LLMs", level: 82, icon: "/models/icons/bedrock.png" }, // Using bedrock as an LLM representation
     ],
   },
   {
     name: "Agentic AI",
     icon: "🤖",
     skills: [
-      { name: "LangChain / LlamaIndex", level: 85 },
-      { name: "RAG Pipelines", level: 80 },
-      { name: "Agent Frameworks", level: 78 },
-      { name: "Prompt Engineering", level: 88 },
-      { name: "Vector Databases", level: 75 },
-      { name: "OpenAI / Gemini API", level: 82 },
+      { name: "LangChain / LlamaIndex", level: 85, icon: "/models/icons/Agent.png" },
+      { name: "RAG Pipelines", level: 80, icon: "/models/icons/rag.png" },
+      { name: "Agent Frameworks", level: 78, icon: "/models/icons/spatiate.glb" }, // spatial/agent correlation
+      { name: "Prompt Engineering", level: 88, icon: "/models/icons/Prompt.png" },
+      { name: "Vector Databases", level: 75, icon: "/models/icons/sql.png" }, // DB fallback
+      { name: "OpenAI / Gemini API", level: 82, icon: "/models/icons/meta_quest_logo.glb" }, // Meta tech fallback
     ],
   },
   {
     name: "Full Stack Development",
     icon: "💻",
     skills: [
-      { name: "React.js", level: 90 },
-      { name: "Next.js", level: 82 },
-      { name: "Node.js / Express", level: 85 },
-      { name: "FastAPI / Django", level: 80 },
-      { name: "MongoDB / PostgreSQL", level: 78 },
-      { name: "TypeScript", level: 75 },
+      { name: "React.js", level: 90, icon: "/models/icons/react_logo.glb" },
+      { name: "Next.js", level: 82, icon: "/models/icons/NextJs.png" },
+      { name: "Node.js / Express", level: 85, icon: "/models/icons/javascript_1.glb" },
+      { name: "FastAPI / Django", level: 80, icon: "/models/icons/django.png" },
+      { name: "MongoDB / PostgreSQL", level: 78, icon: "/models/icons/sql.png" },
+      { name: "TypeScript", level: 75, icon: "/models/icons/javascript_1.glb" }, // JS model fallback for TS
     ],
   },
   {
     name: "DevOps & Cloud",
     icon: "☁️",
     skills: [
-      { name: "Docker", level: 85 },
-      { name: "Kubernetes", level: 72 },
-      { name: "CI/CD (GitHub Actions)", level: 80 },
-      { name: "AWS / GCP", level: 75 },
-      { name: "Linux / Bash", level: 88 },
-      { name: "Terraform", level: 68 },
+      { name: "Docker", level: 85, icon: "/models/icons/moby_dock_docker_whale.glb" },
+      { name: "Kubernetes", level: 72, icon: "/models/icons/kubernetes_1_cluster.glb" },
+      { name: "CI/CD (GitHub Actions)", level: 80, icon: "/models/icons/github.glb" },
+      { name: "AWS / GCP", level: 75, icon: "/models/icons/aws_logo.glb" },
+      { name: "Linux / Bash", level: 88, icon: "/models/icons/linux-char.glb" },
+      { name: "Terraform", level: 68, icon: "/models/icons/terraform.png" },
     ],
   },
   {
     name: "Data Analytics",
     icon: "📊",
     skills: [
-      { name: "SQL", level: 90 },
-      { name: "Power BI / Tableau", level: 82 },
-      { name: "Excel / Google Sheets", level: 85 },
-      { name: "Apache Spark", level: 70 },
-      { name: "Data Visualization", level: 88 },
-      { name: "Statistical Analysis", level: 78 },
+      { name: "SQL", level: 90, icon: "/models/icons/sql.png" },
+      { name: "Power BI / Tableau", level: 82, icon: "/models/icons/PowerBi.glb" },
+      { name: "Excel / Google Sheets", level: 85, icon: "/models/icons/Excel.glb" },
+      { name: "Apache Spark", level: 70, icon: "/models/icons/download-removebg-preview.png" }, // Generic data fallback
+      { name: "Data Visualization", level: 88, icon: "/models/icons/download-removebg-preview (1).png" }, // Data visualization fallback
+      { name: "Statistical Analysis", level: 78, icon: "/models/icons/Agent.png" }, // Analysis fallback
     ],
   },
+
 ];
 
 export const projects = [
@@ -308,14 +309,54 @@ export const codingPlatforms = [
 ];
 
 export const activities = [
-  "Hackathon Organizer – TechFest 2025",
-  "Workshop Lead – Machine Learning Bootcamp",
-  "Open Source Contributor – Hacktoberfest",
-  "Technical Blog Writer – Medium & Dev.to",
-  "Mentored 50+ students in DSA & Web Dev",
-  "AI/ML Club Core Member",
-  "Speaker at College Tech Symposium",
-  "Community Volunteer – Code for India",
+  {
+    title: "Hackathon Organizer – TechFest 2025",
+    description: "Led a team of 20 to organize a 48-hour national level hackathon with 500+ participants.",
+    image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&q=80",
+    link: "#"
+  },
+  {
+    title: "Workshop Lead – Machine Learning",
+    description: "Conducted hands-on sessions for 100+ students on building neural networks from scratch.",
+    image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=800&q=80",
+    link: "#"
+  },
+  {
+    title: "Open Source Contributor",
+    description: "Actively contributed to multiple popular repositories during Hacktoberfest.",
+    image: "https://images.unsplash.com/photo-1618401471353-b98a5233c591?w=800&q=80",
+    link: "#"
+  },
+  {
+    title: "Technical Blog Writer",
+    description: "Publishing deep-dive articles on ML architectures and web development on Medium.",
+    image: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=800&q=80",
+    link: "#"
+  },
+  {
+    title: "Mentored 50+ students in DSA",
+    description: "Provided weekly 1-on-1 mentorship for data structures to junior students.",
+    image: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&q=80",
+    link: "#"
+  },
+  {
+    title: "AI/ML Club Core Member",
+    description: "Coordinating weekly research paper reading groups and project ideation phases.",
+    image: "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=800&q=80",
+    link: "#"
+  },
+  {
+    title: "Speaker at Tech Symposium",
+    description: "Delivered a talk on the impact of Agentic AI systems on modern software engineering.",
+    image: "https://images.unsplash.com/photo-1475721025505-1a1347ba01a6?w=800&q=80",
+    link: "#"
+  },
+  {
+    title: "Community Volunteer – Code for India",
+    description: "Built free web solutions for local non-profit organizations to help their reach.",
+    image: "https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=800&q=80",
+    link: "#"
+  }
 ];
 
 export const navLinks = [

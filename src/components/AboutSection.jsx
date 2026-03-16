@@ -1,81 +1,100 @@
 import { useRef, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { aboutMe, personalInfo } from '../data/portfolioData';
-import { FiDownload, FiEye } from 'react-icons/fi';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const btnPrimary = {
-  padding: '16px 36px',
-  borderRadius: '50px',
-  fontSize: '1rem',
-  fontWeight: 700,
-  color: '#0a0a0f',
-  background: 'linear-gradient(135deg, #00d4ff, #7b2ff7)',
-  boxShadow: '0 4px 25px rgba(0,212,255,0.35)',
-  display: 'inline-flex',
-  alignItems: 'center',
-  gap: '10px',
-  cursor: 'pointer',
-  transition: 'all 0.35s ease',
-  border: 'none',
-  textDecoration: 'none',
-  minWidth: '200px',
-  justifyContent: 'center',
-};
-
-const btnSecondary = {
-  padding: '16px 36px',
-  borderRadius: '50px',
-  fontSize: '1rem',
-  fontWeight: 700,
-  color: '#00d4ff',
-  background: 'transparent',
-  border: '2px solid rgba(0,212,255,0.4)',
-  boxShadow: '0 0 20px rgba(0,212,255,0.1)',
-  display: 'inline-flex',
-  alignItems: 'center',
-  gap: '10px',
-  cursor: 'pointer',
-  transition: 'all 0.35s ease',
-  textDecoration: 'none',
-  minWidth: '200px',
-  justifyContent: 'center',
-};
+/* ── Storytelling content blocks ── */
+const storyBlocks = [
+  {
+    heading: 'Who I Am',
+    content:
+      'Im Sushant Kumar — a Computer Science student driven by an insatiable curiosity for Artificial Intelligence, Data Science, and intelligent systems. I thrive at the intersection of innovation and impact, turning bold ideas into technology that matters.',
+  },
+  {
+    heading: 'What I Build',
+    content:
+      'From AI-powered chatbots and RAG pipelines to full-stack web applications and automation tools, I craft end-to-end solutions. My toolkit spans Python, C++, React, FastAPI, TensorFlow, and LangChain — always picking the right tool for the job.',
+  },
+  {
+    heading: 'How I Think',
+    content:
+      'I approach every challenge like a puzzle — analyzing deeply, designing efficient algorithms, and architecting scalable systems. Whether its optimizing a neural network or refactoring a codebase, precision and elegance guide my work.',
+  },
+  {
+    heading: 'My Journey',
+    content:
+      'Recognised with the Academic Achiever Award among 14,000+ students, a national-level hackathon finalist, and a consistent problem solver on competitive platforms — every milestone fuels the next leap forward.',
+  },
+  {
+    heading: "Where I'm Going",
+    content:
+      'My north star is clear: becoming a Data Scientist and AI Engineer who builds intelligent systems that solve real-world problems at scale — from healthcare diagnostics to autonomous decision-making.',
+  },
+];
 
 export default function AboutSection() {
   const sectionRef = useRef(null);
-  const leftRef = useRef(null);
-  const rightRef = useRef(null);
-  const isInView = useInView(sectionRef, { once: true, margin: '-80px' });
+  const leftContentRef = useRef(null);
+  const cardsContainerRef = useRef(null);
+  const cardsRef = useRef([]);
+  const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
 
   useEffect(() => {
-    // Wait a tick so DOM measurements are correct
     const timeout = setTimeout(() => {
-      if (!sectionRef.current || !leftRef.current || !rightRef.current) return;
-
-      const rightHeight = rightRef.current.scrollHeight;
-      const leftHeight = leftRef.current.scrollHeight;
-      const extraScroll = Math.max(0, rightHeight - leftHeight);
-
-      // Set the section height so there's room for the right content to scroll through
-      sectionRef.current.style.minHeight = `${leftHeight + extraScroll + 200}px`;
+      if (!sectionRef.current || !leftContentRef.current || !cardsContainerRef.current) return;
 
       const ctx = gsap.context(() => {
+        // Pin the entire left column (heading + image) while right-side scrolls.
+        // It stays pinned until the bottom of the section reaches the bottom of the screen.
         ScrollTrigger.create({
           trigger: sectionRef.current,
-          start: 'top 80px',
-          // End when the right-side content has fully scrolled into view
-          end: () => `+=${extraScroll}`,
-          pin: leftRef.current,
+          start: 'top 40px',
+          end: 'bottom bottom',
+          pin: leftContentRef.current,
           pinSpacing: false,
+        });
+
+        // Fade out previous cards as new ones come in (except the last)
+        cardsRef.current.forEach((card, i) => {
+          if (!card) return;
+
+          gsap.fromTo(
+            card,
+            { opacity: 0, y: 50 },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 1,
+              ease: 'power3.out',
+              scrollTrigger: {
+                trigger: card,
+                start: 'top 90%',
+                toggleActions: 'play none none reverse',
+              },
+            }
+          );
+
+          if (i < storyBlocks.length - 1) {
+            const contentEl = card.querySelector('.about-card-content');
+            if (contentEl) {
+              gsap.to(contentEl, {
+                opacity: 0.15,
+                scrollTrigger: {
+                  trigger: cardsRef.current[i + 1],
+                  start: 'top 85%',
+                  end: 'top 30%',
+                  scrub: 1, // 1-second smoothing delay
+                },
+              });
+            }
+          }
         });
       });
 
       return () => ctx.revert();
-    }, 300);
+    }, 500);
 
     return () => clearTimeout(timeout);
   }, []);
@@ -84,228 +103,275 @@ export default function AboutSection() {
     <section
       id="about"
       ref={sectionRef}
+      className="relative overflow-visible"
       style={{
-        position: 'relative',
-        padding: '100px 6% 60px',
-        overflow: 'visible',
+        background: 'linear-gradient(180deg, rgba(0,0,0,0.22) 0%, rgba(15,15,15,0.22) 100%)',
+        padding: '120px 5% 220px',
       }}
     >
-      <div style={{
-        maxWidth: '1200px',
-        margin: '0 auto',
-        display: 'grid',
-        gridTemplateColumns: '400px 1fr',
-        gap: '60px',
-        alignItems: 'start',
-      }}>
+      <div className="w-full max-w-[1400px] mx-auto flex flex-col lg:flex-row justify-center items-start gap-16 lg:gap-32">
 
-        {/* ═══ Left Column — Heading + Image (gets pinned by GSAP) ═══ */}
-        <div ref={leftRef}>
-          {/* Centered heading */}
+        {/* ═══ LEFT COLUMN — Sticky Visual & Heading (pinned by GSAP together) ═══ */}
+        <div ref={leftContentRef} className="w-full lg:w-[450px] shrink-0 flex flex-col items-center gap-12 pt-[40px]">
+
+          {/* Section Title — Horizontally Centered */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: -30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6 }}
-            style={{ textAlign: 'center', marginBottom: '40px' }}
+            transition={{ duration: 0.7 }}
+            className="w-full text-center"
           >
-            <h2 style={{
-              fontSize: '3rem',
-              fontWeight: 800,
-              fontFamily: "'Outfit', sans-serif",
-              marginBottom: '8px',
-            }}>
+            <h2 className="text-5xl md:text-6xl font-extrabold mb-3 font-heading">
               <span className="gradient-text">About Me</span>
             </h2>
-            <p style={{ color: '#9ca3b0', fontSize: '1.1rem' }}>
-              Get to know me better
-            </p>
+            <p className="text-[#9ca3b0] text-lg">The story behind the code</p>
           </motion.div>
 
-          {/* Avatar */}
+          {/* Visual — AI Portrait with glow */}
           <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.7, delay: 0.2 }}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={isInView ? { opacity: 1, scale: 1 } : {}}
+            transition={{ duration: 1, delay: 0.3 }}
+            className="relative w-[340px] h-[400px] mx-auto"
           >
-            <div style={{ position: 'relative', display: 'inline-block' }}>
-              <div style={{
-                width: '340px',
-                height: '340px',
-                borderRadius: '20px',
-                background: 'rgba(255,255,255,0.04)',
-                backdropFilter: 'blur(16px)',
-                border: '1px solid rgba(0,212,255,0.15)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
-                <div style={{ fontSize: '120px', animation: 'float 3s ease-in-out infinite' }}>
-                  👨‍💻
-                </div>
-              </div>
-              <div style={{
-                position: 'absolute', top: '-12px', right: '-12px',
-                width: '24px', height: '24px', borderRadius: '50%',
-                background: '#00d4ff', opacity: 0.15,
-                animation: 'float 3s ease-in-out infinite',
-              }} />
-              <div style={{
-                position: 'absolute', bottom: '-12px', left: '-12px',
-                width: '18px', height: '18px', borderRadius: '50%',
-                background: '#7b2ff7', opacity: 0.15,
-                animation: 'float 3s ease-in-out infinite 1s',
-              }} />
+            {/* Glow backdrop */}
+            <div
+              className="absolute inset-0 rounded-2xl"
+              style={{
+                background:
+                  'radial-gradient(ellipse at center, rgba(0,212,255,0.15) 0%, rgba(123,47,247,0.10) 40%, transparent 70%)',
+                filter: 'blur(40px)',
+                transform: 'scale(1.3)',
+              }}
+            />
+
+            {/* Portrait container */}
+            <div
+              className="relative w-full h-full rounded-2xl overflow-hidden border border-white/10"
+              style={{
+                background: 'rgba(10,10,15,0.6)',
+                backdropFilter: 'blur(12px)',
+                boxShadow:
+                  '0 0 60px rgba(0,212,255,0.08), 0 0 120px rgba(123,47,247,0.06)',
+              }}
+            >
+              {/* Futuristic wireframe avatar SVG */}
+              <svg
+                viewBox="0 0 340 400"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className="absolute inset-0 w-full h-full"
+              >
+                {/* Neural network background nodes */}
+                {[
+                  [60, 80], [280, 60], [40, 200], [300, 180], [170, 40],
+                  [100, 340], [240, 350], [50, 140], [290, 260], [170, 380],
+                ].map(([cx, cy], i) => (
+                  <g key={i}>
+                    <circle cx={cx} cy={cy} r="2" fill="#00d4ff" opacity="0.3">
+                      <animate
+                        attributeName="opacity"
+                        values="0.15;0.5;0.15"
+                        dur={`${2 + i * 0.3}s`}
+                        repeatCount="indefinite"
+                      />
+                    </circle>
+                  </g>
+                ))}
+
+                {/* Neural connecting lines */}
+                {[
+                  [60, 80, 170, 40], [170, 40, 280, 60], [40, 200, 170, 160],
+                  [170, 160, 300, 180], [50, 140, 170, 160], [170, 160, 290, 260],
+                  [100, 340, 170, 280], [170, 280, 240, 350],
+                ].map(([x1, y1, x2, y2], i) => (
+                  <line
+                    key={i} x1={x1} y1={y1} x2={x2} y2={y2}
+                    stroke="#7b2ff7" strokeWidth="0.5" opacity="0.2"
+                  >
+                    <animate
+                      attributeName="opacity"
+                      values="0.1;0.3;0.1"
+                      dur={`${3 + i * 0.4}s`}
+                      repeatCount="indefinite"
+                    />
+                  </line>
+                ))}
+
+                {/* Head wireframe */}
+                <ellipse
+                  cx="170" cy="140" rx="65" ry="80"
+                  stroke="url(#headGlow)" strokeWidth="1.5" fill="none" opacity="0.6"
+                />
+                <ellipse
+                  cx="170" cy="140" rx="55" ry="68"
+                  stroke="#00d4ff" strokeWidth="0.5" fill="none" opacity="0.25"
+                  strokeDasharray="4 6"
+                >
+                  <animateTransform
+                    attributeName="transform"
+                    type="rotate"
+                    values="0 170 140;360 170 140"
+                    dur="30s"
+                    repeatCount="indefinite"
+                  />
+                </ellipse>
+
+                {/* Eyes */}
+                <circle cx="148" cy="130" r="6" stroke="#00d4ff" strokeWidth="1" fill="none" opacity="0.7">
+                  <animate attributeName="opacity" values="0.4;1;0.4" dur="3s" repeatCount="indefinite" />
+                </circle>
+                <circle cx="192" cy="130" r="6" stroke="#00d4ff" strokeWidth="1" fill="none" opacity="0.7">
+                  <animate attributeName="opacity" values="0.4;1;0.4" dur="3s" repeatCount="indefinite" />
+                </circle>
+                <circle cx="148" cy="130" r="2" fill="#00d4ff" opacity="0.9" />
+                <circle cx="192" cy="130" r="2" fill="#00d4ff" opacity="0.9" />
+
+                {/* Nose line */}
+                <line x1="170" y1="138" x2="170" y2="155" stroke="#7b2ff7" strokeWidth="0.8" opacity="0.3" />
+
+                {/* Mouth */}
+                <path d="M 155 165 Q 170 172 185 165" stroke="#00d4ff" strokeWidth="0.8" fill="none" opacity="0.3" />
+
+                {/* Shoulders */}
+                <path
+                  d="M 105 220 Q 120 200 170 195 Q 220 200 235 220"
+                  stroke="url(#headGlow)" strokeWidth="1.5" fill="none" opacity="0.5"
+                />
+
+                {/* Body wireframe lines */}
+                <line x1="130" y1="220" x2="110" y2="340" stroke="#7b2ff7" strokeWidth="0.6" opacity="0.2" />
+                <line x1="210" y1="220" x2="230" y2="340" stroke="#7b2ff7" strokeWidth="0.6" opacity="0.2" />
+                <line x1="170" y1="195" x2="170" y2="380" stroke="#00d4ff" strokeWidth="0.4" opacity="0.15" />
+
+                {/* Circuit-like accents */}
+                <rect x="145" y="240" width="50" height="30" rx="4" stroke="#00d4ff" strokeWidth="0.5" fill="none" opacity="0.2" />
+                <line x1="155" y1="250" x2="185" y2="250" stroke="#00d4ff" strokeWidth="0.3" opacity="0.15" />
+                <line x1="155" y1="258" x2="175" y2="258" stroke="#7b2ff7" strokeWidth="0.3" opacity="0.15" />
+
+                {/* Gradient defs */}
+                <defs>
+                  <linearGradient id="headGlow" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stopColor="#00d4ff" />
+                    <stop offset="100%" stopColor="#7b2ff7" />
+                  </linearGradient>
+                </defs>
+              </svg>
+
+              {/* Scan line effect */}
+              <div
+                className="absolute left-0 w-full h-[1px] opacity-10"
+                style={{
+                  background: 'linear-gradient(90deg, transparent, #00d4ff, transparent)',
+                  animation: 'scan-line 4s linear infinite',
+                }}
+              />
             </div>
+
+            {/* Floating decorative particles */}
+            <div className="absolute -top-3 -right-3 w-5 h-5 rounded-full bg-neon/15 animate-float" />
+            <div className="absolute -bottom-3 -left-3 w-4 h-4 rounded-full bg-purple/15 animate-float" style={{ animationDelay: '1s' }} />
+          </motion.div>
+
+          {/* Stats row under the portrait */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.5 }}
+            className="grid grid-cols-3 gap-4 w-[340px] mx-auto"
+          >
+            {[
+              { num: '15+', label: 'Projects' },
+              { num: '5+', label: 'Certifications' },
+              { num: '3+', label: 'Internships' },
+            ].map((stat, i) => (
+              <div
+                key={i}
+                className="text-center p-4 rounded-xl border border-white/5"
+                style={{ background: 'rgba(255,255,255,0.02)' }}
+              >
+                <p
+                  className="text-2xl font-extrabold mb-1"
+                  style={{
+                    background: 'linear-gradient(135deg, #D4AF37, #f5d778)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                  }}
+                >
+                  {stat.num}
+                </p>
+                <p className="text-xs text-[#9ca3b0]">{stat.label}</p>
+              </div>
+            ))}
           </motion.div>
         </div>
 
-        {/* ═══ Right Column — Content (scrolls naturally) ═══ */}
-        <div ref={rightRef}>
-          <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.7, delay: 0.3 }}
-          >
-            {/* Spacer to align with image top (accounts for heading height) */}
-            <div style={{ height: '120px' }} />
+        {/* ═══ RIGHT COLUMN — Scrollable Storytelling Cards ═══ */}
+        <div ref={cardsContainerRef} className="w-full lg:w-[750px] shrink-0 flex flex-col relative pb-32 pt-16">
+          {storyBlocks.map((block, i) => (
+            <div
+              key={i}
+              ref={(el) => (cardsRef.current[i] = el)}
+              className="relative rounded-2xl border border-white/5 transition-colors duration-1000"
+              style={{
+                position: 'sticky',
+                top: `${158 + i * 70}px`, // Stacks elegantly
+                zIndex: i,
+                // marginBottom: i === storyBlocks.length - 1 ? '0' : '45vh', // Much more scroll space
+                marginBottom:
+                  i === storyBlocks.length - 1
+                    ? '0'
+                    : i === storyBlocks.length - 2
+                      ? '8vh'
+                      : '18vh',
+                background: 'rgba(15,15,20,0.85)',
+                backdropFilter: 'blur(12px)',
+                boxShadow: '0 -8px 40px rgba(0,0,0,0.5)', // Upward shadow for overlap separation
+                padding: '32px 44px',
+                minHeight: '260px', // Slightly taller text div
+              }}
+            >
+              {/* Golden accent line at top */}
+              <div
+                className="absolute top-0 left-10 right-10 h-[1px]"
+                style={{
+                  background: 'linear-gradient(90deg, transparent, #D4AF37, transparent)',
+                  opacity: 0.4,
+                }}
+              />
 
-            {/* Bio */}
-            <p style={{
-              color: '#c0c4cc',
-              fontSize: '1.1rem',
-              lineHeight: 1.85,
-              marginBottom: '36px',
-            }}>
-              {aboutMe.bio}
-            </p>
-
-            {/* Highlights */}
-            <div style={{ marginBottom: '40px' }}>
-              <h3 style={{
-                fontSize: '1.15rem',
-                fontWeight: 700,
-                color: '#e4e4e7',
-                marginBottom: '20px',
-                fontFamily: "'Outfit', sans-serif",
-              }}>
-                What I Do
+              {/* Calligraphic Heading — centered */}
+              <h3
+                className="text-3xl md:text-4xl mb-6 text-center"
+                style={{
+                  fontFamily: "'Great Vibes', cursive",
+                  color: '#D4AF37',
+                  textShadow: '0 0 30px rgba(212,175,55,0.15)',
+                }}
+              >
+                {block.heading}
               </h3>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                {aboutMe.highlights.map((item, i) => (
-                  <motion.li
-                    key={i}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={isInView ? { opacity: 1, x: 0 } : {}}
-                    transition={{ duration: 0.5, delay: 0.4 + i * 0.1 }}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'flex-start',
-                      gap: '14px',
-                      marginBottom: '14px',
-                      padding: '14px 18px',
-                      borderRadius: '12px',
-                      background: 'rgba(255,255,255,0.03)',
-                      border: '1px solid rgba(255,255,255,0.06)',
-                      transition: 'all 0.3s ease',
-                      cursor: 'default',
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = 'rgba(0,212,255,0.05)';
-                      e.currentTarget.style.borderColor = 'rgba(0,212,255,0.15)';
-                      e.currentTarget.style.transform = 'translateX(6px)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = 'rgba(255,255,255,0.03)';
-                      e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)';
-                      e.currentTarget.style.transform = 'translateX(0)';
-                    }}
-                  >
-                    <span style={{
-                      marginTop: '6px', width: '8px', height: '8px',
-                      borderRadius: '50%', flexShrink: 0,
-                      background: 'linear-gradient(135deg, #00d4ff, #7b2ff7)',
-                      boxShadow: '0 0 8px rgba(0,212,255,0.4)',
-                    }} />
-                    <span style={{ color: '#c0c4cc', fontSize: '0.95rem', lineHeight: 1.6 }}>
-                      {item}
-                    </span>
-                  </motion.li>
-                ))}
-              </ul>
-            </div>
 
-            {/* Stats row */}
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(3, 1fr)',
-              gap: '16px',
-              marginBottom: '40px',
-            }}>
-              {[
-                { num: '15+', label: 'Projects' },
-                { num: '5+', label: 'Certifications' },
-                { num: '3+', label: 'Internships' },
-              ].map((stat, i) => (
-                <div
-                  key={i}
-                  style={{
-                    textAlign: 'center',
-                    padding: '20px 10px',
-                    borderRadius: '16px',
-                    background: 'rgba(255,255,255,0.03)',
-                    border: '1px solid rgba(255,255,255,0.06)',
-                  }}
+              {/* Content — full width, no maxWidth cap */}
+              <div className="about-card-content">
+                <p
+                  className="text-lg md:text-xl leading-[1.85]"
+                  style={{ color: '#c8cad0' }}
                 >
-                  <p style={{
-                    fontSize: '2rem',
-                    fontWeight: 800,
-                    background: 'linear-gradient(135deg, #00d4ff, #7b2ff7)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    marginBottom: '4px',
-                  }}>
-                    {stat.num}
-                  </p>
-                  <p style={{ color: '#9ca3b0', fontSize: '0.85rem' }}>{stat.label}</p>
-                </div>
-              ))}
-            </div>
+                  {block.content}
+                </p>
+              </div>
 
-            {/* Resume buttons */}
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px' }}>
-              <a
-                href={personalInfo.resumeLink}
-                style={btnPrimary}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-3px) scale(1.03)';
-                  e.currentTarget.style.boxShadow = '0 8px 35px rgba(0,212,255,0.5)';
+              {/* Subtle side glow */}
+              <div
+                className="absolute -left-[1px] top-1/4 bottom-1/4 w-[2px] rounded-full"
+                style={{
+                  background: 'linear-gradient(180deg, transparent, #D4AF37, transparent)',
+                  opacity: 0.3,
                 }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0) scale(1)';
-                  e.currentTarget.style.boxShadow = '0 4px 25px rgba(0,212,255,0.35)';
-                }}
-              >
-                <FiDownload size={18} /> Download Resume
-              </a>
-              <button
-                style={btnSecondary}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-3px) scale(1.03)';
-                  e.currentTarget.style.background = 'rgba(0,212,255,0.08)';
-                  e.currentTarget.style.borderColor = '#00d4ff';
-                  e.currentTarget.style.boxShadow = '0 4px 25px rgba(0,212,255,0.25)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0) scale(1)';
-                  e.currentTarget.style.background = 'transparent';
-                  e.currentTarget.style.borderColor = 'rgba(0,212,255,0.4)';
-                  e.currentTarget.style.boxShadow = '0 0 20px rgba(0,212,255,0.1)';
-                }}
-              >
-                <FiEye size={18} /> Preview Resume
-              </button>
+              />
             </div>
-          </motion.div>
+          ))}
         </div>
       </div>
     </section>
