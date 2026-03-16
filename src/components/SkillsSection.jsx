@@ -44,7 +44,7 @@ function SkillBar({ name, level, delay, icon }) {
           <img 
             src={icon} 
             alt={`${name} icon`} 
-            className="w-8 h-8 object-contain transition-transform duration-300" 
+            className="w-12 h-12 object-contain transition-transform duration-300" 
             style={{ transform: isHovered ? 'scale(1.15) translateY(-2px)' : 'scale(1)' }}
           />
         );
@@ -58,21 +58,21 @@ function SkillBar({ name, level, delay, icon }) {
     <div ref={ref} className="mb-6 last:mb-0" style={{ display: 'flex', alignItems: 'center' }}>
 
       {/* Leftmost Larger Icon */}
-      <div 
+      <div
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         style={{
           marginRight: '20px',
-          fontSize: '1.8rem',
+          fontSize: '2.4rem',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          width: '54px',
-          height: '54px',
-          background: isHovered ? 'rgba(0,212,255,0.1)' : 'rgba(255,255,255,0.05)',
+          width: '64px',
+          height: '64px',
+          background: 'transparent',
           borderRadius: '12px',
-          border: isHovered ? '1px solid rgba(0,212,255,0.4)' : '1px solid rgba(255,255,255,0.1)',
-          boxShadow: isHovered ? '0 0 15px rgba(0,212,255,0.2)' : 'none',
+          border: 'none',
+          boxShadow: isHovered ? '0 0 20px rgba(0,212,255,0.1)' : 'none',
           flexShrink: 0,
           transition: 'all 0.3s ease',
           zIndex: 10,
@@ -162,7 +162,7 @@ function MiniGlbIcon({ url, isHovered }) {
 
   return (
     <mesh ref={meshRef}>
-      <Resize scale={1.8}>
+      <Resize scale={2.5}>
         <Center>
           <primitive object={clonedScene.current} />
         </Center>
@@ -482,24 +482,37 @@ export default function SkillsSection() {
               {skillCategories[activeCategory].skills.map((skill, i) => (
                 <div
                   key={skill.name}
+                  // style={{
+                  //   background: 'rgba(255,255,255,0.02)',
+                  //   border: '1px solid rgba(255,255,255,0.05)',
+                  //   borderRadius: '20px',
+                  //   padding: '30px',
+                  //   transition: 'all 0.4s ease',
+                  // }}
                   style={{
-                    background: 'rgba(255,255,255,0.02)',
+                    background: 'rgba(20, 20, 26, 0.65)',
                     border: '1px solid rgba(255,255,255,0.05)',
                     borderRadius: '20px',
                     padding: '30px',
+                    backdropFilter: 'blur(24px)',
+                    WebkitBackdropFilter: 'blur(24px)',
                     transition: 'all 0.4s ease',
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.background = 'rgba(255,255,255,0.04)';
+                    e.currentTarget.style.background = 'rgba(10, 10, 14, 0.85)';
                     e.currentTarget.style.borderColor = 'rgba(0,212,255,0.2)';
                     e.currentTarget.style.transform = 'translateY(-4px)';
                     e.currentTarget.style.boxShadow = '0 10px 40px rgba(0,0,0,0.5), 0 0 20px rgba(0,212,255,0.05)';
+                    e.currentTarget.style.backdropFilter = 'blur(40px)';
+                    e.currentTarget.style.WebkitBackdropFilter = 'blur(40px)';
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.background = 'rgba(255,255,255,0.02)';
+                    e.currentTarget.style.background = 'rgba(20, 20, 26, 0.65)';
                     e.currentTarget.style.borderColor = 'rgba(255,255,255,0.05)';
                     e.currentTarget.style.transform = 'translateY(0)';
                     e.currentTarget.style.boxShadow = 'none';
+                    e.currentTarget.style.backdropFilter = 'blur(24px)';
+                    e.currentTarget.style.WebkitBackdropFilter = 'blur(24px)';
                   }}
                 >
                   <SkillBar

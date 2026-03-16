@@ -73,7 +73,7 @@ export default function AnimatedBackground() {
       // ctx.stroke(gridPath);
 
       // 2. Draw glowing proximity grid using radial gradient mask
-      const glowRadius = 150; // Radius of the interaction glow
+      const glowRadius = 200; // Radius of the interaction glow
       const gradient = ctx.createRadialGradient(
         currentX, currentY, 0,
         currentX, currentY, glowRadius
