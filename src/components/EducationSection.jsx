@@ -100,7 +100,7 @@ export default function EducationSection() {
       ref={sectionRef}
       style={{
         position: 'relative',
-        padding: '0 6% 80px',
+        padding: '100px 6% 80px',
       }}
     >
       {/* ── Sticky Heading — semi-transparent with fade zone below ── */}
@@ -195,7 +195,7 @@ export default function EducationSection() {
                 left: isLeft ? 'auto' : 'calc(50% + 9px)',
                 right: isLeft ? 'calc(50% - 9px)' : 'auto',
                 width: '45px', height: '2px',
-                background: 'rgba(var(--neon-rgb), 0.3)',
+                background: 'rgba(var(--neon-rgb), 0.5)',
                 transformOrigin: isLeft ? 'right center' : 'left center',
                 opacity: 0, zIndex: 2,
               }} />
@@ -221,6 +221,18 @@ export default function EducationSection() {
                   e.currentTarget.style.boxShadow = 'none';
                 }}
               >
+                {/* Side Accent Line */}
+                <div style={{
+                  position: 'absolute',
+                  top: '15%',
+                  bottom: '15%',
+                  width: '2px',
+                  left: isLeft ? 'auto' : '-1px',
+                  right: isLeft ? '-1px' : 'auto',
+                  background: 'linear-gradient(to bottom, transparent, var(--color-neon), transparent)',
+                  opacity: 0.8,
+                  borderRadius: '2px'
+                }} />
                 <span style={{
                   display: 'inline-block', padding: '6px 16px',
                   borderRadius: '50px', fontSize: '0.75rem', fontWeight: 600,

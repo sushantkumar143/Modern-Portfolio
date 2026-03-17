@@ -145,9 +145,8 @@ export default function AboutSection() {
               }}
             />
 
-            {/* Portrait container */}
             <div
-              className="relative w-full h-full rounded-2xl overflow-hidden border border-white/10"
+              className="relative w-full h-full rounded-2xl overflow-hidden"
               style={{
                 background: 'rgba(10,10,15,0.6)',
                 backdropFilter: 'blur(12px)',
@@ -160,7 +159,7 @@ export default function AboutSection() {
                 alt="Sushant Kumar Profile"
                 className="absolute inset-0 w-full h-full object-cover"
                 style={{
-                  filter: "grayscale(100%) contrast(1.2)",
+                  filter: "grayscale(100%) contrast(1.2) drop-shadow(0 0 30px rgba(255, 255, 224, 0.45))",
                   mixBlendMode: "luminosity",
                 }}
               />
