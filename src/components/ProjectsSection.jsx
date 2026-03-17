@@ -11,20 +11,20 @@ export default function ProjectsSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 
-  const filteredProjects = activeCategory === "All" 
-    ? projects 
+  const filteredProjects = activeCategory === "All"
+    ? projects.slice(0, 5)
     : projects.filter(p => p.categories?.includes(activeCategory));
 
   return (
     <section id="projects" className="section-padding relative" ref={ref} style={{ padding: '100px 6% 120px' }}>
       <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
-        
+
         {/* Heading */}
         <motion.div
-           initial={{ opacity: 0, y: 30 }}
-           animate={isInView ? { opacity: 1, y: 0 } : {}}
-           transition={{ duration: 0.6 }}
-           style={{ textAlign: 'center', marginBottom: '60px' }}
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+          style={{ textAlign: 'center', marginBottom: '60px' }}
         >
           <h2 style={{
             fontSize: '3rem', fontWeight: 800,
@@ -100,18 +100,21 @@ export default function ProjectsSection() {
                   top: `calc(120px + ${index * 60}px)`, // Increased to ~60px (1.5cm) gap so previous number shows half
                   width: '85%', // Takes ~85% of container width
                   margin: '0 auto', // centered
-                  height: '75vh', // Fixed height for nice sticky effect
+                  height: '75vh',
                   minHeight: '600px',
+                  maxHeight: '900px',
                   marginBottom: '140px',
-                  background: 'rgba(12, 12, 18, 1)', // Solid dark so cards stack over cleanly
+                  background: 'rgba(12, 12, 18, 1)',
                   border: '1px solid rgba(255,255,255,0.1)',
                   borderRadius: '24px',
                   boxShadow: '0 -15px 40px rgba(0,0,0,0.6), 0 0 20px rgba(0,212,255,0.05)',
-                  overflow: 'hidden',
+                  overflowY: 'auto',
+                  overscrollBehavior: 'contain',
                   display: 'flex',
                   flexDirection: 'column',
                   zIndex: index, // Ensure stacking order
                 }}
+                className="project-card-scroll"
               >
                 {/* Top Bar */}
                 <div style={{
@@ -133,10 +136,9 @@ export default function ProjectsSection() {
                   }}>
                     {String(index + 1).padStart(2, '0')}
                   </span>
-                  
-                  {/* Links */}
+
                   <div style={{ display: 'flex', gap: '16px' }}>
-                    <a 
+                    <a
                       href={project.github}
                       style={{
                         display: 'flex', alignItems: 'center', gap: '8px',
@@ -170,60 +172,86 @@ export default function ProjectsSection() {
                   </div>
                 </div>
 
-                {/* Body (70/30 Split) */}
+                {/* Body */}
                 <div style={{
                   display: 'flex',
                   flex: 1,
-                  padding: '40px',
+                  padding: '24px 40px 40px', // Reduced top padding
                   gap: '40px',
-                  overflow: 'hidden'
+                  overflowY: 'visible' // Let the parent card handle the main scroll
                 }}>
-                  {/* Left: Image (70%) */}
+                  {/* Left Column: Image + Date */}
                   <div style={{
-                    flex: '7',
-                    borderRadius: '16px',
-                    overflow: 'hidden',
-                    position: 'relative',
-                    border: '1px solid rgba(255,255,255,0.05)'
-                  }}>
-                    <img 
-                      src={project.image} 
-                      alt={project.title}
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                        transition: 'transform 0.5s ease'
-                      }}
-                      onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
-                      onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-                    />
-                    {/* Overlay gradient for premium look */}
-                    <div style={{
-                      position: 'absolute', inset: 0,
-                      background: 'linear-gradient(to right, rgba(12,12,18,0.3), transparent)',
-                      pointerEvents: 'none'
-                    }}/>
-                  </div>
-
-                  {/* Right: Info (30%) */}
-                  <div style={{
-                    flex: '3',
+                    flex: '0 0 55%', // Take exactly 55% of space
                     display: 'flex',
                     flexDirection: 'column',
-                    justifyContent: 'center'
+                    gap: '16px', // Space between image and date
+                    alignSelf: 'start'
+                  }}>
+                    {/* Image Container */}
+                    <div style={{
+                      borderRadius: '16px',
+                      overflow: 'hidden',
+                      position: 'relative',
+                      border: '1px solid rgba(255,255,255,0.05)',
+                      aspectRatio: '16/9', // Force landscape ratio
+                      width: '100%'
+                    }}>
+                      <img
+                        src={project.image}
+                        alt={project.title}
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover',
+                          transition: 'transform 0.5s ease'
+                        }}
+                        onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+                        onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                      />
+                      {/* Overlay gradient for premium look */}
+                      <div style={{
+                        position: 'absolute', inset: 0,
+                        pointerEvents: 'none'
+                      }} />
+                    </div>
+
+                    {/* Date bottom left */}
+                    <div style={{
+                      alignSelf: 'flex-start',
+                      background: 'rgba(255,255,255,0.03)',
+                      padding: '8px 16px',
+                      borderRadius: '8px',
+                      border: '1px solid rgba(255,255,255,0.05)',
+                      color: '#00d4ff',
+                      fontWeight: 600,
+                      fontSize: '0.9rem',
+                      fontFamily: "'Outfit', sans-serif",
+                      letterSpacing: '1px'
+                    }}>
+                      {project.date || "2024"}
+                    </div>
+                  </div>
+
+                  {/* Right: Info */}
+                  <div style={{
+                    flex: '1', // Take remaining space
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'flex-start' // align to top
                   }}>
                     <h3 style={{
-                      fontSize: '2.2rem',
-                      fontWeight: 700,
+                      fontSize: '1.8rem',
+                      fontWeight: 800,
                       fontFamily: "'Outfit', sans-serif",
                       color: '#fff',
                       marginBottom: '20px',
-                      lineHeight: 1.2
+                      lineHeight: 1.3,
+                      wordWrap: 'break-word'
                     }}>
                       {project.title}
                     </h3>
-                    
+
                     <div style={{
                       background: 'rgba(255,255,255,0.03)',
                       border: '1px solid rgba(255,255,255,0.05)',
@@ -270,7 +298,7 @@ export default function ProjectsSection() {
 
       {/* Expand Modal */}
       {expandedProject && (
-        <div 
+        <div
           style={{
             position: 'fixed',
             inset: 0,
@@ -285,7 +313,7 @@ export default function ProjectsSection() {
           }}
           onClick={() => setExpandedProject(null)}
         >
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             style={{
@@ -319,8 +347,8 @@ export default function ProjectsSection() {
               }}>
                 {expandedProject.title}
               </h3>
-              
-              <button 
+
+              <button
                 onClick={() => setExpandedProject(null)}
                 style={{
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -342,7 +370,8 @@ export default function ProjectsSection() {
               flex: 1,
               padding: '40px',
               gap: '40px',
-              flexWrap: 'wrap'
+              flexWrap: 'wrap',
+              overflowY: 'auto'
             }}>
               {/* Image */}
               <div style={{
@@ -352,8 +381,8 @@ export default function ProjectsSection() {
                 border: '1px solid rgba(255,255,255,0.05)',
                 minHeight: '300px'
               }}>
-                <img 
-                  src={expandedProject.image} 
+                <img
+                  src={expandedProject.image}
                   alt={expandedProject.title}
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
@@ -395,7 +424,7 @@ export default function ProjectsSection() {
                 </div>
 
                 <div style={{ display: 'flex', gap: '16px' }}>
-                  <a 
+                  <a
                     href={expandedProject.github}
                     style={{
                       display: 'flex', alignItems: 'center', gap: '8px',
@@ -407,7 +436,7 @@ export default function ProjectsSection() {
                   >
                     <FiGithub size={20} /> Code
                   </a>
-                  <a 
+                  <a
                     href={expandedProject.live}
                     style={{
                       display: 'flex', alignItems: 'center', gap: '8px',
@@ -424,6 +453,22 @@ export default function ProjectsSection() {
           </motion.div>
         </div>
       )}
+      <style>{`
+        .project-card-scroll::-webkit-scrollbar {
+          width: 6px;
+        }
+        .project-card-scroll::-webkit-scrollbar-track {
+          background: rgba(0, 0, 0, 0.2);
+          border-radius: 8px;
+        }
+        .project-card-scroll::-webkit-scrollbar-thumb {
+          background: rgba(0, 212, 255, 0.3);
+          border-radius: 8px;
+        }
+        .project-card-scroll::-webkit-scrollbar-thumb:hover {
+          background: rgba(0, 212, 255, 0.6);
+        }
+      `}</style>
     </section>
   );
 }

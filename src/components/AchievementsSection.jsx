@@ -1,5 +1,40 @@
 import { useRef, useEffect, useState } from 'react';
-import { motion, useInView, useMotionValue, useSpring, AnimatePresence } from 'framer-motion';
+import { motion, useInView, useMotionValue, useSpring, AnimatePresence, useMotionTemplate } from 'framer-motion';
+
+function HoverBorderCard({ children, style, contentStyle, motionProps, className, onClick }) {
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  function handleMouseMove({ currentTarget, clientX, clientY }) {
+    const { left, top } = currentTarget.getBoundingClientRect();
+    mouseX.set(clientX - left);
+    mouseY.set(clientY - top);
+  }
+
+  return (
+    <motion.div
+      {...motionProps}
+      className={`hover-glow-card ${className || ''}`}
+      onMouseMove={handleMouseMove}
+      onClick={onClick}
+      style={{
+        ...style,
+        position: 'relative',
+        borderRadius: style?.borderRadius || '20px'
+      }}
+    >
+      <motion.div
+        className="hover-glow-border"
+        style={{
+          background: useMotionTemplate`radial-gradient(500px circle at ${mouseX}px ${mouseY}px, rgba(0,212,255,1) 0%, rgba(0,212,255,0.6) 30%, transparent 80%)`,
+        }}
+      />
+      <div className="hover-glow-content" style={contentStyle}>
+        {children}
+      </div>
+    </motion.div>
+  );
+}
 import { achievements } from '../data/portfolioData';
 
 /* ─────────────────────────────────────────
@@ -68,21 +103,22 @@ function AchievementRow({ item, index }) {
         transition={{ duration: 0.72, ease: [0.22, 1, 0.36, 1] }}
         style={{ order: isLeft ? 1 : 2 }}
       >
-        <motion.div
-          onMouseEnter={() => setCardHovered(true)}
-          onMouseLeave={() => setCardHovered(false)}
-          animate={{
-            y: cardHovered ? -4 : 0,
-            borderColor: cardHovered ? 'rgba(0,212,255,0.28)' : 'rgba(255,255,255,0.07)',
-            boxShadow: cardHovered
-              ? '0 8px 40px rgba(0,212,255,0.12), 0 4px 20px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.06)'
-              : '0 4px 24px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.04)',
+        <HoverBorderCard
+          motionProps={{
+            onMouseEnter: () => setCardHovered(true),
+            onMouseLeave: () => setCardHovered(false),
+            animate: { y: cardHovered ? -4 : 0 },
+            transition: { duration: 0.3 }
           }}
-          transition={{ duration: 0.3 }}
           style={{
-            background: 'rgba(8, 12, 24, 0.62)',
-            backdropFilter: 'blur(28px)',
-            border: '1px solid',
+            borderRadius: 20,
+            boxShadow: cardHovered
+              ? '0 8px 40px rgba(0,212,255,0.12), 0 4px 20px rgba(0,0,0,0.3)'
+              : '0 4px 24px rgba(0,0,0,0.25)',
+          }}
+          contentStyle={{
+            background: 'rgb(12, 16, 28)', // Opaque to prevent glow bleed
+            border: '1px solid rgba(255,255,255,0.07)',
             borderRadius: 20,
             padding: '36px 32px',
             position: 'relative',
@@ -194,7 +230,7 @@ function AchievementRow({ item, index }) {
           >
             {item.description}
           </motion.p>
-        </motion.div>
+        </HoverBorderCard>
       </motion.div>
 
       {/* ── Image Column ── */}
@@ -381,6 +417,28 @@ export default function AchievementsSection() {
       {/* Inline responsive styles */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&display=swap');
+
+        /* Hover Glow Card Components */
+        .hover-glow-card {
+          position: relative;
+        }
+        .hover-glow-border {
+          position: absolute;
+          inset: -1.5px; 
+          border-radius: inherit;
+          opacity: 0;
+          transition: opacity 0.3s ease;
+          z-index: 0;
+        }
+        .hover-glow-card:hover .hover-glow-border {
+          opacity: 1;
+        }
+        .hover-glow-content {
+          position: relative;
+          z-index: 1;
+          height: 100%;
+          border-radius: inherit;
+        }
 
         @media (max-width: 768px) {
           .achievements-row {
