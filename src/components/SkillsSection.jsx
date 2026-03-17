@@ -72,7 +72,7 @@ function SkillBar({ name, level, delay, icon }) {
           background: 'transparent',
           borderRadius: '12px',
           border: 'none',
-          boxShadow: isHovered ? '0 0 20px rgba(0,212,255,0.1)' : 'none',
+          boxShadow: isHovered ? '0 0 20px rgba(var(--neon-rgb), 0.1)' : 'none',
           flexShrink: 0,
           transition: 'all 0.3s ease',
           zIndex: 10,
@@ -92,7 +92,7 @@ function SkillBar({ name, level, delay, icon }) {
           </span>
           <span
             className="text-sm font-bold"
-            style={{ color: '#00d4ff' }}
+            style={{ color: 'var(--color-neon)' }}
           >
             {level}%
           </span>
@@ -105,8 +105,8 @@ function SkillBar({ name, level, delay, icon }) {
           <motion.div
             className="h-full rounded-full relative"
             style={{
-              background: 'linear-gradient(90deg, #00d4ff, #7b2ff7)',
-              boxShadow: '0 0 10px rgba(0,212,255,0.4)',
+              background: 'linear-gradient(90deg, var(--color-neon), #7b2ff7)',
+              boxShadow: '0 0 10px rgba(var(--neon-rgb), 0.4)',
             }}
             initial={{ width: 0 }}
             animate={isInView ? { width: `${level}%` } : {}}
@@ -189,7 +189,7 @@ class IconErrorBoundary extends Component {
         <group position={this.props.position}>
           <mesh>
             <boxGeometry args={[0.3, 0.3, 0.3]} />
-            <meshStandardMaterial color="#00d4ff" emissive="#00d4ff" emissiveIntensity={0.8} wireframe />
+            <meshStandardMaterial color="var(--color-neon)" emissive="var(--color-neon)" emissiveIntensity={0.8} wireframe />
           </mesh>
         </group>
       );
@@ -367,7 +367,7 @@ function SphereIconCloud() {
       <Canvas camera={{ position: [0, 0, 8], fov: 45 }}>
         <ambientLight intensity={1.5} />
         <directionalLight position={[10, 10, 5]} intensity={2} />
-        <pointLight position={[-10, -10, -10]} intensity={1} color="#00d4ff" />
+        <pointLight position={[-10, -10, -10]} intensity={1} color="var(--color-neon)" />
         <RotatingSphere icons={items} />
       </Canvas>
     </div>
@@ -437,10 +437,10 @@ export default function SkillsSection() {
                   letterSpacing: '0.5px',
                   transition: 'all 0.3s ease',
                   cursor: 'pointer',
-                  border: isActive ? '1px solid rgba(0,212,255,0.4)' : '1px solid rgba(255,255,255,0.08)',
-                  background: isActive ? 'rgba(0,212,255,0.1)' : 'rgba(255,255,255,0.03)',
-                  color: isActive ? '#00d4ff' : '#9ca3b0',
-                  boxShadow: isActive ? '0 0 20px rgba(0,212,255,0.15)' : 'none',
+                  border: isActive ? '1px solid rgba(var(--neon-rgb), 0.4)' : '1px solid rgba(255,255,255,0.08)',
+                  background: isActive ? 'rgba(var(--neon-rgb), 0.1)' : 'rgba(255,255,255,0.03)',
+                  color: isActive ? 'var(--color-neon)' : '#9ca3b0',
+                  boxShadow: isActive ? '0 0 20px rgba(var(--neon-rgb), 0.15)' : 'none',
                 }}
                 onMouseEnter={(e) => {
                   if (!isActive) {
@@ -500,9 +500,9 @@ export default function SkillsSection() {
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.background = 'rgba(10, 10, 14, 0.85)';
-                    e.currentTarget.style.borderColor = 'rgba(0,212,255,0.2)';
+                    e.currentTarget.style.borderColor = 'rgba(var(--neon-rgb), 0.2)';
                     e.currentTarget.style.transform = 'translateY(-4px)';
-                    e.currentTarget.style.boxShadow = '0 10px 40px rgba(0,0,0,0.5), 0 0 20px rgba(0,212,255,0.05)';
+                    e.currentTarget.style.boxShadow = '0 10px 40px rgba(0,0,0,0.5), 0 0 20px rgba(var(--neon-rgb), 0.05)';
                     e.currentTarget.style.backdropFilter = 'blur(40px)';
                     e.currentTarget.style.WebkitBackdropFilter = 'blur(40px)';
                   }}

@@ -144,7 +144,7 @@ function ContributionGraph() {
       <div style={{
         position: 'absolute', top: -40, right: -40,
         width: 200, height: 200, borderRadius: '50%',
-        background: 'radial-gradient(circle, rgba(57,211,83,0.08) 0%, transparent 70%)',
+        background: 'radial-gradient(circle, rgba(var(--neon-rgb), 0.08) 0%, transparent 70%)',
         pointerEvents: 'none',
       }} />
 
@@ -499,7 +499,7 @@ export default function CodingPlatforms() {
         <div style={{
           position: 'absolute', top: '-12%', right: '-18%',
           width: '55vw', height: '55vw', borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(0,212,255,0.04) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(var(--neon-rgb), 0.04) 0%, transparent 70%)',
         }} />
         <div style={{
           position: 'absolute', bottom: '-18%', left: '-12%',
@@ -509,7 +509,7 @@ export default function CodingPlatforms() {
         {/* Dot grid */}
         <div style={{
           position: 'absolute', inset: 0, opacity: 0.03,
-          backgroundImage: 'radial-gradient(rgba(0,212,255,0.6) 1px, transparent 1px)',
+          backgroundImage: 'radial-gradient(rgba(var(--neon-rgb), 0.6) 1px, transparent 1px)',
           backgroundSize: '40px 40px',
         }} />
       </div>
@@ -529,19 +529,19 @@ export default function CodingPlatforms() {
             style={{ display: 'inline-flex', alignItems: 'center', gap: 10, marginBottom: 20 }}
           >
             <motion.span
-              style={{ height: 1, width: 40, display: 'block', background: 'linear-gradient(90deg, transparent, #00d4ff)' }}
+              style={{ height: 1, width: 40, display: 'block', background: 'linear-gradient(90deg, transparent, var(--color-neon))' }}
               initial={{ scaleX: 0 }}
               animate={isInView ? { scaleX: 1 } : {}}
               transition={{ duration: 0.7, delay: 0.2 }}
             />
             <span style={{
               fontSize: 12, fontFamily: 'Outfit,sans-serif', fontWeight: 600,
-              letterSpacing: '0.22em', textTransform: 'uppercase', color: '#00d4ff',
+              letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--color-neon)',
             }}>
               Competitive Coding
             </span>
             <motion.span
-              style={{ height: 1, width: 40, display: 'block', background: 'linear-gradient(90deg, #00d4ff, transparent)' }}
+              style={{ height: 1, width: 40, display: 'block', background: 'linear-gradient(90deg, var(--color-neon), transparent)' }}
               initial={{ scaleX: 0 }}
               animate={isInView ? { scaleX: 1 } : {}}
               transition={{ duration: 0.7, delay: 0.2 }}
@@ -599,7 +599,7 @@ export default function CodingPlatforms() {
             boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.03)',
           }}
         >
-          <SummaryPill label="Total Problems" value="850+" color="#00d4ff" delay={0.8} isInView={isInView} />
+          <SummaryPill label="Total Problems" value="850+" color="var(--color-neon)" delay={0.8} isInView={isInView} />
           <SummaryPill label="Platforms Active" value="5" color="#7b2ff7" delay={0.9} isInView={isInView} />
           <SummaryPill label="Active Streak" value="60+ days" color="#39d353" delay={1.0} isInView={isInView} />
           <SummaryPill label="Contests" value="30+" color="#FFA116" delay={1.1} isInView={isInView} />

@@ -51,9 +51,9 @@ function FloatingInput({ type = 'text', name, label, value, onChange, icon: Icon
       <div
         className="absolute inset-0 rounded-xl pointer-events-none transition-all duration-250"
         style={{
-          background: isFocused ? 'rgba(0,212,255,0.04)' : 'rgba(255,255,255,0.025)',
-          border: `1px solid ${isFocused ? 'rgba(0,212,255,0.48)' : 'rgba(255,255,255,0.08)'}`,
-          boxShadow: isFocused ? '0 0 0 3px rgba(0,212,255,0.07), 0 4px 18px rgba(0,0,0,0.18)' : 'none',
+          background: isFocused ? 'rgba(var(--neon-rgb), 0.04)' : 'rgba(255,255,255,0.025)',
+          border: `1px solid ${isFocused ? 'rgba(var(--neon-rgb), 0.48)' : 'rgba(255,255,255,0.08)'}`,
+          boxShadow: isFocused ? '0 0 0 3px rgba(var(--neon-rgb), 0.07), 0 4px 18px rgba(0,0,0,0.18)' : 'none',
         }}
       />
 
@@ -63,7 +63,7 @@ function FloatingInput({ type = 'text', name, label, value, onChange, icon: Icon
         style={{
           top: '50%',
           transform: 'translateY(-50%)',
-          color: isFocused ? '#00d4ff' : 'rgba(255,255,255,0.26)',
+          color: isFocused ? 'var(--color-neon)' : 'rgba(255,255,255,0.26)',
           transition: 'color 0.2s',
         }}
       >
@@ -77,7 +77,7 @@ function FloatingInput({ type = 'text', name, label, value, onChange, icon: Icon
           top: lifted ? 7 : 20,
           scale: lifted ? 0.74 : 1,
           color: isFocused
-            ? '#00d4ff'
+            ? 'var(--color-neon)'
             : lifted
               ? 'rgba(255,255,255,0.38)'
               : 'rgba(255,255,255,0.3)',
@@ -103,7 +103,7 @@ function FloatingInput({ type = 'text', name, label, value, onChange, icon: Icon
           paddingRight: 16,
           paddingTop: lifted ? 22 : 0,
           paddingBottom: lifted ? 4 : 0,
-          caretColor: '#00d4ff',
+          caretColor: 'var(--color-neon)',
           transition: 'padding-top 0.2s ease, padding-bottom 0.2s ease',
         }}
       />
@@ -112,7 +112,7 @@ function FloatingInput({ type = 'text', name, label, value, onChange, icon: Icon
       <motion.div
         className="absolute bottom-0 left-1/2 h-[1.5px] rounded-full z-30 pointer-events-none"
         style={{
-          background: 'linear-gradient(90deg, transparent, #00d4ff, #7b2ff7, transparent)',
+          background: 'linear-gradient(90deg, transparent, var(--color-neon), #7b2ff7, transparent)',
           translateX: '-50%',
         }}
         animate={{ width: isFocused ? '74%' : '0%' }}
@@ -140,9 +140,9 @@ function FloatingTextarea({ name, label, value, onChange, rows = 4, required = t
       <div
         className="absolute inset-0 rounded-xl pointer-events-none transition-all duration-250"
         style={{
-          background: isFocused ? 'rgba(0,212,255,0.04)' : 'rgba(255,255,255,0.025)',
-          border: `1px solid ${isFocused ? 'rgba(0,212,255,0.48)' : 'rgba(255,255,255,0.08)'}`,
-          boxShadow: isFocused ? '0 0 0 3px rgba(0,212,255,0.07), 0 4px 18px rgba(0,0,0,0.18)' : 'none',
+          background: isFocused ? 'rgba(var(--neon-rgb), 0.04)' : 'rgba(255,255,255,0.025)',
+          border: `1px solid ${isFocused ? 'rgba(var(--neon-rgb), 0.48)' : 'rgba(255,255,255,0.08)'}`,
+          boxShadow: isFocused ? '0 0 0 3px rgba(var(--neon-rgb), 0.07), 0 4px 18px rgba(0,0,0,0.18)' : 'none',
         }}
       />
 
@@ -151,7 +151,7 @@ function FloatingTextarea({ name, label, value, onChange, rows = 4, required = t
         className="absolute left-4 z-20 pointer-events-none"
         style={{
           top: 18,
-          color: isFocused ? '#00d4ff' : 'rgba(255,255,255,0.26)',
+          color: isFocused ? 'var(--color-neon)' : 'rgba(255,255,255,0.26)',
           transition: 'color 0.2s',
         }}
       >
@@ -165,7 +165,7 @@ function FloatingTextarea({ name, label, value, onChange, rows = 4, required = t
           top: lifted ? 7 : 18,
           scale: lifted ? 0.74 : 1,
           color: isFocused
-            ? '#00d4ff'
+            ? 'var(--color-neon)'
             : lifted
               ? 'rgba(255,255,255,0.38)'
               : 'rgba(255,255,255,0.3)',
@@ -190,14 +190,14 @@ function FloatingTextarea({ name, label, value, onChange, rows = 4, required = t
           paddingRight: 16,
           paddingTop: 30,
           paddingBottom: 14,
-          caretColor: '#00d4ff',
+          caretColor: 'var(--color-neon)',
         }}
       />
 
       <motion.div
         className="absolute bottom-0 left-1/2 h-[1.5px] rounded-full z-30 pointer-events-none"
         style={{
-          background: 'linear-gradient(90deg, transparent, #00d4ff, #7b2ff7, transparent)',
+          background: 'linear-gradient(90deg, transparent, var(--color-neon), #7b2ff7, transparent)',
           translateX: '-50%',
         }}
         animate={{ width: isFocused ? '74%' : '0%' }}
@@ -234,9 +234,9 @@ function ContactRow({ icon: Icon, label, value, href, delay }) {
         borderRadius: 12,
         position: 'relative',
         overflow: 'hidden',
-        background: hovered ? 'rgba(0,212,255,0.04)' : 'rgba(255,255,255,0.025)',
-        border: `1px solid ${hovered ? 'rgba(0,212,255,0.45)' : 'rgba(255,255,255,0.08)'}`,
-        boxShadow: hovered ? '0 0 0 3px rgba(0,212,255,0.06), 0 4px 18px rgba(0,0,0,0.16)' : 'none',
+        background: hovered ? 'rgba(var(--neon-rgb), 0.04)' : 'rgba(255,255,255,0.025)',
+        border: `1px solid ${hovered ? 'rgba(var(--neon-rgb), 0.45)' : 'rgba(255,255,255,0.08)'}`,
+        boxShadow: hovered ? '0 0 0 3px rgba(var(--neon-rgb), 0.06), 0 4px 18px rgba(0,0,0,0.16)' : 'none',
         transition: 'background 0.22s, border-color 0.22s, box-shadow 0.22s',
         paddingLeft: 16,
         paddingRight: 16,
@@ -249,7 +249,7 @@ function ContactRow({ icon: Icon, label, value, href, delay }) {
         alignItems: 'center',
         justifyContent: 'center',
         flexShrink: 0,
-        color: hovered ? '#00d4ff' : 'rgba(255,255,255,0.28)',
+        color: hovered ? 'var(--color-neon)' : 'rgba(255,255,255,0.28)',
         transition: 'color 0.2s',
       }}>
         <Icon size={17} />
@@ -272,7 +272,7 @@ function ContactRow({ icon: Icon, label, value, href, delay }) {
           fontSize: 15,
           fontFamily: 'Outfit,sans-serif',
           fontWeight: 500,
-          color: hovered ? '#00d4ff' : 'rgba(255,255,255,0.78)',
+          color: hovered ? 'var(--color-neon)' : 'rgba(255,255,255,0.78)',
           lineHeight: 1.2,
           overflow: 'hidden',
           textOverflow: 'ellipsis',
@@ -287,7 +287,7 @@ function ContactRow({ icon: Icon, label, value, href, delay }) {
       <motion.div
         animate={{ opacity: hovered ? 1 : 0, x: hovered ? 0 : -6 }}
         transition={{ duration: 0.18 }}
-        style={{ flexShrink: 0, color: '#00d4ff' }}
+        style={{ flexShrink: 0, color: 'var(--color-neon)' }}
       >
         <FiArrowRight size={16} />
       </motion.div>
@@ -300,7 +300,7 @@ function ContactRow({ icon: Icon, label, value, href, delay }) {
           left: '50%',
           height: 1.5,
           borderRadius: 999,
-          background: 'linear-gradient(90deg, transparent, #00d4ff, #7b2ff7, transparent)',
+          background: 'linear-gradient(90deg, transparent, var(--color-neon), #7b2ff7, transparent)',
           translateX: '-50%',
         }}
         animate={{ width: hovered ? '74%' : '0%' }}
@@ -343,7 +343,7 @@ function ContactCard({ icon: Icon, label, value, href, delay }) {
         }}
       >
         <motion.span
-          animate={{ color: hovered ? '#00d4ff' : 'rgba(255,255,255,0.38)' }}
+          animate={{ color: hovered ? 'var(--color-neon)' : 'rgba(255,255,255,0.38)' }}
           transition={{ duration: 0.18 }}
         >
           <Icon size={15} />
@@ -355,7 +355,7 @@ function ContactCard({ icon: Icon, label, value, href, delay }) {
           {label}
         </p>
         <motion.p
-          animate={{ color: hovered ? '#00d4ff' : 'rgba(255,255,255,0.72)' }}
+          animate={{ color: hovered ? 'var(--color-neon)' : 'rgba(255,255,255,0.72)' }}
           transition={{ duration: 0.18 }}
           style={{ fontSize: 13, fontFamily: 'Outfit, sans-serif', fontWeight: 500, lineHeight: 1.2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
         >
@@ -366,7 +366,7 @@ function ContactCard({ icon: Icon, label, value, href, delay }) {
       <motion.span
         animate={{ opacity: hovered ? 1 : 0, x: hovered ? 0 : -5 }}
         transition={{ duration: 0.16 }}
-        style={{ flexShrink: 0, color: '#00d4ff' }}
+        style={{ flexShrink: 0, color: 'var(--color-neon)' }}
       >
         <FiArrowRight size={14} />
       </motion.span>
@@ -398,7 +398,7 @@ function SocialButton({ icon: Icon, href, label, delay }) {
         transition={{ duration: 0.18 }}
       />
       <motion.span
-        animate={{ color: hovered ? '#00d4ff' : 'rgba(255,255,255,0.36)', scale: hovered ? 1.12 : 1 }}
+        animate={{ color: hovered ? 'var(--color-neon)' : 'rgba(255,255,255,0.36)', scale: hovered ? 1.12 : 1 }}
         transition={{ duration: 0.16 }}
         style={{ position: 'relative', zIndex: 1 }}
       >
@@ -416,7 +416,7 @@ function ScanLine() {
     <motion.div
       style={{
         position: 'absolute', left: 0, right: 0, height: 1, pointerEvents: 'none', zIndex: 0,
-        background: 'linear-gradient(90deg, transparent 0%, rgba(0,212,255,0.1) 40%, rgba(0,212,255,0.1) 60%, transparent 100%)',
+        background: 'linear-gradient(90deg, transparent 0%, rgba(var(--neon-rgb), 0.1) 40%, rgba(var(--neon-rgb), 0.1) 60%, transparent 100%)',
       }}
       initial={{ top: '0%' }}
       animate={{ top: '100%' }}
@@ -434,7 +434,7 @@ function TypingDots() {
       {[0, 1, 2].map((i) => (
         <motion.span
           key={i}
-          style={{ width: 4, height: 4, borderRadius: '50%', background: '#00d4ff', display: 'inline-block' }}
+          style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--color-neon)', display: 'inline-block' }}
           animate={{ opacity: [0.2, 1, 0.2], y: [0, -2.5, 0] }}
           transition={{ duration: 0.72, repeat: Infinity, delay: i * 0.13 }}
         />
@@ -498,7 +498,7 @@ export default function ContactSection() {
           style={{ background: 'radial-gradient(circle, rgba(123,47,247,0.052) 0%, transparent 70%)' }} />
         <div className="absolute inset-0 opacity-[0.02]"
           style={{
-            backgroundImage: 'linear-gradient(rgba(0,212,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,0.5) 1px, transparent 1px)',
+            backgroundImage: 'linear-gradient(rgba(var(--neon-rgb), 0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(var(--neon-rgb), 0.5) 1px, transparent 1px)',
             backgroundSize: '64px 64px',
           }}
         />
@@ -520,18 +520,18 @@ export default function ContactSection() {
             transition={{ delay: 0.05, duration: 0.4 }}
             className="inline-flex items-center gap-3 mb-4"
           >
-            <span className="h-px w-7" style={{ background: 'linear-gradient(90deg, transparent, #00d4ff)', display: 'block' }} />
-            <span className="text-[13px] font-['Outfit'] font-semibold tracking-[0.22em] uppercase" style={{ color: '#00d4ff' }}>
+            <span className="h-px w-7" style={{ background: 'linear-gradient(90deg, transparent, var(--color-neon))', display: 'block' }} />
+            <span className="text-[13px] font-['Outfit'] font-semibold tracking-[0.22em] uppercase" style={{ color: 'var(--color-neon)' }}>
               Let's Talk
             </span>
-            <span className="h-px w-7" style={{ background: 'linear-gradient(90deg, #00d4ff, transparent)', display: 'block' }} />
+            <span className="h-px w-7" style={{ background: 'linear-gradient(90deg, var(--color-neon), transparent)', display: 'block' }} />
           </motion.div>
 
           <h2 className="section-title gradient-text mb-3">Get In Touch</h2>
 
           <p className="font-['Outfit'] text-base text-white/40 max-w-xs mx-auto leading-relaxed">
             Have a project in mind? Let's build something{' '}
-            <span style={{ color: '#00d4ff', opacity: 0.85 }}>amazing</span> together.
+            <span style={{ color: 'var(--color-neon)', opacity: 0.85 }}>amazing</span> together.
           </p>
         </motion.div>
 
@@ -578,7 +578,7 @@ export default function ContactSection() {
                       border: '1px solid rgba(0,212,255,0.2)',
                     }}
                   >
-                    <FiSend size={22} style={{ color: '#00d4ff' }} />
+                    <FiSend size={22} style={{ color: 'var(--color-neon)' }} />
                   </motion.div>
                   <motion.p initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.18 }}
                     style={{ fontFamily: 'Outfit,sans-serif', fontSize: 20, fontWeight: 700, color: '#fff', marginBottom: 8 }}>
@@ -774,7 +774,7 @@ export default function ContactSection() {
             {/* decorative rings */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
               <motion.div
-                className="w-[280px] h-[280px] lg:w-[420px] lg:h-[420px] rounded-full border border-[#00d4ff]/10"
+                className="w-[280px] h-[280px] lg:w-[420px] lg:h-[420px] rounded-full border border-[var(--color-neon)]/10"
                 animate={{ rotate: 360 }}
                 transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
               />

@@ -38,7 +38,7 @@ export default function Footer() {
 
       {/* Decorative gradient line */}
       <div className="absolute top-0 left-0 w-full h-px"
-        style={{ background: 'linear-gradient(90deg, transparent, #00d4ff, #7b2ff7, transparent)' }} />
+        style={{ background: 'linear-gradient(90deg, transparent, var(--color-neon), #7b2ff7, transparent)' }} />
     </footer>
   );
 }

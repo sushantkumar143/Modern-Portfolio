@@ -158,7 +158,7 @@ export default function ExperienceSection() {
             width: '3px', borderRadius: '2px',
             transform: 'translateX(-50%) scaleY(0)',
             transformOrigin: 'top center',
-            background: 'linear-gradient(to bottom, transparent 0%, #00d4ff 8%, #7b2ff7 92%, transparent 100%)',
+            background: 'linear-gradient(to bottom, transparent 0%, var(--color-neon) 8%, #7b2ff7 92%, transparent 100%)',
             zIndex: 1,
           }}
         />
@@ -183,8 +183,8 @@ export default function ExperienceSection() {
                 position: 'absolute', left: '50%', top: '28px',
                 width: '18px', height: '18px', borderRadius: '50%',
                 transform: 'translateX(-50%) scale(0)',
-                background: 'linear-gradient(135deg, #00d4ff, #7b2ff7)',
-                boxShadow: '0 0 14px rgba(0,212,255,0.6), 0 0 35px rgba(0,212,255,0.15)',
+                background: 'linear-gradient(135deg, var(--color-neon), #7b2ff7)',
+                boxShadow: '0 0 14px rgba(var(--neon-rgb), 0.6), 0 0 35px rgba(var(--neon-rgb), 0.15)',
                 zIndex: 3, border: '3px solid #0a0a0f', opacity: 0,
               }} />
 
@@ -194,7 +194,7 @@ export default function ExperienceSection() {
                 left: isLeft ? 'auto' : 'calc(50% + 9px)',
                 right: isLeft ? 'calc(50% - 9px)' : 'auto',
                 width: '45px', height: '2px',
-                background: 'rgba(0,212,255,0.3)',
+                background: 'rgba(var(--neon-rgb), 0.3)',
                 transformOrigin: isLeft ? 'right center' : 'left center',
                 opacity: 0, zIndex: 2,
               }} />
@@ -210,9 +210,9 @@ export default function ExperienceSection() {
                 cursor: 'default', opacity: 0,
               }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.background = 'rgba(0,212,255,0.04)';
-                  e.currentTarget.style.borderColor = 'rgba(0,212,255,0.2)';
-                  e.currentTarget.style.boxShadow = '0 8px 40px rgba(0,212,255,0.12)';
+                  e.currentTarget.style.background = 'rgba(var(--neon-rgb), 0.04)';
+                  e.currentTarget.style.borderColor = 'rgba(var(--neon-rgb), 0.2)';
+                  e.currentTarget.style.boxShadow = '0 8px 40px rgba(var(--neon-rgb), 0.12)';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.background = 'rgba(255,255,255,0.03)';
@@ -223,8 +223,8 @@ export default function ExperienceSection() {
                 <span style={{
                   display: 'inline-block', padding: '6px 16px',
                   borderRadius: '50px', fontSize: '0.75rem', fontWeight: 600,
-                  color: '#00d4ff', background: 'rgba(0,212,255,0.08)',
-                  border: '1px solid rgba(0,212,255,0.15)',
+                   color: 'var(--color-neon)', background: 'rgba(var(--neon-rgb), 0.08)',
+                   border: '1px solid rgba(var(--neon-rgb), 0.15)',
                   marginBottom: '18px', letterSpacing: '0.5px',
                 }}>
                   {exp.duration}
@@ -238,7 +238,7 @@ export default function ExperienceSection() {
                 </h3>
 
                 <p style={{
-                  fontSize: '1rem', color: '#00d4ff', fontWeight: 500, marginBottom: '12px',
+                  fontSize: '1rem', color: 'var(--color-neon)', fontWeight: 500, marginBottom: '12px',
                 }}>
                   {exp.company}
                 </p>

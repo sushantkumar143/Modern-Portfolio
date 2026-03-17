@@ -26,7 +26,7 @@ function HoverBorderCard({ children, style, contentStyle, motionProps, className
       <motion.div
         className="hover-glow-border"
         style={{
-          background: useMotionTemplate`radial-gradient(500px circle at ${mouseX}px ${mouseY}px, rgba(0,212,255,1) 0%, rgba(0,212,255,0.6) 30%, transparent 80%)`,
+          background: useMotionTemplate`radial-gradient(500px circle at ${mouseX}px ${mouseY}px, rgba(var(--neon-rgb), 1) 0%, rgba(var(--neon-rgb), 0.6) 30%, transparent 80%)`,
         }}
       />
       <div className="hover-glow-content" style={contentStyle}>
@@ -140,7 +140,7 @@ export default function CertificationsSection() {
                           fontSize: '3rem',
                           fontWeight: 900,
                           fontFamily: "'Outfit', sans-serif",
-                          background: 'linear-gradient(135deg, rgba(0,212,255,0.9), rgba(123,47,247,0.9))',
+                          background: 'linear-gradient(135deg, var(--color-neon), #7b2ff7)',
                           WebkitBackgroundClip: 'text',
                           WebkitTextFillColor: 'transparent',
                           lineHeight: 1,
@@ -192,10 +192,10 @@ export default function CertificationsSection() {
                             backdropFilter: 'blur(8px)',
                             padding: '8px 16px',
                             borderRadius: '50px',
-                            color: '#00d4ff',
+                            color: 'var(--color-neon)',
                             fontSize: '0.85rem',
                             fontWeight: 600,
-                            border: '1px solid rgba(0,212,255,0.2)',
+                            border: '1px solid rgba(var(--neon-rgb), 0.2)',
                             textDecoration: 'none'
                           }}
                         >
@@ -259,9 +259,9 @@ export default function CertificationsSection() {
                     style={{
                       padding: '16px 32px',
                       borderRadius: '50px',
-                      background: 'rgba(0,212,255,0.05)',
-                      border: '1px solid rgba(0,212,255,0.3)',
-                      color: '#00d4ff',
+                      background: 'rgba(var(--neon-rgb), 0.05)',
+                      border: '1px solid rgba(var(--neon-rgb), 0.3)',
+                      color: 'var(--color-neon)',
                       fontSize: '1.1rem',
                       fontWeight: 700,
                       cursor: 'pointer',
@@ -271,11 +271,11 @@ export default function CertificationsSection() {
                       gap: '10px'
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.background = 'rgba(0,212,255,0.1)';
-                      e.currentTarget.style.boxShadow = '0 0 20px rgba(0,212,255,0.2)';
+                      e.currentTarget.style.background = 'rgba(var(--neon-rgb), 0.1)';
+                      e.currentTarget.style.boxShadow = '0 0 20px rgba(var(--neon-rgb), 0.2)';
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.background = 'rgba(0,212,255,0.05)';
+                      e.currentTarget.style.background = 'rgba(var(--neon-rgb), 0.05)';
                       e.currentTarget.style.boxShadow = 'none';
                     }}
                   >
@@ -318,7 +318,7 @@ export default function CertificationsSection() {
               background: 'rgba(12, 12, 18, 0.9)',
               border: '1px solid rgba(255,255,255,0.1)',
               borderRadius: '24px',
-              boxShadow: '0 25px 50px -12px rgba(0,0,0,0.8), 0 0 40px rgba(0,212,255,0.15)',
+              boxShadow: '0 25px 50px -12px rgba(0,0,0,0.8), 0 0 40px rgba(var(--neon-rgb), 0.15)',
               display: 'flex',
               flexDirection: 'column',
               overflow: 'hidden'
@@ -404,8 +404,8 @@ export default function CertificationsSection() {
                           display: 'flex', alignItems: 'center', gap: '6px',
                           background: 'rgba(10,10,15,0.8)', backdropFilter: 'blur(8px)',
                           padding: '6px 14px', borderRadius: '50px',
-                          color: '#00d4ff', fontSize: '0.8rem', fontWeight: 600,
-                          border: '1px solid rgba(0,212,255,0.2)', textDecoration: 'none'
+                          color: 'var(--color-neon)', fontSize: '0.8rem', fontWeight: 600,
+                          border: '1px solid rgba(var(--neon-rgb), 0.2)', textDecoration: 'none'
                         }}
                       >Verify <FiExternalLink /></a>
                     </div>
@@ -503,7 +503,7 @@ export default function CertificationsSection() {
         }
         /* Inner shadow when shining */
         .hover-glow-card:hover .hover-glow-content {
-          box-shadow: inset 0 0 40px rgba(0, 212, 255, 0.1);
+          box-shadow: inset 0 0 40px rgba(var(--neon-rgb), 0.1);
         }
 
         /* Falling star / neon fade style scrollbar */
@@ -516,16 +516,16 @@ export default function CertificationsSection() {
         }
         .cert-modal-scroll::-webkit-scrollbar-thumb {
           background-image: 
-            radial-gradient(circle at center calc(100% - 4px), #ffffff 0%, #00d4ff 4px, transparent 4px),
-            linear-gradient(to bottom, transparent 0%, rgba(0,212,255,0.05) 20%, #00d4ff 100%);
+            radial-gradient(circle at center calc(100% - 4px), #ffffff 0%, var(--color-neon) 4px, transparent 4px),
+            linear-gradient(to bottom, transparent 0%, rgba(var(--neon-rgb), 0.05) 20%, var(--color-neon) 100%);
           border-radius: 10px;
-          box-shadow: 0 0 10px rgba(0,212,255,0.5);
+          box-shadow: 0 0 10px rgba(var(--neon-rgb), 0.5);
         }
         .cert-modal-scroll::-webkit-scrollbar-thumb:hover {
           background-image: 
-            radial-gradient(circle at center calc(100% - 4px), #ffffff 0%, #00d4ff 4px, transparent 4px),
-            linear-gradient(to bottom, transparent 0%, rgba(0,212,255,0.1) 20%, #00d4ff 100%);
-          box-shadow: 0 0 15px rgba(0,212,255,0.8);
+            radial-gradient(circle at center calc(100% - 4px), #ffffff 0%, var(--color-neon) 4px, transparent 4px),
+            linear-gradient(to bottom, transparent 0%, rgba(var(--neon-rgb), 0.1) 20%, var(--color-neon) 100%);
+          box-shadow: 0 0 15px rgba(var(--neon-rgb), 0.8);
         }
       `}</style>
     </>

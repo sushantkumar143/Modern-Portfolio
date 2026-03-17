@@ -28,15 +28,15 @@ export default function Navbar() {
   const linkStyle = (section) => ({
     color:
       activeSection === section
-        ? '#00d4ff'
+        ? 'var(--color-neon)'
         : hoveredLink === section
-        ? '#00d4ff'
+        ? 'var(--color-neon)'
         : '#9ca3b0',
     textShadow:
       activeSection === section
-        ? '0 0 8px rgba(0,212,255,0.6), 0 0 20px rgba(0,212,255,0.2)'
+        ? '0 0 8px rgba(var(--neon-rgb), 0.6), 0 0 20px rgba(var(--neon-rgb), 0.2)'
         : hoveredLink === section
-        ? '0 0 8px rgba(0,212,255,0.4)'
+        ? '0 0 8px rgba(var(--neon-rgb), 0.4)'
         : 'none',
     transition: 'all 0.3s ease',
     position: 'relative',
@@ -62,7 +62,7 @@ export default function Navbar() {
         backdropFilter: scrolled ? 'blur(24px)' : 'none',
         WebkitBackdropFilter: scrolled ? 'blur(24px)' : 'none',
         borderBottom: scrolled
-          ? '1px solid rgba(0, 212, 255, 0.08)'
+          ? '1px solid rgba(var(--neon-rgb), 0.08)'
           : '1px solid transparent',
         transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
       }}
@@ -92,8 +92,8 @@ export default function Navbar() {
         >
           <span
             style={{
-              color: '#00d4ff',
-              textShadow: '0 0 10px rgba(0,212,255,0.5), 0 0 40px rgba(0,212,255,0.2)',
+              color: 'var(--color-neon)',
+              textShadow: '0 0 10px rgba(var(--neon-rgb), 0.5), 0 0 40px rgba(var(--neon-rgb), 0.2)',
             }}
           >
             S
@@ -139,11 +139,11 @@ export default function Navbar() {
                     left: isActive ? '0' : '50%',
                     width: isActive ? '100%' : hoveredLink === section ? '70%' : '0%',
                     height: '2px',
-                    background: 'linear-gradient(90deg, #00d4ff, #7b2ff7)',
+                    background: 'linear-gradient(90deg, var(--color-neon), #7b2ff7)',
                     borderRadius: '1px',
                     transition: 'all 0.3s ease',
                     transform: isActive ? 'none' : 'translateX(-50%)',
-                    boxShadow: isActive ? '0 0 8px rgba(0,212,255,0.5)' : 'none',
+                    boxShadow: isActive ? '0 0 8px rgba(var(--neon-rgb), 0.5)' : 'none',
                   }}
                 />
               </a>
@@ -161,18 +161,18 @@ export default function Navbar() {
               letterSpacing: '0.5px',
               textTransform: 'uppercase',
               color: '#0a0a0f',
-              background: 'linear-gradient(135deg, #00d4ff, #7b2ff7)',
-              boxShadow: '0 0 15px rgba(0,212,255,0.3), 0 0 30px rgba(0,212,255,0.1)',
+              background: 'linear-gradient(135deg, var(--color-neon), #7b2ff7)',
+              boxShadow: '0 0 15px rgba(var(--neon-rgb), 0.3), 0 0 30px rgba(var(--neon-rgb), 0.1)',
               transition: 'all 0.3s ease',
               cursor: 'pointer',
             }}
             onMouseEnter={(e) => {
               e.target.style.transform = 'scale(1.05)';
-              e.target.style.boxShadow = '0 0 25px rgba(0,212,255,0.5), 0 0 50px rgba(0,212,255,0.2)';
+              e.target.style.boxShadow = '0 0 25px rgba(var(--neon-rgb), 0.5), 0 0 50px rgba(var(--neon-rgb), 0.2)';
             }}
             onMouseLeave={(e) => {
               e.target.style.transform = 'scale(1)';
-              e.target.style.boxShadow = '0 0 15px rgba(0,212,255,0.3), 0 0 30px rgba(0,212,255,0.1)';
+              e.target.style.boxShadow = '0 0 15px rgba(var(--neon-rgb), 0.3), 0 0 30px rgba(var(--neon-rgb), 0.1)';
             }}
           >
             Hire Me
@@ -186,7 +186,7 @@ export default function Navbar() {
           className="md:hidden"
           style={{
             fontSize: '1.6rem',
-            color: '#00d4ff',
+            color: 'var(--color-neon)',
             background: 'none',
             border: 'none',
             cursor: 'pointer',
@@ -212,7 +212,7 @@ export default function Navbar() {
               borderRadius: '16px',
               background: 'rgba(10, 10, 15, 0.95)',
               backdropFilter: 'blur(24px)',
-              border: '1px solid rgba(0, 212, 255, 0.1)',
+              border: '1px solid rgba(var(--neon-rgb), 0.1)',
               display: 'flex',
               flexDirection: 'column',
               gap: '16px',
@@ -227,7 +227,7 @@ export default function Navbar() {
                 transition={{ delay: i * 0.05 }}
                 onClick={() => setMobileOpen(false)}
                 style={{
-                  color: activeSection === link.href.replace('#', '') ? '#00d4ff' : '#9ca3b0',
+                  color: activeSection === link.href.replace('#', '') ? 'var(--color-neon)' : '#9ca3b0',
                   fontSize: '0.9rem',
                   fontWeight: 500,
                   padding: '8px 12px',
@@ -235,11 +235,11 @@ export default function Navbar() {
                   transition: 'all 0.2s ease',
                 }}
                 onMouseEnter={(e) => {
-                  e.target.style.color = '#00d4ff';
-                  e.target.style.background = 'rgba(0, 212, 255, 0.08)';
+                  e.target.style.color = 'var(--color-neon)';
+                  e.target.style.background = 'rgba(var(--neon-rgb), 0.08)';
                 }}
                 onMouseLeave={(e) => {
-                  e.target.style.color = activeSection === link.href.replace('#', '') ? '#00d4ff' : '#9ca3b0';
+                  e.target.style.color = activeSection === link.href.replace('#', '') ? 'var(--color-neon)' : '#9ca3b0';
                   e.target.style.background = 'transparent';
                 }}
               >

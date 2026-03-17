@@ -139,7 +139,7 @@ export default function AboutSection() {
               className="absolute inset-0 rounded-2xl"
               style={{
                 background:
-                  'radial-gradient(ellipse at center, rgba(0,212,255,0.15) 0%, rgba(123,47,247,0.10) 40%, transparent 70%)',
+                  'radial-gradient(ellipse at center, rgba(var(--neon-rgb),0.15) 0%, rgba(123,47,247,0.10) 40%, transparent 70%)',
                 filter: 'blur(40px)',
                 transform: 'scale(1.3)',
               }}
@@ -152,7 +152,7 @@ export default function AboutSection() {
                 background: 'rgba(10,10,15,0.6)',
                 backdropFilter: 'blur(12px)',
                 boxShadow:
-                  '0 0 60px rgba(0,212,255,0.08), 0 0 120px rgba(123,47,247,0.06)',
+                  '0 0 60px rgba(var(--neon-rgb), 0.08), 0 0 120px rgba(123,47,247,0.06)',
               }}
             >
               <img
@@ -169,7 +169,7 @@ export default function AboutSection() {
               <div
                 className="absolute left-0 w-full h-[1px] opacity-10"
                 style={{
-                  background: 'linear-gradient(90deg, transparent, #00d4ff, transparent)',
+                  background: 'linear-gradient(90deg, transparent, var(--color-neon), transparent)',
                   animation: 'scan-line 4s linear infinite',
                 }}
               />

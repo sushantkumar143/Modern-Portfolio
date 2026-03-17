@@ -62,10 +62,10 @@ export default function ProjectsSection() {
                   letterSpacing: '0.5px',
                   transition: 'all 0.3s ease',
                   cursor: 'pointer',
-                  border: isActive ? '1px solid rgba(0,212,255,0.4)' : '1px solid rgba(255,255,255,0.08)',
-                  background: isActive ? 'rgba(0,212,255,0.1)' : 'rgba(255,255,255,0.03)',
-                  color: isActive ? '#00d4ff' : '#9ca3b0',
-                  boxShadow: isActive ? '0 0 20px rgba(0,212,255,0.15)' : 'none',
+                  border: isActive ? '1px solid rgba(var(--neon-rgb), 0.4)' : '1px solid rgba(255,255,255,0.08)',
+                  background: isActive ? 'rgba(var(--neon-rgb), 0.1)' : 'rgba(255,255,255,0.03)',
+                  color: isActive ? 'var(--color-neon)' : '#9ca3b0',
+                  boxShadow: isActive ? '0 0 20px rgba(var(--neon-rgb), 0.15)' : 'none',
                 }}
                 onMouseEnter={(e) => {
                   if (!isActive) {
@@ -107,7 +107,7 @@ export default function ProjectsSection() {
                   background: 'rgba(12, 12, 18, 1)',
                   border: '1px solid rgba(255,255,255,0.1)',
                   borderRadius: '24px',
-                  boxShadow: '0 -15px 40px rgba(0,0,0,0.6), 0 0 20px rgba(0,212,255,0.05)',
+                  boxShadow: '0 -15px 40px rgba(0,0,0,0.6), 0 0 20px rgba(var(--neon-rgb), 0.05)',
                   overflowY: 'auto',
                   overscrollBehavior: 'contain',
                   display: 'flex',
@@ -129,7 +129,7 @@ export default function ProjectsSection() {
                     fontSize: '4.5rem',
                     fontWeight: 900,
                     fontFamily: "'Outfit', sans-serif",
-                    background: 'linear-gradient(135deg, rgba(0,212,255,0.9), rgba(123,47,247,0.9))',
+                    background: 'linear-gradient(135deg, var(--color-neon), #7b2ff7)',
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
                     lineHeight: 1,
@@ -158,14 +158,14 @@ export default function ProjectsSection() {
                       style={{
                         display: 'flex', alignItems: 'center', gap: '8px',
                         padding: '12px 24px', borderRadius: '50px',
-                        background: 'linear-gradient(135deg, #00d4ff, #7b2ff7)',
+                        background: 'linear-gradient(135deg, var(--color-neon), #7b2ff7)',
                         color: '#fff', fontSize: '0.95rem', fontWeight: 600,
                         transition: 'all 0.3s ease',
-                        boxShadow: '0 4px 15px rgba(0,212,255,0.3)',
+                        boxShadow: '0 4px 15px rgba(var(--neon-rgb), 0.3)',
                         border: 'none', cursor: 'pointer'
                       }}
-                      onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 6px 20px rgba(0,212,255,0.4)'; }}
-                      onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 15px rgba(0,212,255,0.3)'; }}
+                      onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 6px 20px rgba(var(--neon-rgb), 0.4)'; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 15px rgba(var(--neon-rgb), 0.3)'; }}
                     >
                       <FiMaximize2 size={20} /> Expand
                     </button>
@@ -223,7 +223,7 @@ export default function ProjectsSection() {
                       padding: '8px 16px',
                       borderRadius: '8px',
                       border: '1px solid rgba(255,255,255,0.05)',
-                      color: '#00d4ff',
+                      color: 'var(--color-neon)',
                       fontWeight: 600,
                       fontSize: '0.9rem',
                       fontFamily: "'Outfit', sans-serif",
@@ -274,9 +274,9 @@ export default function ProjectsSection() {
                       {project.tech.map(t => (
                         <span key={t} style={{
                           padding: '8px 16px',
-                          background: 'rgba(0,212,255,0.05)',
-                          border: '1px solid rgba(0,212,255,0.2)',
-                          color: '#00d4ff',
+                          background: 'rgba(var(--neon-rgb), 0.05)',
+                          border: '1px solid rgba(var(--neon-rgb), 0.2)',
+                          color: 'var(--color-neon)',
                           borderRadius: '8px',
                           fontSize: '0.85rem',
                           fontWeight: 600,
@@ -323,7 +323,7 @@ export default function ProjectsSection() {
               background: 'rgba(12, 12, 18, 0.95)',
               border: '1px solid rgba(255,255,255,0.1)',
               borderRadius: '24px',
-              boxShadow: '0 25px 50px -12px rgba(0,0,0,0.8), 0 0 30px rgba(0,212,255,0.1)',
+              boxShadow: '0 25px 50px -12px rgba(0,0,0,0.8), 0 0 30px rgba(var(--neon-rgb), 0.1)',
               overflowY: 'auto',
               display: 'flex',
               flexDirection: 'column'
@@ -441,7 +441,7 @@ export default function ProjectsSection() {
                     style={{
                       display: 'flex', alignItems: 'center', gap: '8px',
                       padding: '12px 24px', borderRadius: '50px',
-                      background: 'linear-gradient(135deg, #00d4ff, #7b2ff7)',
+                      background: 'linear-gradient(135deg, var(--color-neon), #7b2ff7)',
                       color: '#fff', fontSize: '0.95rem', fontWeight: 600,
                     }}
                   >
@@ -462,11 +462,11 @@ export default function ProjectsSection() {
           border-radius: 8px;
         }
         .project-card-scroll::-webkit-scrollbar-thumb {
-          background: rgba(0, 212, 255, 0.3);
+          background: rgba(var(--neon-rgb), 0.3);
           border-radius: 8px;
         }
         .project-card-scroll::-webkit-scrollbar-thumb:hover {
-          background: rgba(0, 212, 255, 0.6);
+          background: rgba(var(--neon-rgb), 0.6);
         }
       `}</style>
     </section>
