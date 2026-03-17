@@ -184,7 +184,7 @@ export const certifications = [
     issuer: "Amazon Web Services",
     year: "Feb 2025",
     description: "Fundamental understanding of IT services and their uses in the AWS Cloud.",
-    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80",
+    image: "/certificates/oracle-cloud.png",
     link: "#"
   },
   {
@@ -192,7 +192,7 @@ export const certifications = [
     issuer: "Google",
     year: "Jan 2025",
     description: "Building and training neural networks and deep learning models using TensorFlow.",
-    image: "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=800&q=80",
+    image: "/certificates/DSA.png",
     link: "#"
   },
   {
@@ -200,7 +200,7 @@ export const certifications = [
     issuer: "Meta (Coursera)",
     year: "Nov 2024",
     description: "Advanced React, state management, and responsive web development methodologies.",
-    image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&q=80",
+    image: "/certificates/Java.png",
     link: "#"
   },
   {
@@ -208,7 +208,7 @@ export const certifications = [
     issuer: "IBM (Coursera)",
     year: "Aug 2024",
     description: "Data analysis, machine learning algorithms, and real-world data science projects.",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80",
+    image: "/certificates/oracle-analytics.png",
     link: "#"
   },
   {
@@ -216,7 +216,7 @@ export const certifications = [
     issuer: "Docker Inc.",
     year: "May 2024",
     description: "Containerization, orchestration, and deploying scalable microservices.",
-    image: "https://images.unsplash.com/photo-1605745341112-85968b19335b?w=800&q=80",
+    image: "/certificates/oracle-devops.png",
     link: "#"
   },
   {
@@ -224,7 +224,7 @@ export const certifications = [
     issuer: "Google (Coursera)",
     year: "Dec 2023",
     description: "Data cleaning, visualization, and R programming for business intelligence.",
-    image: "https://images.unsplash.com/photo-1543286386-2e659306cd6c?w=800&q=80",
+    image: "/certificates/c-programming.png",
     link: "#"
   },
 ];
@@ -237,7 +237,7 @@ export const achievements = [
     stat: "14000",
     statSuffix: "+",
     statLabel: "Students Surpassed",
-    image: "https://images.unsplash.com/photo-1523050854058-8df90110c476?w=800&q=80",
+    image: "/certificates/academic-topper.jpg",
   },
   {
     title: "National Level Hackathon Finalist",
@@ -246,7 +246,7 @@ export const achievements = [
     stat: "1",
     statSuffix: "st",
     statLabel: "National Finalist",
-    image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&q=80",
+    image: "/Assets/Hackathon.png",
   },
   {
     title: "Community Development Project Leader",
@@ -255,7 +255,7 @@ export const achievements = [
     stat: "100",
     statSuffix: "+",
     statLabel: "Families Impacted",
-    image: "https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=800&q=80",
+    image: "/Assets/landscape.jpg",
   },
   {
     title: "Sports Achievements",
@@ -264,7 +264,7 @@ export const achievements = [
     stat: "3",
     statSuffix: "",
     statLabel: "Medals Won",
-    image: "https://images.unsplash.com/photo-1461896836934-bd45ba8a0a53?w=800&q=80",
+    image: "/Assets/football.png",
   },
   {
     title: "Championship Trophy – Extra Co-Curricular Activities",
@@ -273,7 +273,7 @@ export const achievements = [
     stat: "1",
     statSuffix: "st",
     statLabel: "Championship Trophy",
-    image: "https://images.unsplash.com/photo-1567427018141-0584cfcbf1b8?w=800&q=80",
+    image: "/Assets/trophy.png",
   },
 ];
 
@@ -312,49 +312,49 @@ export const activities = [
   {
     title: "Hackathon Organizer – TechFest 2025",
     description: "Led a team of 20 to organize a 48-hour national level hackathon with 500+ participants.",
-    image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&q=80",
+    image: "/Assets/hackathon_image.JPG",
     link: "#"
   },
   {
     title: "Workshop Lead – Machine Learning",
     description: "Conducted hands-on sessions for 100+ students on building neural networks from scratch.",
-    image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=800&q=80",
+    image: "/Assets/Advanced_IoT.png",
     link: "#"
   },
   {
     title: "Open Source Contributor",
     description: "Actively contributed to multiple popular repositories during Hacktoberfest.",
-    image: "https://images.unsplash.com/photo-1618401471353-b98a5233c591?w=800&q=80",
+    image: "/Assets/ECE Project.png",
     link: "#"
   },
   {
     title: "Technical Blog Writer",
     description: "Publishing deep-dive articles on ML architectures and web development on Medium.",
-    image: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=800&q=80",
+    image: "/Assets/Multi disease prediction model.png",
     link: "#"
   },
   {
     title: "Mentored 50+ students in DSA",
     description: "Provided weekly 1-on-1 mentorship for data structures to junior students.",
-    image: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&q=80",
+    image: "/certificates/cp.jpg",
     link: "#"
   },
   {
     title: "AI/ML Club Core Member",
     description: "Coordinating weekly research paper reading groups and project ideation phases.",
-    image: "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=800&q=80",
+    image: "/Assets/Telecom_Churn_Prediction.png",
     link: "#"
   },
   {
     title: "Speaker at Tech Symposium",
     description: "Delivered a talk on the impact of Agentic AI systems on modern software engineering.",
-    image: "https://images.unsplash.com/photo-1475721025505-1a1347ba01a6?w=800&q=80",
+    image: "/Assets/Power BI 1.png",
     link: "#"
   },
   {
     title: "Community Volunteer – Code for India",
     description: "Built free web solutions for local non-profit organizations to help their reach.",
-    image: "https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=800&q=80",
+    image: "/Assets/radha_krishna.jpg",
     link: "#"
   }
 ];

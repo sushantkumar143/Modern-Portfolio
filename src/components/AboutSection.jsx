@@ -155,108 +155,15 @@ export default function AboutSection() {
                   '0 0 60px rgba(0,212,255,0.08), 0 0 120px rgba(123,47,247,0.06)',
               }}
             >
-              {/* Futuristic wireframe avatar SVG */}
-              <svg
-                viewBox="0 0 340 400"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="absolute inset-0 w-full h-full"
-              >
-                {/* Neural network background nodes */}
-                {[
-                  [60, 80], [280, 60], [40, 200], [300, 180], [170, 40],
-                  [100, 340], [240, 350], [50, 140], [290, 260], [170, 380],
-                ].map(([cx, cy], i) => (
-                  <g key={i}>
-                    <circle cx={cx} cy={cy} r="2" fill="#00d4ff" opacity="0.3">
-                      <animate
-                        attributeName="opacity"
-                        values="0.15;0.5;0.15"
-                        dur={`${2 + i * 0.3}s`}
-                        repeatCount="indefinite"
-                      />
-                    </circle>
-                  </g>
-                ))}
-
-                {/* Neural connecting lines */}
-                {[
-                  [60, 80, 170, 40], [170, 40, 280, 60], [40, 200, 170, 160],
-                  [170, 160, 300, 180], [50, 140, 170, 160], [170, 160, 290, 260],
-                  [100, 340, 170, 280], [170, 280, 240, 350],
-                ].map(([x1, y1, x2, y2], i) => (
-                  <line
-                    key={i} x1={x1} y1={y1} x2={x2} y2={y2}
-                    stroke="#7b2ff7" strokeWidth="0.5" opacity="0.2"
-                  >
-                    <animate
-                      attributeName="opacity"
-                      values="0.1;0.3;0.1"
-                      dur={`${3 + i * 0.4}s`}
-                      repeatCount="indefinite"
-                    />
-                  </line>
-                ))}
-
-                {/* Head wireframe */}
-                <ellipse
-                  cx="170" cy="140" rx="65" ry="80"
-                  stroke="url(#headGlow)" strokeWidth="1.5" fill="none" opacity="0.6"
-                />
-                <ellipse
-                  cx="170" cy="140" rx="55" ry="68"
-                  stroke="#00d4ff" strokeWidth="0.5" fill="none" opacity="0.25"
-                  strokeDasharray="4 6"
-                >
-                  <animateTransform
-                    attributeName="transform"
-                    type="rotate"
-                    values="0 170 140;360 170 140"
-                    dur="30s"
-                    repeatCount="indefinite"
-                  />
-                </ellipse>
-
-                {/* Eyes */}
-                <circle cx="148" cy="130" r="6" stroke="#00d4ff" strokeWidth="1" fill="none" opacity="0.7">
-                  <animate attributeName="opacity" values="0.4;1;0.4" dur="3s" repeatCount="indefinite" />
-                </circle>
-                <circle cx="192" cy="130" r="6" stroke="#00d4ff" strokeWidth="1" fill="none" opacity="0.7">
-                  <animate attributeName="opacity" values="0.4;1;0.4" dur="3s" repeatCount="indefinite" />
-                </circle>
-                <circle cx="148" cy="130" r="2" fill="#00d4ff" opacity="0.9" />
-                <circle cx="192" cy="130" r="2" fill="#00d4ff" opacity="0.9" />
-
-                {/* Nose line */}
-                <line x1="170" y1="138" x2="170" y2="155" stroke="#7b2ff7" strokeWidth="0.8" opacity="0.3" />
-
-                {/* Mouth */}
-                <path d="M 155 165 Q 170 172 185 165" stroke="#00d4ff" strokeWidth="0.8" fill="none" opacity="0.3" />
-
-                {/* Shoulders */}
-                <path
-                  d="M 105 220 Q 120 200 170 195 Q 220 200 235 220"
-                  stroke="url(#headGlow)" strokeWidth="1.5" fill="none" opacity="0.5"
-                />
-
-                {/* Body wireframe lines */}
-                <line x1="130" y1="220" x2="110" y2="340" stroke="#7b2ff7" strokeWidth="0.6" opacity="0.2" />
-                <line x1="210" y1="220" x2="230" y2="340" stroke="#7b2ff7" strokeWidth="0.6" opacity="0.2" />
-                <line x1="170" y1="195" x2="170" y2="380" stroke="#00d4ff" strokeWidth="0.4" opacity="0.15" />
-
-                {/* Circuit-like accents */}
-                <rect x="145" y="240" width="50" height="30" rx="4" stroke="#00d4ff" strokeWidth="0.5" fill="none" opacity="0.2" />
-                <line x1="155" y1="250" x2="185" y2="250" stroke="#00d4ff" strokeWidth="0.3" opacity="0.15" />
-                <line x1="155" y1="258" x2="175" y2="258" stroke="#7b2ff7" strokeWidth="0.3" opacity="0.15" />
-
-                {/* Gradient defs */}
-                <defs>
-                  <linearGradient id="headGlow" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stopColor="#00d4ff" />
-                    <stop offset="100%" stopColor="#7b2ff7" />
-                  </linearGradient>
-                </defs>
-              </svg>
+              <img
+                src="/images/profile.png"
+                alt="Sushant Kumar Profile"
+                className="absolute inset-0 w-full h-full object-cover"
+                style={{
+                  filter: "grayscale(100%) contrast(1.2)",
+                  mixBlendMode: "luminosity",
+                }}
+              />
 
               {/* Scan line effect */}
               <div
