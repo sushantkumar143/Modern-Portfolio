@@ -16,6 +16,8 @@ import CodingPlatforms from './components/CodingPlatforms';
 import ActivitiesSection from './components/ActivitiesSection';
 import ContactSection from './components/ContactSection';
 import Footer from './components/Footer';
+import ChatbotLauncher from './components/ChatbotLauncher';
+
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -49,6 +51,9 @@ function App() {
           <LoadingScreen onComplete={() => setLoading(false)} />
         )}
       </AnimatePresence>
+
+      {/* AI Chatbot Launcher – fixed position, persists across all sections, hidden during loading */}
+      {!loading && <ChatbotLauncher />}
     </div>
   );
 }
