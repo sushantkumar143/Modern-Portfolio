@@ -6,6 +6,7 @@ import LoadingScreen from './components/LoadingScreen';
 import HeroSection from './components/HeroSection';
 import AboutSection from './components/AboutSection';
 import EducationSection from './components/EducationSection';
+import AcademicSection from './components/AcademicSection';
 
 import SkillsSection from './components/SkillsSection';
 import ProjectsSection from './components/ProjectsSection';
@@ -37,6 +38,7 @@ function App() {
             <HeroSection />
             <AboutSection />
             <EducationSection />
+            <AcademicSection />
 
             <SkillsSection />
             <ProjectsSection />
