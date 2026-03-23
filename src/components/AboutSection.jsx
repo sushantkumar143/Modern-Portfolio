@@ -246,13 +246,13 @@ export default function AboutSection() {
                 }}
               />
 
-              {/* Calligraphic Heading — centered */}
+              {/* Professional Heading — centered */}
               <h3
-                className="text-3xl md:text-4xl mb-6 text-center"
+                className="text-2xl md:text-3xl mb-6 text-center font-bold tracking-wider uppercase"
                 style={{
-                  fontFamily: "'Great Vibes', cursive",
+                  fontFamily: "var(--font-family-heading)",
                   color: '#D4AF37',
-                  textShadow: '0 0 30px rgba(212,175,55,0.15)',
+                  textShadow: '0 0 20px rgba(212,175,55,0.1)',
                 }}
               >
                 {block.heading}

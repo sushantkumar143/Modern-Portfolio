@@ -1,29 +1,175 @@
-/* ---------- Imports ---------- */
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { useGLTF, OrbitControls, Environment, Float } from '@react-three/drei';
+// removed three.js imports
 import {
   FiSend, FiMail, FiUser, FiMessageCircle,
   FiGithub, FiLinkedin, FiTwitter, FiMapPin, FiPhone, FiArrowRight,
 } from 'react-icons/fi';
+import { personalInfo } from '../data/portfolioData';
 
 /* ─────────────────────────────────────────
-   3D Globe — untouched
+   IndiaMap — loads Leaflet from CDN
 ───────────────────────────────────────── */
-function Globe3D() {
-  const globeRef = useRef();
-  const { scene } = useGLTF('/models/globe.glb');
-  useFrame((_, delta) => {
-    if (globeRef.current) globeRef.current.rotation.y += delta * 0.3;
-  });
+import { mapLocations } from '../data/ContactMe';
+
+function IndiaMap() {
+  const mapRef = useRef(null);
+  const mapInstanceRef = useRef(null);
+  const [loaded, setLoaded] = useState(false);
+  const [activeId, setActiveId] = useState(null);
+
+  useEffect(() => {
+    if (window.L) { setLoaded(true); return; }
+    const css = document.createElement('link');
+    css.rel = 'stylesheet';
+    css.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+    document.head.appendChild(css);
+    const script = document.createElement('script');
+    script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+    script.onload = () => setLoaded(true);
+    document.head.appendChild(script);
+    return () => { document.head.removeChild(css); document.head.removeChild(script); };
+  }, []);
+
+  useEffect(() => {
+    if (!loaded || !mapRef.current || mapInstanceRef.current) return;
+    const L = window.L;
+    const map = L.map(mapRef.current, {
+      center: [23.5, 81.0],
+      zoom: 5, minZoom: 4, maxZoom: 18,
+      scrollWheelZoom: true, zoomControl: false, attributionControl: false,
+    });
+    mapInstanceRef.current = map;
+    L.control.zoom({ position: 'topright' }).addTo(map);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(map);
+
+    function createIcon(loc) {
+      const c = loc.color || '#7b2ff7';
+      const emoji = loc.icon || '📍';
+      if (loc.type === 'current') {
+        return L.divIcon({
+          html: `<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="16" fill="${c}" opacity="0.2"><animate attributeName="r" values="14;19;14" dur="2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.3;0;0.3" dur="2s" repeatCount="indefinite"/></circle><circle cx="20" cy="20" r="8" fill="${c}" stroke="#fff" stroke-width="2.5"/><text x="20" y="24" text-anchor="middle" font-size="10">${emoji}</text></svg>`,
+          className: '', iconSize: [40, 40], iconAnchor: [20, 20], popupAnchor: [0, -20],
+        });
+      }
+      if (loc.type === 'home') {
+        return L.divIcon({
+          html: `<svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 38 38"><circle cx="19" cy="19" r="15" fill="${c}" opacity="0.15"><animate attributeName="r" values="14;17;14" dur="3s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.2;0;0.2" dur="3s" repeatCount="indefinite"/></circle><circle cx="19" cy="19" r="10" fill="${c}" stroke="#fff" stroke-width="2"/><text x="19" y="23" text-anchor="middle" font-size="11">${emoji}</text></svg>`,
+          className: '', iconSize: [38, 38], iconAnchor: [19, 19], popupAnchor: [0, -19],
+        });
+      }
+      return L.divIcon({
+        html: `<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30"><circle cx="15" cy="15" r="6" fill="${c}" stroke="#fff" stroke-width="2"/><text x="15" y="19" text-anchor="middle" font-size="8">${emoji}</text></svg>`,
+        className: '', iconSize: [30, 30], iconAnchor: [15, 15], popupAnchor: [0, -15],
+      });
+    }
+
+    function typeLabel(t) { return t === 'current' ? 'Current Location' : t === 'home' ? 'Home' : ''; }
+
+    mapLocations.forEach((loc) => {
+      const c = loc.color || '#7b2ff7';
+      const label = typeLabel(loc.type);
+      const marker = L.marker([loc.lat, loc.lng], { icon: createIcon(loc) }).addTo(map);
+      marker.bindPopup(`
+        <div style="background:rgba(10,15,30,0.95);backdrop-filter:blur(12px);border:1px solid ${c}33;border-radius:12px;padding:14px 16px;min-width:190px;font-family:Outfit,sans-serif;">
+          <p style="color:${c};font-size:14px;font-weight:700;margin:0;line-height:1.3">${loc.icon||''} ${loc.name}</p>
+          <p style="color:rgba(255,255,255,0.5);font-size:11px;margin:4px 0 0;letter-spacing:0.08em">${loc.year}</p>
+          <p style="color:rgba(255,255,255,0.75);font-size:12px;margin:8px 0 0;line-height:1.4">${loc.description}</p>
+          ${label ? `<div style="display:flex;align-items:center;gap:6px;margin-top:8px"><span style="width:6px;height:6px;border-radius:50%;background:${c};display:inline-block;animation:leafletPulse 1.5s infinite"></span><span style="color:${c};font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.12em">${label}</span></div>` : ''}
+        </div>`, { className: 'dark-popup', closeButton: true });
+    });
+
+    /* Chronological route — draw segment by segment with growing delay */
+    const chronological = [...mapLocations].reverse();
+    chronological.forEach((loc, i) => {
+      if (i === 0) return;
+      const from = [chronological[i - 1].lat, chronological[i - 1].lng];
+      const to = [loc.lat, loc.lng];
+      setTimeout(() => {
+        L.polyline([from, to], {
+          color: loc.color || '#7b2ff7', weight: 2, dashArray: '4 6',
+          opacity: 0.7, className: 'animated-route',
+        }).addTo(map);
+      }, i * 400);
+    });
+
+    return () => { map.remove(); mapInstanceRef.current = null; };
+  }, [loaded]);
+
   return (
-    <group ref={globeRef} dispose={null}>
-      <primitive object={scene} scale={0.0002} position={[0, -0.2, 0]} />
-    </group>
+    <div className="w-full">
+      <div className="relative w-full h-[520px] rounded-2xl overflow-hidden"
+        style={{ border: '1px solid rgba(var(--neon-rgb), 0.12)', boxShadow: '0 0 40px rgba(var(--neon-rgb), 0.06), 0 8px 32px rgba(0,0,0,0.4)' }}
+      >
+        <div ref={mapRef} style={{ width: '100%', height: '100%', background: '#f2efe9' }} />
+        {!loaded && (
+          <div className="absolute inset-0 flex items-center justify-center" style={{ background: '#f2efe9' }}>
+            <motion.div animate={{ rotate: 360 }} transition={{ duration: 1.5, repeat: Infinity, ease: 'linear' }}
+              style={{ width: 28, height: 28, border: '2px solid rgba(var(--neon-rgb), 0.2)', borderTopColor: 'var(--color-neon)', borderRadius: '50%' }} />
+          </div>
+        )}
+        <style>{`
+          .dark-popup .leaflet-popup-content-wrapper{background:transparent!important;box-shadow:none!important;border-radius:12px!important;padding:0!important}
+          .dark-popup .leaflet-popup-content{margin:0!important}
+          .dark-popup .leaflet-popup-tip{background:rgba(10,15,30,0.95)!important;border:1px solid rgba(0,212,255,0.15)!important;box-shadow:none!important}
+          .leaflet-popup-close-button{color:rgba(255,255,255,0.4)!important;font-size:18px!important;top:6px!important;right:8px!important}
+          .leaflet-popup-close-button:hover{color:#00d4ff!important}
+          .leaflet-control-zoom a{background:rgba(10,15,30,0.85)!important;color:#fff!important;border:1px solid rgba(var(--neon-rgb),0.15)!important;backdrop-filter:blur(10px)}
+          .leaflet-control-zoom a:hover{background:rgba(10,15,30,0.95)!important;color:var(--color-neon)!important}
+          .animated-route{animation:dashMove 1.5s linear infinite}
+          @keyframes dashMove{to{stroke-dashoffset:-20}}
+          @keyframes leafletPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
+        `}</style>
+      </div>
+
+      {/* My Journey — below the map */}
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.6, duration: 0.5 }}
+        style={{
+          marginTop: 16, background: 'rgba(10,15,30,0.6)', backdropFilter: 'blur(14px)',
+          border: '1px solid rgba(var(--neon-rgb), 0.1)', borderRadius: 14, padding: '14px 18px',
+        }}
+      >
+        <h5 style={{ fontFamily: 'Outfit,sans-serif', fontSize: 13, fontWeight: 700, color: 'rgba(255,255,255,0.65)', margin: '0 0 12px', display: 'flex', alignItems: 'center', gap: 6 }}>
+          <FiMapPin style={{ color: 'var(--color-neon)' }} size={14} />
+          My Journey
+        </h5>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+          {[...mapLocations].reverse().map((loc, i) => {
+            const c = loc.color || '#7b2ff7';
+            return (
+              <motion.div key={loc.id}
+                initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.7 + i * 0.08 }}
+                onMouseEnter={() => setActiveId(loc.id)} onMouseLeave={() => setActiveId(null)}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: 6, padding: '5px 10px', borderRadius: 8,
+                  background: activeId === loc.id ? `${c}15` : 'rgba(255,255,255,0.03)',
+                  border: `1px solid ${activeId === loc.id ? `${c}40` : 'rgba(255,255,255,0.06)'}`,
+                  cursor: 'pointer', transition: 'all 0.2s',
+                }}
+              >
+                <span style={{ fontSize: 13 }}>{loc.icon || '📍'}</span>
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <span style={{ fontFamily: 'Outfit,sans-serif', fontSize: 11, fontWeight: 600, color: activeId === loc.id ? c : 'rgba(255,255,255,0.55)', transition: 'color 0.2s', lineHeight: 1.2 }}>
+                    {loc.name.split(',')[0].split('(')[0].trim()}
+                  </span>
+                  <span style={{ fontFamily: 'Outfit,sans-serif', fontSize: 9, fontWeight: 500, color: 'rgba(255,255,255,0.3)', lineHeight: 1.2 }}>
+                    {loc.year}
+                  </span>
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+      </motion.div>
+    </div>
   );
 }
-useGLTF.preload('/models/globe.glb');
+
+
 
 /* ─────────────────────────────────────────
    FloatingInput
@@ -452,6 +598,8 @@ export default function ContactSection() {
 
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState(null);
   const [isTyping, setIsTyping] = useState(false);
   const typingTimer = useRef(null);
 
@@ -462,14 +610,57 @@ export default function ContactSection() {
     typingTimer.current = setTimeout(() => setIsTyping(false), 1200);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsTyping(false);
-    setIsSubmitted(true);
-    setTimeout(() => {
-      setIsSubmitted(false);
-      setFormData({ name: '', email: '', message: '' });
-    }, 4000);
+    setIsSubmitting(true);
+    setError(null);
+
+    // Web3Forms Integration
+    const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
+
+    if (!accessKey) {
+      console.error('Web3Forms Access Key is missing. Please add VITE_WEB3FORMS_ACCESS_KEY to your .env file.');
+      setError('System configuration error. Please try again later.');
+      setIsSubmitting(false);
+      return;
+    }
+
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          access_key: accessKey,
+          subject: `🚀 New Message from ${formData.name} | Modern Portfolio`,
+          from_name: `${formData.name} via Portfolio`,
+          replyto: formData.email,
+          title: "New Contact Form Submission",
+          template: "table",
+          ...formData,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setIsSubmitted(true);
+        setFormData({ name: '', email: '', message: '' });
+        setTimeout(() => {
+          setIsSubmitted(false);
+        }, 5000);
+      } else {
+        setError(result.message || 'Something went wrong. Please try again.');
+      }
+    } catch (err) {
+      setError('Failed to send message. Please check your internet connection.');
+      console.error('Submission error:', err);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const msgLen = formData.message.length;
@@ -637,6 +828,15 @@ export default function ContactSection() {
                             <TypingDots />
                           </motion.div>
                         )}
+                        {error && (
+                          <motion.div
+                            initial={{ opacity: 0, y: 5 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            style={{ fontSize: 13, fontFamily: 'Outfit,sans-serif', color: '#ff4d4d' }}
+                          >
+                            {error}
+                          </motion.div>
+                        )}
                       </AnimatePresence>
                     </div>
 
@@ -713,7 +913,9 @@ export default function ContactSection() {
                       >
                         <FiSend size={15} />
                       </motion.span>
-                      <span style={{ position: 'relative', zIndex: 1 }}>Send Message</span>
+                      <span style={{ position: 'relative', zIndex: 1 }}>
+                        {isSubmitting ? 'Sending...' : 'Send Message'}
+                      </span>
                     </motion.button>
                   </div>
                 </motion.form>
@@ -739,9 +941,9 @@ export default function ContactSection() {
               {/* Three contact rows — same height + border as form inputs */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                 {[
-                  { icon: FiMail, label: 'Email', value: 'hello@yourname.dev', href: 'mailto:hello@yourname.dev', delay: 0.5 },
-                  { icon: FiPhone, label: 'Phone', value: '+1 (555) 000-0000', href: 'tel:+15550000000', delay: 0.56 },
-                  { icon: FiMapPin, label: 'Location', value: 'San Francisco, CA', href: '#', delay: 0.62 },
+                  { icon: FiMail, label: 'Email', value: personalInfo.email, href: `mailto:${personalInfo.email}`, delay: 0.5 },
+                  { icon: FiPhone, label: 'Phone', value: personalInfo.phone, href: `tel:${personalInfo.phone.replace(/\s/g, '')}`, delay: 0.56 },
+                  { icon: FiMapPin, label: 'Location', value: personalInfo.location, href: '#', delay: 0.62 },
                 ].map(({ icon: Icon, label, value, href, delay }) => (
                   <ContactRow key={label} icon={Icon} label={label} value={value} href={href} delay={delay} />
                 ))}
@@ -755,82 +957,23 @@ export default function ContactSection() {
                 <p style={{ fontSize: 11, fontFamily: 'Outfit,sans-serif', textTransform: 'uppercase', letterSpacing: '0.14em', color: 'rgba(255,255,255,0.22)', marginRight: 4 }}>
                   Find me on
                 </p>
-                <SocialButton icon={FiGithub} href="https://github.com" label="GitHub" delay={0.68} />
-                <SocialButton icon={FiLinkedin} href="https://linkedin.com" label="LinkedIn" delay={0.72} />
-                <SocialButton icon={FiTwitter} href="https://twitter.com" label="Twitter" delay={0.76} />
+                <SocialButton icon={FiGithub} href={personalInfo.socialLinks.github} label="GitHub" delay={0.68} />
+                <SocialButton icon={FiLinkedin} href={personalInfo.socialLinks.linkedin} label="LinkedIn" delay={0.72} />
+                <SocialButton icon={FiTwitter} href={personalInfo.socialLinks.twitter} label="Twitter" delay={0.76} />
               </div>
             </motion.div>
 
           </motion.div>
 
-          {/* ══ RIGHT: 3D Globe ══ */}
+          {/* ══ RIGHT: India Map ══ */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.87 }}
+            initial={{ opacity: 0, scale: 0.9 }}
             animate={isInView ? { opacity: 1, scale: 1 } : {}}
-            transition={{ duration: 1.05, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            className="h-[400px] lg:h-[620px] w-full relative flex items-center justify-center cursor-grab active:cursor-grabbing"
-            style={{ marginTop: '-60px' }}
+            transition={{ duration: 0.9, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
+            className="w-full relative flex items-center justify-center p-4 min-h-[500px]"
+            style={{ marginTop: '0' }}
           >
-            {/* decorative rings */}
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <motion.div
-                className="w-[280px] h-[280px] lg:w-[420px] lg:h-[420px] rounded-full border border-[var(--color-neon)]/10"
-                animate={{ rotate: 360 }}
-                transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
-              />
-              <motion.div
-                className="absolute w-[220px] h-[220px] lg:w-[320px] lg:h-[320px] rounded-full border border-[#7b2ff7]/10"
-                animate={{ rotate: -360 }}
-                transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
-              />
-              <motion.div
-                className="absolute w-[340px] h-[340px] lg:w-[520px] lg:h-[520px] rounded-full"
-                style={{ border: '1px dashed rgba(0,212,255,0.05)' }}
-                animate={{ rotate: 180 }}
-                transition={{ duration: 70, repeat: Infinity, ease: 'linear' }}
-              />
-            </div>
-
-            {/* glow */}
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <div className="w-56 h-56 lg:w-72 lg:h-72 bg-[#00d4ff]/10 rounded-full blur-[80px]" />
-            </div>
-
-            {/* availability badge */}
-            <motion.div
-              initial={{ opacity: 0, y: 14 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.62, delay: 0.72 }}
-              className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2 px-4 py-2 rounded-full z-10 pointer-events-none"
-              style={{
-                background: 'rgba(8,12,24,0.72)',
-                backdropFilter: 'blur(14px)',
-                border: '1px solid rgba(0,212,255,0.14)',
-                boxShadow: '0 4px 18px rgba(0,0,0,0.26)',
-                whiteSpace: 'nowrap',
-              }}
-            >
-              <motion.span
-                className="w-1.5 h-1.5 rounded-full bg-[#00d4ff]"
-                animate={{ opacity: [1, 0.3, 1], scale: [1, 0.8, 1] }}
-                transition={{ duration: 1.6, repeat: Infinity }}
-              />
-              <span className="text-[13px] font-['Outfit'] text-white/46 tracking-wide">
-                Available for projects
-              </span>
-            </motion.div>
-
-            <Canvas camera={{ position: [0, 0, 5], fov: 45 }}>
-              <ambientLight intensity={0.5} />
-              <directionalLight position={[10, 10, 10]} intensity={1.5} color="#ffffff" />
-              <directionalLight position={[-10, -5, -10]} intensity={0.5} color="#00d4ff" />
-              <pointLight position={[0, 5, 5]} intensity={0.8} color="#7b2ff7" />
-              <Environment preset="city" />
-              <OrbitControls enableZoom={false} enablePan={false} autoRotate={false} rotateSpeed={0.5} />
-              <Float speed={1.5} rotationIntensity={0.3} floatIntensity={0.8}>
-                <Globe3D />
-              </Float>
-            </Canvas>
+            <IndiaMap />
           </motion.div>
 
         </div>

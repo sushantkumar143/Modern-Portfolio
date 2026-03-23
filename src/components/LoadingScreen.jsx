@@ -75,12 +75,12 @@ export default function LoadingScreen({ onComplete }) {
           clearInterval(typingInterval);
           currentLine++;
           currentChar = 0;
-          setTimeout(typeLine, 400); // 400ms pause between lines
+          setTimeout(typeLine, 300); // 300ms pause between lines (was 400ms)
         }
-      }, 18); // 30ms per character
+      }, 16); // 16ms per character (was 18ms)
     };
 
-    setTimeout(typeLine, 500); // Start terminal after 500ms
+    setTimeout(typeLine, 400); // Start terminal after 400ms (was 500ms)
 
     return () => clearInterval(typingInterval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -132,29 +132,29 @@ export default function LoadingScreen({ onComplete }) {
       },
     });
 
-    // Animate SVG Signature (0 -> 3s)
-    tl.to(params, { drawProgress: 1, duration: 4, ease: 'power2.inOut' })
-      .to(params, { glowIntensity: 1, duration: 3, ease: 'power1.inOut' }, "-=0.5")
-      // Hold until terminal finishes (total ~ 4.5s)
-      .to({}, { duration: 1.0 })
+    // Animate SVG Signature
+    tl.to(params, { drawProgress: 1, duration: 3.5, ease: 'power2.inOut' })
+      .to(params, { glowIntensity: 1, duration: 2.5, ease: 'power1.inOut' }, "-=0.3")
+      // Balanced hold
+      .to({}, { duration: 0.2 })
       // Phase 3: Split exit
       .addLabel("split")
-      .to(contentRef.current, { opacity: 0, duration: 0.3 }, "split")
+      .to(contentRef.current, { opacity: 0, duration: 0.2 }, "split")
       .to([topLeftRef.current, bottomRightRef.current], {
         backgroundColor: '#ffffff',
-        duration: 0.8,
+        duration: 0.3,
         ease: 'power2.inOut'
       }, "split")
       .to(topLeftRef.current, {
         x: '-100vw',
         y: '-100vh',
-        duration: 2.2,
+        duration: 0.8,
         ease: 'power3.inOut'
       }, "split+=0.1")
       .to(bottomRightRef.current, {
         x: '100vw',
         y: '100vh',
-        duration: 2.2,
+        duration: 0.8,
         ease: 'power3.inOut'
       }, "split+=0.1");
 
@@ -205,8 +205,8 @@ export default function LoadingScreen({ onComplete }) {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1,
-        delayChildren: 1.0,
+        staggerChildren: 0.08,
+        delayChildren: 0.8,
       }
     }
   };
@@ -217,7 +217,7 @@ export default function LoadingScreen({ onComplete }) {
       opacity: 1,
       filter: 'blur(0px)',
       scale: 1,
-      transition: { duration: 0.8, ease: "easeOut" }
+      transition: { duration: 0.6, ease: "easeOut" }
     }
   };
 
