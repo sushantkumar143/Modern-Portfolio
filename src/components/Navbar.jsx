@@ -30,14 +30,14 @@ export default function Navbar() {
       activeSection === section
         ? 'var(--color-neon)'
         : hoveredLink === section
-        ? 'var(--color-neon)'
-        : '#9ca3b0',
+          ? 'var(--color-neon)'
+          : '#9ca3b0',
     textShadow:
       activeSection === section
         ? '0 0 8px rgba(var(--neon-rgb), 0.6), 0 0 20px rgba(var(--neon-rgb), 0.2)'
         : hoveredLink === section
-        ? '0 0 8px rgba(var(--neon-rgb), 0.4)'
-        : 'none',
+          ? '0 0 8px rgba(var(--neon-rgb), 0.4)'
+          : 'none',
     transition: 'all 0.3s ease',
     position: 'relative',
     fontSize: '0.85rem',
@@ -87,27 +87,40 @@ export default function Navbar() {
             fontFamily: "'Outfit', sans-serif",
             display: 'flex',
             alignItems: 'center',
-            gap: '2px',
+            gap: '32px',
+            transition: 'transform 0.3s ease',
           }}
+          onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.02)'}
+          onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
         >
-          <span
+          <img
+            src="/Assets/sushant1.png"
+            alt="Logo"
             style={{
-              color: 'var(--color-neon)',
-              textShadow: '0 0 10px rgba(var(--neon-rgb), 0.5), 0 0 40px rgba(var(--neon-rgb), 0.2)',
+              height: '60px',
+              filter: 'drop-shadow(0 0 12px rgba(var(--neon-rgb), 0.6))'
             }}
-          >
-            S
-          </span>
-          <span style={{ color: '#e4e4e7' }}>ushant</span>
-          <span
-            style={{
-              color: '#7b2ff7',
-              textShadow: '0 0 10px rgba(123,47,247,0.5)',
-              fontSize: '1.6rem',
-            }}
-          >
-            .
-          </span>
+          />
+          <div style={{ display: 'inline-flex', alignItems: 'baseline', gap: 0 }}>
+            <span
+              style={{
+                color: 'var(--color-neon)',
+                textShadow: '0 0 10px rgba(var(--neon-rgb), 0.5), 0 0 40px rgba(var(--neon-rgb), 0.2)',
+              }}
+            >
+              S
+            </span>
+            <span style={{ color: '#e4e4e7' }}>ushant</span>
+            <span
+              style={{
+                color: '#7b2ff7',
+                textShadow: '0 0 10px rgba(123,47,247,0.5)',
+                fontSize: '1.6rem',
+              }}
+            >
+              .
+            </span>
+          </div>
         </a>
 
         {/* Desktop Links */}

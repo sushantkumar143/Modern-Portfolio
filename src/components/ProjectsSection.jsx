@@ -95,6 +95,7 @@ export default function ProjectsSection() {
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
+                data-lenis-prevent="true"
                 style={{
                   position: 'sticky',
                   top: `calc(120px + ${index * 60}px)`, // Increased to ~60px (1.5cm) gap so previous number shows half
@@ -314,17 +315,19 @@ export default function ProjectsSection() {
           onClick={() => setExpandedProject(null)}
         >
           <motion.div
+            data-lenis-prevent="true"
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             style={{
               width: '90%',
-              maxWidth: '1200px',
+              maxWidth: '1000px',
               maxHeight: '90vh',
               background: 'rgba(12, 12, 18, 0.95)',
               border: '1px solid rgba(255,255,255,0.1)',
               borderRadius: '24px',
               boxShadow: '0 25px 50px -12px rgba(0,0,0,0.8), 0 0 30px rgba(var(--neon-rgb), 0.1)',
               overflowY: 'auto',
+              overscrollBehavior: 'contain',
               display: 'flex',
               flexDirection: 'column'
             }}
@@ -367,19 +370,18 @@ export default function ProjectsSection() {
             {/* Modal Body */}
             <div style={{
               display: 'flex',
-              flex: 1,
+              flexDirection: 'column',
               padding: '40px',
               gap: '40px',
-              flexWrap: 'wrap',
-              overflowY: 'auto'
             }}>
               {/* Image */}
               <div style={{
-                flex: '1 1 500px',
+                width: '100%',
+                aspectRatio: '16/9',
                 borderRadius: '16px',
                 overflow: 'hidden',
                 border: '1px solid rgba(255,255,255,0.05)',
-                minHeight: '300px'
+                background: '#0a0a0f'
               }}>
                 <img
                   src={expandedProject.image}
@@ -390,10 +392,8 @@ export default function ProjectsSection() {
 
               {/* Info */}
               <div style={{
-                flex: '1 1 300px',
                 display: 'flex',
                 flexDirection: 'column',
-                justifyContent: 'center'
               }}>
                 <div style={{
                   background: 'rgba(255,255,255,0.03)',

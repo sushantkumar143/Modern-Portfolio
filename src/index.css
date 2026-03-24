@@ -237,6 +237,18 @@ ul {
   animation: marquee-reverse 40s linear infinite;
 }
 
+.pause-on-hover {
+  transition: animation-play-state 0.3s ease;
+}
+
+.pause-on-hover:hover {
+  animation-play-state: paused !important;
+}
+
+.group-hover-pause-row:hover .pause-on-hover {
+  animation-play-state: paused !important;
+}
+
 @keyframes border-neon-cycle {
   0% {
     box-shadow: 0 0 10px #00E5FF, inset 0 0 10px #00E5FF;

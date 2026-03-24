@@ -3,8 +3,9 @@
 
 import { useEffect, useState, useRef } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
-import { Canvas } from '@react-three/fiber';
+import { Canvas, useFrame } from '@react-three/fiber';
 import { useGLTF, useAnimations, Float, OrbitControls, Environment } from '@react-three/drei';
+import * as THREE from 'three';
 import { personalInfo } from '../data/portfolioData';
 import { FiGithub, FiLinkedin, FiDownload, FiArrowRight } from 'react-icons/fi';
 
@@ -114,6 +115,28 @@ const btnSecondaryBase = {
   minWidth: '200px',
   justifyContent: 'center',
 };
+
+/* ---------- Cursor Follower ---------- */
+function CursorResponsiveGroup({ children, basePosition = [0, 0, 0] }) {
+  const groupRef = useRef();
+
+  useFrame((state, delta) => {
+    if (groupRef.current) {
+      // pointer x, y range from -1 to 1
+      // Rotate based on cursor position instead of translating
+      // pointer.x > 0 means proper right side of the screen, we rotate positively
+      const targetRotationY = state.pointer.x * 0.5;
+
+      groupRef.current.rotation.y = THREE.MathUtils.damp(groupRef.current.rotation.y, targetRotationY, 5, delta);
+    }
+  });
+
+  return (
+    <group ref={groupRef} position={basePosition}>
+      {children}
+    </group>
+  );
+}
 
 /* ---------- Hero Section ---------- */
 export default function HeroSection() {
@@ -261,7 +284,7 @@ export default function HeroSection() {
           </div>
 
           {/* Social Icons */}
-          <div style={{ display: 'flex', gap: '14px' }}>
+          {/* <div style={{ display: 'flex', gap: '14px' }}>
             {[
               { href: personalInfo.socialLinks.github, icon: <FiGithub size={20} /> },
               { href: personalInfo.socialLinks.linkedin, icon: <FiLinkedin size={20} /> },
@@ -296,7 +319,7 @@ export default function HeroSection() {
                 {s.icon}
               </a>
             ))}
-          </div>
+          </div> */}
         </motion.div>
         {/* Right Column – 3D Robot Canvas */}
         <motion.div
@@ -320,18 +343,20 @@ export default function HeroSection() {
             <directionalLight position={[-10, 10, -10]} intensity={0.5} />
             <Environment preset="city" />
 
-            <OrbitControls 
-              enableZoom={false} 
+            <OrbitControls
+              enableZoom={false}
               enablePan={false}
-              maxPolarAngle={Math.PI / 2 + 0.2} 
+              maxPolarAngle={Math.PI / 2 + 0.2}
               minPolarAngle={Math.PI / 2 - 0.2}
             />
 
-            <Float speed={2.5} rotationIntensity={0.5} floatIntensity={1.5}>
-              <group scale={3.5} position={[0, +4, 0]}>
-                <Robot3D />
-              </group>
-            </Float>
+            <CursorResponsiveGroup basePosition={[0, +4, 0]}>
+              <Float speed={2.5} rotationIntensity={0.5} floatIntensity={1.5}>
+                <group scale={3.5}>
+                  <Robot3D />
+                </group>
+              </Float>
+            </CursorResponsiveGroup>
           </Canvas>
         </motion.div>
       </div>

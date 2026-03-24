@@ -4,6 +4,7 @@ import { motion, useInView, AnimatePresence } from 'framer-motion';
 import {
   FiSend, FiMail, FiUser, FiMessageCircle,
   FiGithub, FiLinkedin, FiTwitter, FiMapPin, FiPhone, FiArrowRight,
+  FiSun, FiMoon
 } from 'react-icons/fi';
 import { personalInfo } from '../data/portfolioData';
 
@@ -17,6 +18,8 @@ function IndiaMap() {
   const mapInstanceRef = useRef(null);
   const [loaded, setLoaded] = useState(false);
   const [activeId, setActiveId] = useState(null);
+  const [mousePos, setMousePos] = useState({ x: -1000, y: -1000 });
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   useEffect(() => {
     if (window.L) { setLoaded(true); return; }
@@ -45,22 +48,26 @@ function IndiaMap() {
 
     function createIcon(loc) {
       const c = loc.color || '#7b2ff7';
-      const emoji = loc.icon || '📍';
-      if (loc.type === 'current') {
-        return L.divIcon({
-          html: `<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="16" fill="${c}" opacity="0.2"><animate attributeName="r" values="14;19;14" dur="2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.3;0;0.3" dur="2s" repeatCount="indefinite"/></circle><circle cx="20" cy="20" r="8" fill="${c}" stroke="#fff" stroke-width="2.5"/><text x="20" y="24" text-anchor="middle" font-size="10">${emoji}</text></svg>`,
-          className: '', iconSize: [40, 40], iconAnchor: [20, 20], popupAnchor: [0, -20],
-        });
-      }
-      if (loc.type === 'home') {
-        return L.divIcon({
-          html: `<svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 38 38"><circle cx="19" cy="19" r="15" fill="${c}" opacity="0.15"><animate attributeName="r" values="14;17;14" dur="3s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.2;0;0.2" dur="3s" repeatCount="indefinite"/></circle><circle cx="19" cy="19" r="10" fill="${c}" stroke="#fff" stroke-width="2"/><text x="19" y="23" text-anchor="middle" font-size="11">${emoji}</text></svg>`,
-          className: '', iconSize: [38, 38], iconAnchor: [19, 19], popupAnchor: [0, -19],
-        });
-      }
+      const isSpecial = loc.type === 'home' || loc.type === 'current';
+      const size = isSpecial ? 30 : 22;
+
+      const pinPath = "M20,2C12.3,2,6,8.3,6,16c0,10.5,14,22,14,22s14-11.5,14-22C34,8.3,27.7,2,20,2z";
+
       return L.divIcon({
-        html: `<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30"><circle cx="15" cy="15" r="6" fill="${c}" stroke="#fff" stroke-width="2"/><text x="15" y="19" text-anchor="middle" font-size="8">${emoji}</text></svg>`,
-        className: '', iconSize: [30, 30], iconAnchor: [15, 15], popupAnchor: [0, -15],
+        html: `
+          <div style="position:relative; width:${size}px; height:${size}px; display:flex; items-center; justify-center;">
+            ${isSpecial ? `
+              <div style="position:absolute; inset:-25%; border-radius:50%; background:${c}; opacity:0.25; animation:pulse-ring 2s infinite;"></div>
+            ` : ''}
+            <svg viewBox="0 0 40 40" width="${size}" height="${size}" style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); transition: transform 0.3s ease;">
+              <path d="${pinPath}" fill="${c}" stroke="#fff" stroke-width="2" />
+            </svg>
+          </div>
+        `,
+        className: 'custom-pin-icon',
+        iconSize: [size, size],
+        iconAnchor: [size / 2, size],
+        popupAnchor: [0, -size],
       });
     }
 
@@ -72,23 +79,25 @@ function IndiaMap() {
       const marker = L.marker([loc.lat, loc.lng], { icon: createIcon(loc) }).addTo(map);
       marker.bindPopup(`
         <div style="background:rgba(10,15,30,0.95);backdrop-filter:blur(12px);border:1px solid ${c}33;border-radius:12px;padding:14px 16px;min-width:190px;font-family:Outfit,sans-serif;">
-          <p style="color:${c};font-size:14px;font-weight:700;margin:0;line-height:1.3">${loc.icon||''} ${loc.name}</p>
+          <p style="color:${c};font-size:14px;font-weight:700;margin:0;line-height:1.3">${loc.icon || ''} ${loc.name}</p>
           <p style="color:rgba(255,255,255,0.5);font-size:11px;margin:4px 0 0;letter-spacing:0.08em">${loc.year}</p>
           <p style="color:rgba(255,255,255,0.75);font-size:12px;margin:8px 0 0;line-height:1.4">${loc.description}</p>
           ${label ? `<div style="display:flex;align-items:center;gap:6px;margin-top:8px"><span style="width:6px;height:6px;border-radius:50%;background:${c};display:inline-block;animation:leafletPulse 1.5s infinite"></span><span style="color:${c};font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.12em">${label}</span></div>` : ''}
         </div>`, { className: 'dark-popup', closeButton: true });
     });
 
-    /* Chronological route — draw segment by segment with growing delay */
-    const chronological = [...mapLocations].reverse();
+    /* Chronological route — starting from 2005(kahalgaon) -> current location (punjab) -> dhanbad */
+    const pathOrder = ['kahalgaon', 'sipat', 'chandrapura', 'chennai', 'rajasthan', 'punjab', 'dhanbad'];
+    const chronological = pathOrder.map(id => mapLocations.find(l => l.id === id)).filter(Boolean);
+
     chronological.forEach((loc, i) => {
       if (i === 0) return;
       const from = [chronological[i - 1].lat, chronological[i - 1].lng];
       const to = [loc.lat, loc.lng];
       setTimeout(() => {
         L.polyline([from, to], {
-          color: loc.color || '#7b2ff7', weight: 2, dashArray: '4 6',
-          opacity: 0.7, className: 'animated-route',
+          color: loc.color || '#00FFFF', weight: 4, dashArray: '6 8',
+          opacity: 1, className: 'animated-route glow-line',
         }).addTo(map);
       }, i * 400);
     });
@@ -98,10 +107,65 @@ function IndiaMap() {
 
   return (
     <div className="w-full">
-      <div className="relative w-full h-[520px] rounded-2xl overflow-hidden"
+      <div className="relative w-full h-[650px] lg:h-[75vh] max-h-[850px] rounded-2xl overflow-hidden"
         style={{ border: '1px solid rgba(var(--neon-rgb), 0.12)', boxShadow: '0 0 40px rgba(var(--neon-rgb), 0.06), 0 8px 32px rgba(0,0,0,0.4)' }}
+        onMouseMove={(e) => {
+          const rect = e.currentTarget.getBoundingClientRect();
+          setMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+        }}
+        onMouseLeave={() => setMousePos({ x: -1000, y: -1000 })}
       >
-        <div ref={mapRef} style={{ width: '100%', height: '100%', background: '#f2efe9' }} />
+        <div ref={mapRef} style={{ width: '100%', height: '100%', background: '#0a0a0f' }} />
+
+        {/* Theme Toggle Button */}
+        <button
+          onClick={(e) => { e.stopPropagation(); setIsDarkMode(!isDarkMode); }}
+          style={{
+            position: 'absolute',
+            top: '16px',
+            left: '16px',
+            zIndex: 500,
+            width: '40px',
+            height: '40px',
+            borderRadius: '8px',
+            background: 'rgba(10, 15, 30, 0.85)',
+            border: '1px solid rgba(var(--neon-rgb), 0.3)',
+            backdropFilter: 'blur(10px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'var(--color-neon)',
+            cursor: 'pointer',
+            transition: 'all 0.3s'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = 'rgba(10, 15, 30, 0.95)';
+            e.currentTarget.style.boxShadow = '0 0 15px rgba(var(--neon-rgb), 0.4)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = 'rgba(10, 15, 30, 0.85)';
+            e.currentTarget.style.boxShadow = 'none';
+          }}
+          title={isDarkMode ? "Switch to Light Map" : "Switch to Dark Map"}
+        >
+          {isDarkMode ? <FiSun size={20} /> : <FiMoon size={20} />}
+        </button>
+
+        {/* Spotlight Overlay: White glow only in Dark mode */}
+        {isDarkMode && (
+          <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              pointerEvents: 'none',
+              zIndex: 400,
+              backdropFilter: 'brightness(1.5)',
+              WebkitBackdropFilter: 'brightness(1.5)',
+              maskImage: `radial-gradient(160px circle at ${mousePos.x}px ${mousePos.y}px, black 0%, transparent 100%)`,
+              WebkitMaskImage: `radial-gradient(160px circle at ${mousePos.x}px ${mousePos.y}px, black 0%, transparent 100%)`,
+            }}
+          />
+        )}
         {!loaded && (
           <div className="absolute inset-0 flex items-center justify-center" style={{ background: '#f2efe9' }}>
             <motion.div animate={{ rotate: 360 }} transition={{ duration: 1.5, repeat: Infinity, ease: 'linear' }}
@@ -116,9 +180,21 @@ function IndiaMap() {
           .leaflet-popup-close-button:hover{color:#00d4ff!important}
           .leaflet-control-zoom a{background:rgba(10,15,30,0.85)!important;color:#fff!important;border:1px solid rgba(var(--neon-rgb),0.15)!important;backdrop-filter:blur(10px)}
           .leaflet-control-zoom a:hover{background:rgba(10,15,30,0.95)!important;color:var(--color-neon)!important}
+          
+          /* Dark/Light mode tile filters */
+          ${isDarkMode
+            ? '.leaflet-tile-pane { filter: invert(100%) hue-rotate(180deg) brightness(0.9) contrast(1.15); }'
+            : '.leaflet-tile-pane { filter: brightness(0.8) contrast(1.2) grayscale(0.1); }'}
+          .glow-line { filter: drop-shadow(0 0 8px currentColor); }
+
           .animated-route{animation:dashMove 1.5s linear infinite}
           @keyframes dashMove{to{stroke-dashoffset:-20}}
+          @keyframes pulse-ring {
+            0% { transform: scale(0.6); opacity: 0.6; }
+            80%, 100% { transform: scale(1.6); opacity: 0; }
+          }
           @keyframes leafletPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
+          .custom-pin-icon svg:hover { transform: scale(1.15) translateY(-4px); }
         `}</style>
       </div>
 

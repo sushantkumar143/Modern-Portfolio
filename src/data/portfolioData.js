@@ -7,12 +7,12 @@ export const personalInfo = {
   name: "Sushant Kumar",
   roles: [
     "Data Scientist",
+    "DevOps Engineer",
     "Agentic AI Developer",
     "Full Stack Developer",
-    "DevOps Engineer",
     "Data Analyst",
   ],
-  tagline: "Building intelligent systems & beautiful interfaces",
+  tagline: "I don’t chase success—I pursue excellence, and through it, I create intelligent solutions that make a difference. Second by second, chasing time with purpose, discipline, and the will to become better every day....",
   email: "sushant14300@gmail.com",
   phone: "+91 6207851006",
   location: "India",
@@ -125,59 +125,6 @@ export const skillCategories = [
 
 ];
 
-// export const projects = [
-//   {
-//     title: "AI Disease Detection System",
-//     description:
-//       "A deep learning–powered web application that predicts diseases from medical images using CNN architectures. Features a Django backend with a React dashboard for real-time analysis.",
-//     tech: ["Python", "TensorFlow", "Django", "React", "Docker"],
-//     categories: ["AI", "Machine Learning", "Data Science"],
-//     image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&q=80", // medical AI placeholder
-//     github: "#",
-//     live: "#",
-//   },
-//   {
-//     title: "Agentic RAG Chatbot",
-//     description:
-//       "An intelligent conversational AI agent built with LangChain that can browse documents, search the web, and provide contextual answers using Retrieval-Augmented Generation.",
-//     tech: ["Python", "LangChain", "FastAPI", "ChromaDB", "React"],
-//     categories: ["AI", "Machine Learning", "IT"],
-//     image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80", // AI Chatbot placeholder
-//     github: "#",
-//     live: "#",
-//   },
-//   {
-//     title: "DevFlow – CI/CD Pipeline Dashboard",
-//     description:
-//       "A real-time monitoring dashboard for CI/CD pipelines with GitHub integration, automated deployments, and alerting via Slack/Discord webhooks.",
-//     tech: ["Next.js", "Node.js", "Docker", "GitHub API", "WebSockets"],
-//     categories: ["DevOps", "IT"],
-//     image: "https://images.unsplash.com/photo-1618401471353-b98a5233c591?w=800&q=80", // Code / Dashboard placeholder
-//     github: "#",
-//     live: "#",
-//   },
-//   {
-//     title: "DataLens – Analytics Platform",
-//     description:
-//       "An end-to-end data analytics platform with interactive dashboards, automated ETL pipelines, and predictive analytics using machine learning models.",
-//     tech: ["Python", "Streamlit", "PostgreSQL", "Apache Airflow", "Plotly"],
-//     categories: ["Data Science", "IT"],
-//     image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80", // Analytics placeholder
-//     github: "#",
-//     live: "#",
-//   },
-//   {
-//     title: "Smart Campus IoT Network",
-//     description:
-//       "An IoT-based campus management system with real-time sensor data collection, cloud processing on AWS, and a mobile-responsive monitoring dashboard.",
-//     tech: ["React", "Node.js", "MQTT", "AWS IoT", "MongoDB"],
-//     categories: ["IT", "DevOps"],
-//     image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80", // Hardware/IoT placeholder
-//     github: "#",
-//     live: "#",
-//   },
-// ];
-
 
 export const projects = [
   {
@@ -186,9 +133,9 @@ export const projects = [
       "An AI-powered real-time traffic intelligence system that performs vehicle detection, classification, speed tracking, anomaly detection, and license plate recognition from live video streams. Built using advanced computer vision techniques and predictive analytics to improve traffic monitoring and management.",
     tech: ["Python", "Computer Vision", "YOLOv8", "OCR", "Predictive Analytics", "MySQL", "Excel"],
     categories: ["AI", "Machine Learning", "Computer Vision", "Data Science"],
-    image: "Assets/Vehicle_Detection.png",
+    image: "Assets/Veh.gif",
     github: "https://github.com/sushantkumar143/VisionTraffic-Smart-Vehicle-Traffic-Monitoring-System",
-    live: "#",
+    live: "https://www.linkedin.com/posts/sushant-kumar-97978b28b_predictiveanalytics-computervision-yolov8-activity-7406366016596996097-gvWa?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEZqm60BHwOIyyPRuyUiQke89iWADIG-GaY",
     date: "Apr 2025 – May 2025",
   },
 
@@ -200,7 +147,7 @@ export const projects = [
     categories: ["AI", "Machine Learning", "Healthcare", "Data Science"],
     image: "Assets/Multi_disease_prediction_model.png",
     github: "https://github.com/sushantkumar143/Multi-Disease-prediction-Model",
-    live: "#",
+    live: "https://www.linkedin.com/posts/sushant-kumar-97978b28b_aiforhealth-machinelearning-healthcareinnovation-activity-7316768900375891968-oKW7?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEZqm60BHwOIyyPRuyUiQke89iWADIG-GaY",
     date: "Apr 2025 – May 2025",
   },
 
@@ -222,9 +169,9 @@ export const projects = [
       "Developed a Power BI analytics dashboard to analyze telecom customer churn patterns using real-world datasets. The project includes customer segmentation, churn prediction insights, KPI dashboards, and interactive visualizations to support business decision-making.",
     tech: ["Power BI", "Data Analytics", "Data Visualization", "Excel", "Business Intelligence"],
     categories: ["Data Science", "Analytics"],
-    image: "Assets/Telecom_Churn_Prediction.png",
+    image: "Assets/telecom.gif",
     github: "https://github.com/sushantkumar143/Telecom-Customer-Churn-Prediction",
-    live: "#",
+    live: "",
     date: "Jan 2025 – Feb 2025",
   },
 
@@ -236,7 +183,7 @@ export const projects = [
     categories: ["Data Analytics"],
     image: "Assets/IBM_Attrition_Analysis.png",
     github: "https://github.com/sushantkumar143/IBM-Attrition-Analysis-Dashboard",
-    live: "#",
+    live: "https://www.linkedin.com/posts/sushant-kumar-97978b28b_exceldashboard-dataanalytics-employeeattrition-activity-7316497932378165248-lI7x?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEZqm60BHwOIyyPRuyUiQke89iWADIG-GaY",
     date: "Dec 2024 – Jan 2025",
   },
 
@@ -266,76 +213,7 @@ export const projects = [
 ];
 
 
-// export const certifications = [
-//   {
-//     title: "AWS Certified Cloud Practitioner",
-//     issuer: "Amazon Web Services",
-//     year: "Feb 2025",
-//     description: "Fundamental understanding of IT services and their uses in the AWS Cloud.",
-//     image: "/certificates/oracle-cloud.png",
-//     link: "#"
-//   },
-//   {
-//     title: "TensorFlow Developer Certificate",
-//     issuer: "Google",
-//     year: "Jan 2025",
-//     description: "Building and training neural networks and deep learning models using TensorFlow.",
-//     image: "/certificates/DSA.png",
-//     link: "#"
-//   },
-//   {
-//     title: "Meta Front-End Developer",
-//     issuer: "Meta (Coursera)",
-//     year: "Nov 2024",
-//     description: "Advanced React, state management, and responsive web development methodologies.",
-//     image: "/certificates/Java.png",
-//     link: "#"
-//   },
-//   {
-//     title: "IBM Data Science Professional",
-//     issuer: "IBM (Coursera)",
-//     year: "Aug 2024",
-//     description: "Data analysis, machine learning algorithms, and real-world data science projects.",
-//     image: "/certificates/oracle-analytics.png",
-//     link: "#"
-//   },
-//   {
-//     title: "Docker Certified Associate",
-//     issuer: "Docker Inc.",
-//     year: "May 2024",
-//     description: "Containerization, orchestration, and deploying scalable microservices.",
-//     image: "/certificates/oracle-devops.png",
-//     link: "#"
-//   },
-//   {
-//     title: "Google Data Analytics",
-//     issuer: "Google (Coursera)",
-//     year: "Dec 2023",
-//     description: "Data cleaning, visualization, and R programming for business intelligence.",
-//     image: "/certificates/c-programming.png",
-//     link: "#"
-//   },
-// ];
-
 export const certifications = [
-  {
-    title: "The Bits and Bytes of Computer Networking",
-    issuer: "Google (Coursera)",
-    year: "2024",
-    description:
-      "Completed Google's networking course covering network protocols, cloud networking concepts, troubleshooting, and real-world networking infrastructure.",
-    image: "/certificates/bits-and-bytes-cn.png",
-    link: "#"
-  },
-  {
-    title: "C Programming Certification",
-    issuer: "Lovely Professional University",
-    year: "2024",
-    description:
-      "Certification validating strong understanding of C programming including memory management, pointers, data structures, and problem solving.",
-    image: "/certificates/c-programming.png",
-    link: "#"
-  },
   {
     title: "Computer Communications",
     issuer: "University of Colorado (Coursera)",
@@ -343,7 +221,7 @@ export const certifications = [
     description:
       "Learned networking architectures, TCP/IP protocol stack, routing mechanisms, congestion control, and internet communication models.",
     image: "/certificates/computer-communication.png",
-    link: "#"
+    link: "https://coursera.org/verify/specialization/EZ4EEWO86ACO"
   },
   {
     title: "Competitive Programming",
@@ -352,7 +230,43 @@ export const certifications = [
     description:
       "Certification in advanced problem solving, algorithm optimization, and competitive programming techniques.",
     image: "/certificates/cp.jpg",
+    link: "https://certificates.programmingpathshala.com/v2/doc?id=3a463bcfc1174ad135f14d26bcbf5bc3ee4d19cf2d145442c0a18f66e2f0ffae"
+  },
+  {
+    title: "Oracle Cloud Foundations Associate",
+    issuer: "Oracle",
+    year: "2025",
+    description:
+      "Certification validating knowledge of Oracle Cloud Infrastructure services, architecture, security, and cloud deployment models.",
+    image: "/certificates/oracle-cloud.png",
     link: "#"
+  },
+  {
+    title: "Oracle DevOps Professional",
+    issuer: "Oracle",
+    year: "2025",
+    description:
+      "Professional certification covering DevOps pipelines, CI/CD automation, cloud deployment, and infrastructure management.",
+    image: "/certificates/oracle-devops.png",
+    link: "#"
+  },
+  {
+    title: "The Bits and Bytes of Computer Networking",
+    issuer: "Google (Coursera)",
+    year: "2024",
+    description:
+      "Completed Google's networking course covering network protocols, cloud networking concepts, troubleshooting, and real-world networking infrastructure.",
+    image: "/certificates/bits-and-bytes-cn.png",
+    link: "https://coursera.org/verify/VNFM4WI5WOKS"
+  },
+  {
+    title: "C Programming Certification",
+    issuer: "Lovely Professional University",
+    year: "2024",
+    description:
+      "Certification validating strong understanding of C programming including memory management, pointers, data structures, and problem solving.",
+    image: "/certificates/c-programming.png",
+    link: "https://lpucolab438.examly.io/certificate/U2FsdGVkX183gSbO0BG1yIDS44AiXmqqlGCjvktgsHM%3D"
   },
   {
     title: "Data Structures and Algorithms",
@@ -370,7 +284,7 @@ export const certifications = [
     description:
       "Fundamental knowledge of computer hardware architecture, operating systems, memory management, and process scheduling.",
     image: "/certificates/hardware-os.png",
-    link: "#"
+    link: "https://coursera.org/verify/XBB5MO5FGEEA"
   },
   {
     title: "ISRO Online Course Certification",
@@ -379,7 +293,7 @@ export const certifications = [
     description:
       "Successfully completed ISRO certified course demonstrating knowledge in advanced technology and space science applications.",
     image: "/certificates/isro.png",
-    link: "#"
+    link: "https://certificate.iirs.gov.in/checkstatus.php?uid=e14b6387cfe9b6da480267b28a769511&enm=20251682764490"
   },
   {
     title: "Java Programming Certification",
@@ -388,16 +302,16 @@ export const certifications = [
     description:
       "Certification covering object-oriented programming, Java fundamentals, exception handling, and real-world application development.",
     image: "/certificates/Java.png",
-    link: "#"
+    link: "https://lpucolab438.examly.io/certificate/U2FsdGVkX1%2B2B0kFlNRmIfnrHXwVif%2FBzqiFJIByGWo%3D"
   },
   {
-    title: "Local Area Network (LAN)",
+    title: "Peer-to-Peer Protocols and Local Area Network (LAN)",
     issuer: "University of Colorado (Coursera)",
     year: "2024",
     description:
       "Learned LAN architecture, switching, routing concepts, network topology, and implementation of enterprise networking systems.",
     image: "/certificates/LAN.png",
-    link: "#"
+    link: "https://coursera.org/verify/SHCI6ITIJ6OI"
   },
   {
     title: "NPTEL Cloud Computing Certification",
@@ -427,31 +341,13 @@ export const certifications = [
     link: "#"
   },
   {
-    title: "Oracle Cloud Foundations Associate",
-    issuer: "Oracle",
-    year: "2025",
-    description:
-      "Certification validating knowledge of Oracle Cloud Infrastructure services, architecture, security, and cloud deployment models.",
-    image: "/certificates/oracle-cloud.png",
-    link: "#"
-  },
-  {
-    title: "Oracle DevOps Professional",
-    issuer: "Oracle",
-    year: "2025",
-    description:
-      "Professional certification covering DevOps pipelines, CI/CD automation, cloud deployment, and infrastructure management.",
-    image: "/certificates/oracle-devops.png",
-    link: "#"
-  },
-  {
     title: "Packet Switching Networks",
     issuer: "University of Colorado (Coursera)",
     year: "2024",
     description:
       "Course focused on packet switching technology, network routing algorithms, internet protocols, and scalable network design.",
     image: "/certificates/packet-switching.png",
-    link: "#"
+    link: "https://coursera.org/verify/X8I3L09FOKK9"
   },
   {
     title: "Problem Solving (Intermediate)",
@@ -469,7 +365,7 @@ export const certifications = [
     description:
       "Advanced course on TCP/IP architecture, IP addressing, routing protocols, and internet communication mechanisms.",
     image: "/certificates/tcpip.png",
-    link: "#"
+    link: "https://coursera.org/verify/QDTDSNE14E0W"
   }
 ];
 
@@ -524,29 +420,6 @@ export const achievements = [
   },
 ];
 
-// export const experience = [
-//   {
-//     role: "Data Science Intern",
-//     company: "TechCorp Solutions",
-//     duration: "Jun 2025 – Aug 2025",
-//     description:
-//       "Built predictive models for customer churn analysis reducing churn rate by 15%. Developed automated data pipelines using Apache Airflow.",
-//   },
-//   {
-//     role: "Full Stack Developer Intern",
-//     company: "InnovateTech",
-//     duration: "Jan 2025 – Apr 2025",
-//     description:
-//       "Developed a microservices-based e-commerce platform with React, Node.js, and MongoDB. Implemented CI/CD with GitHub Actions and Docker.",
-//   },
-//   {
-//     role: "AI Research Assistant",
-//     company: "University AI Lab",
-//     duration: "Aug 2024 – Dec 2024",
-//     description:
-//       "Assisted in NLP research focusing on transformer architectures for low-resource languages. Fine-tuned LLMs for domain-specific tasks.",
-//   },
-// ];
 
 export const experience = [
   {
@@ -585,70 +458,21 @@ export const codingPlatforms = [
   { platform: "GeeksForGeeks", handle: "@sushant", solved: 150, score: 1200, icon: "📗" },
 ];
 
-// export const activities = [
-//   {
-//     title: "Hackathon Organizer – TechFest 2025",
-//     description: "Led a team of 20 to organize a 48-hour national level hackathon with 500+ participants.",
-//     image: "/Assets/hackathon_image.JPG",
-//     link: "#"
-//   },
-//   {
-//     title: "Workshop Lead – Machine Learning",
-//     description: "Conducted hands-on sessions for 100+ students on building neural networks from scratch.",
-//     image: "/Assets/Advanced_IoT.png",
-//     link: "#"
-//   },
-//   {
-//     title: "Open Source Contributor",
-//     description: "Actively contributed to multiple popular repositories during Hacktoberfest.",
-//     image: "/Assets/ECE Project.png",
-//     link: "#"
-//   },
-//   {
-//     title: "Technical Blog Writer",
-//     description: "Publishing deep-dive articles on ML architectures and web development on Medium.",
-//     image: "/Assets/Multi disease prediction model.png",
-//     link: "#"
-//   },
-//   {
-//     title: "Mentored 50+ students in DSA",
-//     description: "Provided weekly 1-on-1 mentorship for data structures to junior students.",
-//     image: "/certificates/cp.jpg",
-//     link: "#"
-//   },
-//   {
-//     title: "AI/ML Club Core Member",
-//     description: "Coordinating weekly research paper reading groups and project ideation phases.",
-//     image: "/Assets/Telecom_Churn_Prediction.png",
-//     link: "#"
-//   },
-//   {
-//     title: "Speaker at Tech Symposium",
-//     description: "Delivered a talk on the impact of Agentic AI systems on modern software engineering.",
-//     image: "/Assets/Power BI 1.png",
-//     link: "#"
-//   },
-//   {
-//     title: "Community Volunteer – Code for India",
-//     description: "Built free web solutions for local non-profit organizations to help their reach.",
-//     image: "/Assets/radha_krishna.jpg",
-//     link: "#"
-//   }
-// ];
 
 export const activities = [
   {
     title: "Football Champion",
     description:
       "Won 1st place in the university football championship demonstrating teamwork, leadership, and strategic gameplay.",
-    image: "/Assets/football.png",
+    image: "/Assets/football.gif",
     link: "#"
   },
   {
     title: "Volleyball Runner-Up",
     description:
       "Secured 2nd place in the university volleyball championship. Known for powerful spikes and strong coordination with the team.",
-    image: "Assets/volleyball.jpg",
+    image: "Assets/volleyball.gif",
+    // image: "Assets/volleyball.jpg",
     link: "#"
   },
   {
@@ -669,7 +493,8 @@ export const activities = [
     title: "Radha Krishna Painting",
     description:
       "Created a detailed traditional painting of Radha Krishna reflecting artistic creativity and cultural appreciation.",
-    image: "Assets/radha_krishna.jpg",
+    image: "Assets/radhe.gif",
+    // image: "Assets/radha_krishna.jpg",
     link: "#"
   },
   {
@@ -690,21 +515,14 @@ export const activities = [
     title: "Tiger Shroff Portrait Sketch",
     description:
       "Hand-drawn realistic portrait sketch of actor Tiger Shroff showcasing attention to detail and portrait drawing skills.",
-    image: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800&q=80",
-    link: "#"
-  },
-  {
-    title: "Creative Sketching & Drawing",
-    description:
-      "Passionate about sketching and drawing portraits, landscapes, and cultural artworks as a creative hobby.",
-    image: "https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=800&q=80",
+    image: "Assets/tiger.png",
     link: "#"
   },
   {
     title: "Fitness & Sports Enthusiast",
     description:
       "Maintain an active lifestyle through regular sports, physical fitness activities, and outdoor games.",
-    image: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=800&q=80",
+    image: "Assets/fitness.png",
     link: "#"
   }
 ];

@@ -14,7 +14,7 @@ const SYSTEM_PROMPT = `You are Sushant Kumar's virtual AI assistant embedded in 
 PERSONALITY & TONE:
 - Speak in first person as if you ARE Sushant Kumar answering questions about himself.
 - Be friendly, confident, professional, and engaging.
-- Keep answers concise but informative (2-4 sentences typically, expand if the user asks for detail).
+- Keep answers very concise but informative (2-3 sentences typically, expand if the user asks for detail).
 - When relevant, proactively suggest related information. For example: "You might also want to check out my AI projects!" or "I've also participated in national-level hackathons if you're curious."
 
 KNOWLEDGE BASE (use this as your primary source of truth):
@@ -71,11 +71,11 @@ export async function sendMessage(userMessage) {
     if (!response.ok) {
       const errorData = await response.json();
       console.error("Groq API Error:", errorData);
-      
+
       if (response.status === 429) {
         return "I've hit my capacity limit! Please try again in a moment, or contact Sushant directly.";
       }
-      
+
       throw new Error(errorData.error?.message || "Failed to fetch from Groq");
     }
 
@@ -88,7 +88,7 @@ export async function sendMessage(userMessage) {
     return aiResponse;
   } catch (error) {
     console.error('Groq AI error:', error);
-    
+
     // Remove last user message if it failed so history stays clean
     chatHistory.pop();
 

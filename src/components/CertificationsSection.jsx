@@ -363,6 +363,7 @@ export default function CertificationsSection() {
             {/* Modal Body (Scrollable Grid) */}
             <div 
               className="cert-modal-scroll"
+              data-lenis-prevent="true"
               style={{
                 flex: 1,
                 padding: '50px',
@@ -511,20 +512,14 @@ export default function CertificationsSection() {
           width: 8px;
         }
         .cert-modal-scroll::-webkit-scrollbar-track {
-          background: rgba(10, 10, 15, 0.4);
-          border-radius: 10px;
+          background: transparent;
         }
         .cert-modal-scroll::-webkit-scrollbar-thumb {
-          background-image: 
-            radial-gradient(circle at center calc(100% - 4px), #ffffff 0%, var(--color-neon) 4px, transparent 4px),
-            linear-gradient(to bottom, transparent 0%, rgba(var(--neon-rgb), 0.05) 20%, var(--color-neon) 100%);
+          background: linear-gradient(to bottom, transparent 0%, var(--color-neon) 100%);
           border-radius: 10px;
-          box-shadow: 0 0 10px rgba(var(--neon-rgb), 0.5);
         }
         .cert-modal-scroll::-webkit-scrollbar-thumb:hover {
-          background-image: 
-            radial-gradient(circle at center calc(100% - 4px), #ffffff 0%, var(--color-neon) 4px, transparent 4px),
-            linear-gradient(to bottom, transparent 0%, rgba(var(--neon-rgb), 0.1) 20%, var(--color-neon) 100%);
+          background: linear-gradient(to bottom, transparent 0%, var(--color-neon) 100%);
           box-shadow: 0 0 15px rgba(var(--neon-rgb), 0.8);
         }
       `}</style>
