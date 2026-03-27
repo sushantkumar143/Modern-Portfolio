@@ -251,7 +251,7 @@ function AchievementRow({ item, index }) {
             scale: imgHovered ? 1.03 : 1,
             rotateY: imgHovered ? (isLeft ? -3 : 3) : 0,
             boxShadow: imgHovered
-              ? '0 12px 48px rgba(var(--neon-rgb), 0.18), 0 0 0 1px rgba(var(--neon-rgb), 0.3)'
+              ? '0 12px 48px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.1)'
               : '0 8px 32px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.07)',
           }}
           transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
@@ -286,38 +286,23 @@ function AchievementRow({ item, index }) {
               inset: 0,
               background: `linear-gradient(
                 ${isLeft ? '135deg' : '225deg'},
-                rgba(var(--neon-rgb), 0.12) 0%,
-                rgba(123,47,247,0.08) 40%,
+                rgba(255,255,255,0.03) 0%,
+                rgba(255,255,255,0.01) 40%,
                 rgba(0,0,0,0.5) 100%
               )`,
               pointerEvents: 'none',
             }}
           />
 
-          {/* Bottom glow line on hover */}
-          <motion.div
-            animate={{ width: imgHovered ? '70%' : '0%' }}
-            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            style={{
-              position: 'absolute',
-              bottom: 0,
-              left: '50%',
-              transform: 'translateX(-50%)',
-              height: 2,
-              borderRadius: 2,
-              background: 'linear-gradient(90deg, transparent, var(--color-neon), #7b2ff7, transparent)',
-              pointerEvents: 'none',
-            }}
-          />
 
           {/* Index badge on image */}
           <motion.div
             animate={{
               background: imgHovered
-                ? 'rgba(0,212,255,0.18)'
+                ? 'rgba(255,255,255,0.1)'
                 : 'rgba(8,12,24,0.72)',
               borderColor: imgHovered
-                ? 'rgba(0,212,255,0.4)'
+                ? 'rgba(255,255,255,0.2)'
                 : 'rgba(255,255,255,0.1)',
             }}
             transition={{ duration: 0.25 }}
@@ -336,7 +321,7 @@ function AchievementRow({ item, index }) {
               fontFamily: 'Outfit, sans-serif',
               fontSize: 14,
               fontWeight: 700,
-              color: 'var(--color-neon)',
+              color: imgHovered ? '#fff' : 'rgba(255,255,255,0.5)',
             }}
           >
             {String(index + 1).padStart(2, '0')}

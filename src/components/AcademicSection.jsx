@@ -204,21 +204,21 @@ function SemesterCard({ sem, index }) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.08, duration: 0.4 }}
+      onMouseEnter={e => {
+        e.currentTarget.style.borderColor = 'rgba(var(--neon-rgb),0.25)';
+        e.currentTarget.style.background = '#1a1a24';
+      }}
+      onMouseLeave={e => {
+        e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)';
+        e.currentTarget.style.background = '#111118';
+      }}
+      onClick={() => setOpen(!open)}
       style={{
-        background: 'rgba(255,255,255,0.03)',
+        background: '#111118',
         border: '1px solid rgba(255,255,255,0.08)',
         borderRadius: 16, padding: '20px 24px', cursor: 'pointer',
         transition: 'border-color 0.3s, background 0.3s',
       }}
-      onMouseEnter={e => {
-        e.currentTarget.style.borderColor = 'rgba(var(--neon-rgb),0.25)';
-        e.currentTarget.style.background = 'rgba(var(--neon-rgb),0.04)';
-      }}
-      onMouseLeave={e => {
-        e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)';
-        e.currentTarget.style.background = 'rgba(255,255,255,0.03)';
-      }}
-      onClick={() => setOpen(!open)}
     >
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: open ? 16 : 0 }}>
         <div>
@@ -309,9 +309,10 @@ function AnalyticsModal({ onClose }) {
         exit={{ scale: 0.95, opacity: 0, y: 20 }}
         transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
         onClick={e => e.stopPropagation()}
+        data-lenis-prevent
         style={{
           width: '100%', maxWidth: 960, maxHeight: '90vh', overflowY: 'auto',
-          background: 'rgba(12,14,24,0.95)',
+          background: '#0a0a0f',
           border: '1px solid rgba(var(--neon-rgb),0.15)',
           borderRadius: 24, padding: '40px 36px',
           boxShadow: '0 0 80px rgba(var(--neon-rgb),0.08)',
@@ -516,7 +517,7 @@ export default function AcademicSection() {
             style={{
               display: 'grid', gridTemplateColumns: '1fr 1fr',
               gap: 32, cursor: 'pointer',
-              background: hovered ? 'rgba(var(--neon-rgb),0.02)' : 'rgba(255,255,255,0.02)',
+              background: hovered ? '#13131d' : '#0a0a0f',
               border: `1px solid ${hovered ? 'rgba(var(--neon-rgb),0.2)' : 'rgba(255,255,255,0.07)'}`,
               borderRadius: 24, padding: '40px 36px',
               boxShadow: hovered ? '0 12px 60px rgba(var(--neon-rgb),0.1)' : '0 8px 30px rgba(0,0,0,0.25)',

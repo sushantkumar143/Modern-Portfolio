@@ -16,7 +16,7 @@ export const personalInfo = {
   email: "sushant14300@gmail.com",
   phone: "+91 6207851006",
   location: "India",
-  resumeLink: "#",
+  resumeLink: "https://drive.google.com/uc?export=download&id=1MX2avd9-3vJZzhvE6EvCsmWmyhHmlTfI",
   socialLinks: {
     github: "https://github.com/sushantkumar143",
     linkedin: "https://www.linkedin.com/in/sushant-kumar-97978b28b/",
@@ -398,7 +398,7 @@ export const achievements = [
     stat: "100",
     statSuffix: "+",
     statLabel: "Families Impacted",
-    image: "ngo.jpg",
+    image: "/Assets/ngo.jpg",
   },
   {
     title: "Sports Achievements",

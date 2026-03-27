@@ -69,7 +69,7 @@ export default function ActivitiesSection() {
 
         {/* Scrolling rows - Using CSS animation for perfect pause-on-hover */}
         {/* Maintained proper gap (space-y-16 is a clear separation between rows) */}
-        <div className="space-y-16 flex flex-col items-center">
+        <div className="space-y-20 flex flex-col items-center">
 
           {/* Row 1 - scroll left */}
           <div className="w-full overflow-hidden group-hover-pause-row">

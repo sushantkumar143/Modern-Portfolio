@@ -205,18 +205,18 @@ export default function EducationSection() {
                 width: 'calc(50% - 70px)',
                 padding: '30px 32px',
                 borderRadius: '18px',
-                background: 'rgba(255,255,255,0.03)',
+                background: '#111118',
                 border: '1px solid rgba(255,255,255,0.07)',
                 transition: 'background 0.4s, border-color 0.4s, box-shadow 0.4s',
                 cursor: 'default', opacity: 0,
               }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.background = 'rgba(var(--neon-rgb), 0.04)';
-                  e.currentTarget.style.borderColor = 'rgba(var(--neon-rgb), 0.2)';
+                  e.currentTarget.style.background = '#1a1a24';
+                  e.currentTarget.style.borderColor = 'rgba(var(--neon-rgb), 0.3)';
                   e.currentTarget.style.boxShadow = '0 8px 40px rgba(var(--neon-rgb), 0.12)';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.background = 'rgba(255,255,255,0.03)';
+                  e.currentTarget.style.background = '#111118';
                   e.currentTarget.style.borderColor = 'rgba(255,255,255,0.07)';
                   e.currentTarget.style.boxShadow = 'none';
                 }}

@@ -25,6 +25,52 @@ function formatTime(date) {
   return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 }
 
+// Helper to parse markdown-style links [text](url)
+const renderTextWithLinks = (text, onInternalNav) => {
+  const parts = text.split(/(\[.*?\]\(.*?\))/g);
+  return parts.map((part, index) => {
+    const match = part.match(/\[(.*?)\]\((.*?)\)/);
+    if (match) {
+      const url = match[2];
+      const isInternal = url.startsWith('#') || url.includes('sushantportfolio-ruby.vercel.app/#');
+      
+      const handleClick = (e) => {
+        if (isInternal) {
+          e.preventDefault();
+          const targetId = url.split('#').pop();
+          const targetElem = document.getElementById(targetId);
+          if (targetElem) {
+            onInternalNav(); // Close chatbot
+            setTimeout(() => {
+              targetElem.scrollIntoView({ behavior: 'smooth' });
+            }, 300);
+          }
+        }
+      };
+
+      return (
+        <a 
+          key={index} 
+          href={url} 
+          target={isInternal ? "_self" : "_blank"}
+          rel={isInternal ? "" : "noopener noreferrer"}
+          onClick={handleClick}
+          className="chatbot-link"
+          style={{
+            color: '#00D4FF',
+            textDecoration: 'underline',
+            fontWeight: '600',
+            wordBreak: 'break-all'
+          }}
+        >
+          {match[1]}
+        </a>
+      );
+    }
+    return part;
+  });
+};
+
 export default function AIChatbot({ isOpen, onClose }) {
   const [messages, setMessages] = useState([GREETING_MESSAGE]);
   const [inputValue, setInputValue] = useState('');
@@ -40,7 +86,9 @@ export default function AIChatbot({ isOpen, onClose }) {
   }, []);
 
   useEffect(() => {
-    scrollToBottom();
+    // Small delay to ensure typing finishes or new message is fully rendered
+    const timeout = setTimeout(scrollToBottom, 100);
+    return () => clearTimeout(timeout);
   }, [messages, displayedAiText, scrollToBottom]);
 
   // Focus input when chat opens
@@ -148,7 +196,7 @@ export default function AIChatbot({ isOpen, onClose }) {
           </div>
 
           {/* ─── Messages ─── */}
-          <div className="chatbot-messages" ref={chatContainerRef}>
+          <div className="chatbot-messages" ref={chatContainerRef} data-lenis-prevent>
             {messages.map((msg, index) => {
               const isAi = msg.role === 'ai';
               const displayText =
@@ -173,7 +221,9 @@ export default function AIChatbot({ isOpen, onClose }) {
                     </div>
                   )}
                   <div className={`chatbot-bubble ${isAi ? 'chatbot-bubble-ai' : 'chatbot-bubble-user'}`}>
-                    <p className="chatbot-bubble-text">{displayText}</p>
+                    <p className="chatbot-bubble-text">
+                      {isAi ? renderTextWithLinks(displayText, onClose) : displayText}
+                    </p>
                     <span className="chatbot-timestamp">{formatTime(msg.timestamp)}</span>
                   </div>
                 </motion.div>

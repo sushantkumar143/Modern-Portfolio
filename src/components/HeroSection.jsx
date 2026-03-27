@@ -7,7 +7,7 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { useGLTF, useAnimations, Float, OrbitControls, Environment } from '@react-three/drei';
 import * as THREE from 'three';
 import { personalInfo } from '../data/portfolioData';
-import { FiGithub, FiLinkedin, FiDownload, FiArrowRight } from 'react-icons/fi';
+import { FiGithub, FiLinkedin, FiDownload, FiArrowRight, FiCheck } from 'react-icons/fi';
 
 /* ---------- 3D Geometric Robot (GLTF) ---------- */
 function Robot3D() {
@@ -142,6 +142,39 @@ function CursorResponsiveGroup({ children, basePosition = [0, 0, 0] }) {
 export default function HeroSection() {
   const typedText = useTypingAnimation(personalInfo.roles);
   const heroRef = useRef(null);
+  const [isDownloading, setIsDownloading] = useState(false);
+  const [downloadProgress, setDownloadProgress] = useState(0);
+
+  const handleDownload = (e) => {
+    // We don't call e.preventDefault() here if we want the browser to handle the link,
+    // but we want to show an animation first.
+    if (isDownloading) {
+      e.preventDefault();
+      return;
+    }
+
+    setIsDownloading(true);
+    setDownloadProgress(0);
+
+    // Simulate download progress for animation
+    const interval = setInterval(() => {
+      setDownloadProgress((prev) => {
+        if (prev >= 100) {
+          clearInterval(interval);
+          // The actual download link is already in the href, 
+          // but we can also trigger it manually if needed.
+          // For Google Drive direct links, standard <a> tag works fine.
+          
+          setTimeout(() => {
+            setIsDownloading(false);
+            setDownloadProgress(0);
+          }, 2000);
+          return 100;
+        }
+        return prev + 5;
+      });
+    }, 50);
+  };
 
   // Scroll progress for other potential parallax, robot is now static relative to Hero
   const { scrollYProgress } = useScroll({
@@ -261,25 +294,67 @@ export default function HeroSection() {
                 e.currentTarget.style.boxShadow = '0 4px 25px rgba(0,212,255,0.35), 0 0 60px rgba(0,212,255,0.1)';
               }}
             >
-              Get In Touch <FiArrowRight size={18} />
+              Hire Me <FiArrowRight size={18} />
             </a>
             <a
               href={personalInfo.resumeLink}
-              style={btnSecondaryBase}
+              target="_blank"
+              rel="noreferrer"
+              onClick={handleDownload}
+              style={{
+                ...btnSecondaryBase,
+                position: 'relative',
+                overflow: 'hidden'
+              }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-3px) scale(1.03)';
-                e.currentTarget.style.background = 'rgba(0,212,255,0.08)';
-                e.currentTarget.style.borderColor = '#00d4ff';
-                e.currentTarget.style.boxShadow = '0 4px 25px rgba(0,212,255,0.25), 0 0 40px rgba(0,212,255,0.1)';
+                if (!isDownloading) {
+                  e.currentTarget.style.transform = 'translateY(-3px) scale(1.03)';
+                  e.currentTarget.style.background = 'rgba(0,212,255,0.08)';
+                  e.currentTarget.style.borderColor = '#00d4ff';
+                  e.currentTarget.style.boxShadow = '0 4px 25px rgba(0,212,255,0.25), 0 0 40px rgba(0,212,255,0.1)';
+                }
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0) scale(1)';
-                e.currentTarget.style.background = 'transparent';
-                e.currentTarget.style.borderColor = 'rgba(0,212,255,0.4)';
-                e.currentTarget.style.boxShadow = '0 0 20px rgba(0,212,255,0.1)';
+                if (!isDownloading) {
+                  e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                  e.currentTarget.style.background = 'transparent';
+                  e.currentTarget.style.borderColor = 'rgba(0,212,255,0.4)';
+                  e.currentTarget.style.boxShadow = '0 0 20px rgba(0,212,255,0.1)';
+                }
               }}
             >
-              <FiDownload size={18} /> Download CV
+              {isDownloading ? (
+                <>
+                  {downloadProgress < 100 ? (
+                    <>
+                      <motion.div
+                        initial={{ width: 0 }}
+                        animate={{ width: `${downloadProgress}%` }}
+                        style={{
+                          position: 'absolute',
+                          bottom: 0,
+                          left: 0,
+                          height: '4px',
+                          background: 'linear-gradient(90deg, #00d4ff, #7b2ff7)',
+                        }}
+                      />
+                      <span style={{ fontSize: '0.9rem' }}>Downloading... {downloadProgress}%</span>
+                    </>
+                  ) : (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
+                    >
+                      <FiCheck size={18} /> Ready!
+                    </motion.div>
+                  )}
+                </>
+              ) : (
+                <>
+                  <FiDownload size={18} /> Download CV
+                </>
+              )}
             </a>
           </div>
 

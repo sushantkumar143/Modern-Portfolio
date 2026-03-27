@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+:root {
+  --color-neon: #00d4ff;
+  --neon-rgb: 0, 212, 255;
+}
+
 /* ============================================
    SUSHANT KUMAR PORTFOLIO – GLOBAL STYLES
    ============================================ */
@@ -397,7 +402,7 @@ ul {
   transform: translateY(10px);
   transition: all 0.3s ease;
   font-family: var(--font-family-body);
-  box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
 }
 
 .chatbot-launcher-container:hover .chatbot-launcher-tooltip {
@@ -551,13 +556,15 @@ ul {
 /* --- Messages Area --- */
 .chatbot-messages {
   flex: 1;
-  overflow-y: auto;
+  overflow-y: auto !important;
   padding: 16px;
   display: flex;
   flex-direction: column;
   gap: 12px;
   scrollbar-width: thin;
   scrollbar-color: rgba(0, 212, 255, 0.3) transparent;
+  pointer-events: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .chatbot-messages::-webkit-scrollbar {

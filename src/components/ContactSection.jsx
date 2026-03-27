@@ -77,13 +77,17 @@ function IndiaMap() {
       const c = loc.color || '#7b2ff7';
       const label = typeLabel(loc.type);
       const marker = L.marker([loc.lat, loc.lng], { icon: createIcon(loc) }).addTo(map);
+      const popupBg = isDarkMode ? '#f8f9fa' : 'rgba(10,15,30,0.95)';
+      const popupTextMain = isDarkMode ? '#1a1a1a' : 'rgba(255,255,255,0.75)';
+      const popupTextSub = isDarkMode ? '#71717a' : 'rgba(255,255,255,0.5)';
+
       marker.bindPopup(`
-        <div style="background:rgba(10,15,30,0.95);backdrop-filter:blur(12px);border:1px solid ${c}33;border-radius:12px;padding:14px 16px;min-width:190px;font-family:Outfit,sans-serif;">
+        <div style="background:${popupBg};backdrop-filter:blur(12px);border:1px solid ${c}33;border-radius:12px;padding:14px 16px;min-width:190px;font-family:Outfit,sans-serif;box-shadow:0 10px 25px rgba(0,0,0,0.2);">
           <p style="color:${c};font-size:14px;font-weight:700;margin:0;line-height:1.3">${loc.icon || ''} ${loc.name}</p>
-          <p style="color:rgba(255,255,255,0.5);font-size:11px;margin:4px 0 0;letter-spacing:0.08em">${loc.year}</p>
-          <p style="color:rgba(255,255,255,0.75);font-size:12px;margin:8px 0 0;line-height:1.4">${loc.description}</p>
+          <p style="color:${popupTextSub};font-size:11px;margin:4px 0 0;letter-spacing:0.08em">${loc.year}</p>
+          <p style="color:${popupTextMain};font-size:12px;margin:8px 0 0;line-height:1.4">${loc.description}</p>
           ${label ? `<div style="display:flex;align-items:center;gap:6px;margin-top:8px"><span style="width:6px;height:6px;border-radius:50%;background:${c};display:inline-block;animation:leafletPulse 1.5s infinite"></span><span style="color:${c};font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.12em">${label}</span></div>` : ''}
-        </div>`, { className: 'dark-popup', closeButton: true });
+        </div>`, { className: 'dynamic-popup', closeButton: true });
     });
 
     /* Chronological route — starting from 2005(kahalgaon) -> current location (punjab) -> dhanbad */
@@ -103,7 +107,7 @@ function IndiaMap() {
     });
 
     return () => { map.remove(); mapInstanceRef.current = null; };
-  }, [loaded]);
+  }, [loaded, isDarkMode]);
 
   return (
     <div className="w-full">
@@ -173,10 +177,10 @@ function IndiaMap() {
           </div>
         )}
         <style>{`
-          .dark-popup .leaflet-popup-content-wrapper{background:transparent!important;box-shadow:none!important;border-radius:12px!important;padding:0!important}
-          .dark-popup .leaflet-popup-content{margin:0!important}
-          .dark-popup .leaflet-popup-tip{background:rgba(10,15,30,0.95)!important;border:1px solid rgba(0,212,255,0.15)!important;box-shadow:none!important}
-          .leaflet-popup-close-button{color:rgba(255,255,255,0.4)!important;font-size:18px!important;top:6px!important;right:8px!important}
+          .dynamic-popup .leaflet-popup-content-wrapper{background:transparent!important;box-shadow:none!important;border-radius:12px!important;padding:0!important}
+          .dynamic-popup .leaflet-popup-content{margin:0!important}
+          .dynamic-popup .leaflet-popup-tip{background:${isDarkMode ? '#f8f9fa' : 'rgba(10,15,30,0.95)'}!important;border:1px solid rgba(0,212,255,0.15)!important;box-shadow:none!important}
+          .leaflet-popup-close-button{color:${isDarkMode ? '#1a1a1a' : 'rgba(255,255,255,0.4)'}!important;font-size:18px!important;top:6px!important;right:8px!important}
           .leaflet-popup-close-button:hover{color:#00d4ff!important}
           .leaflet-control-zoom a{background:rgba(10,15,30,0.85)!important;color:#fff!important;border:1px solid rgba(var(--neon-rgb),0.15)!important;backdrop-filter:blur(10px)}
           .leaflet-control-zoom a:hover{background:rgba(10,15,30,0.95)!important;color:var(--color-neon)!important}
@@ -204,11 +208,11 @@ function IndiaMap() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.6, duration: 0.5 }}
         style={{
-          marginTop: 16, background: 'rgba(10,15,30,0.6)', backdropFilter: 'blur(14px)',
-          border: '1px solid rgba(var(--neon-rgb), 0.1)', borderRadius: 14, padding: '14px 18px',
+          marginTop: 16, background: '#0a0a0f', backdropFilter: 'blur(14px)',
+          border: '1px solid rgba(var(--neon-rgb), 0.1)', borderRadius: 14, padding: '16px 20px',
         }}
       >
-        <h5 style={{ fontFamily: 'Outfit,sans-serif', fontSize: 13, fontWeight: 700, color: 'rgba(255,255,255,0.65)', margin: '0 0 12px', display: 'flex', alignItems: 'center', gap: 6 }}>
+        <h5 style={{ fontFamily: 'Outfit,sans-serif', fontSize: 16, fontWeight: 700, color: 'rgba(255,255,255,0.85)', margin: '0 0 16px', display: 'flex', alignItems: 'center', gap: 8 }}>
           <FiMapPin style={{ color: 'var(--color-neon)' }} size={14} />
           My Journey
         </h5>
@@ -227,12 +231,12 @@ function IndiaMap() {
                   cursor: 'pointer', transition: 'all 0.2s',
                 }}
               >
-                <span style={{ fontSize: 13 }}>{loc.icon || '📍'}</span>
+                <span style={{ fontSize: 16 }}>{loc.icon || '📍'}</span>
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <span style={{ fontFamily: 'Outfit,sans-serif', fontSize: 11, fontWeight: 600, color: activeId === loc.id ? c : 'rgba(255,255,255,0.55)', transition: 'color 0.2s', lineHeight: 1.2 }}>
+                  <span style={{ fontFamily: 'Outfit,sans-serif', fontSize: 14, fontWeight: 600, color: activeId === loc.id ? c : 'rgba(255,255,255,0.75)', transition: 'color 0.2s', lineHeight: 1.2 }}>
                     {loc.name.split(',')[0].split('(')[0].trim()}
                   </span>
-                  <span style={{ fontFamily: 'Outfit,sans-serif', fontSize: 9, fontWeight: 500, color: 'rgba(255,255,255,0.3)', lineHeight: 1.2 }}>
+                  <span style={{ fontFamily: 'Outfit,sans-serif', fontSize: 11, fontWeight: 500, color: 'rgba(255,255,255,0.4)', lineHeight: 1.2 }}>
                     {loc.year}
                   </span>
                 </div>
@@ -460,13 +464,12 @@ function ContactRow({ icon: Icon, label, value, href, delay }) {
         border: `1px solid ${hovered ? 'rgba(var(--neon-rgb), 0.45)' : 'rgba(255,255,255,0.08)'}`,
         boxShadow: hovered ? '0 0 0 3px rgba(var(--neon-rgb), 0.06), 0 4px 18px rgba(0,0,0,0.16)' : 'none',
         transition: 'background 0.22s, border-color 0.22s, box-shadow 0.22s',
-        paddingLeft: 16,
-        paddingRight: 16,
+        paddingLeft: 20,
+        paddingRight: 20,
       }}
     >
-      {/* icon */}
       <div style={{
-        width: 30,
+        width: 32,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -474,11 +477,11 @@ function ContactRow({ icon: Icon, label, value, href, delay }) {
         color: hovered ? 'var(--color-neon)' : 'rgba(255,255,255,0.28)',
         transition: 'color 0.2s',
       }}>
-        <Icon size={17} />
+        <Icon size={18} />
       </div>
 
       {/* label + value */}
-      <div style={{ flex: 1, minWidth: 0, paddingLeft: 10 }}>
+      <div style={{ flex: 1, minWidth: 0, paddingLeft: 14 }}>
         <p style={{
           fontSize: 10,
           fontFamily: 'Outfit,sans-serif',
@@ -743,7 +746,7 @@ export default function ContactSection() {
   const charLimit = 500;
 
   const cardStyle = {
-    background: 'rgba(8, 12, 24, 0.62)',
+    background: '#0a0a0f',
     backdropFilter: 'blur(28px)',
     border: '1px solid rgba(255,255,255,0.07)',
     boxShadow: '0 8px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.04)',
@@ -1000,8 +1003,8 @@ export default function ContactSection() {
 
             {/* Contact details card — BELOW FORM */}
             <motion.div
-              className="relative overflow-hidden p-6"
-              style={cardStyle}
+              className="relative overflow-hidden"
+              style={{ ...cardStyle, padding: '36px 32px' }}
               initial={{ opacity: 0, y: 18 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
@@ -1010,12 +1013,20 @@ export default function ContactSection() {
               <div className="absolute top-0 right-0 w-24 h-24 rounded-full pointer-events-none"
                 style={{ background: 'radial-gradient(circle, rgba(0,212,255,0.07) 0%, transparent 70%)', transform: 'translate(28%,-28%)' }} />
 
-              <p style={{ fontSize: 11, fontFamily: 'Outfit,sans-serif', fontWeight: 600, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.24)', marginBottom: 18 }}>
+              <p style={{
+                fontSize: 10,
+                fontFamily: 'Outfit,sans-serif',
+                fontWeight: 700,
+                letterSpacing: '0.22em',
+                textTransform: 'uppercase',
+                color: 'rgba(255,255,255,0.24)',
+                marginBottom: 28
+              }}>
                 Contact Details
               </p>
 
               {/* Three contact rows — same height + border as form inputs */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                 {[
                   { icon: FiMail, label: 'Email', value: personalInfo.email, href: `mailto:${personalInfo.email}`, delay: 0.5 },
                   { icon: FiPhone, label: 'Phone', value: personalInfo.phone, href: `tel:${personalInfo.phone.replace(/\s/g, '')}`, delay: 0.56 },
@@ -1028,8 +1039,8 @@ export default function ContactSection() {
               {/* divider */}
               <div style={{ height: 1, margin: '18px 0', background: 'linear-gradient(90deg, rgba(255,255,255,0.05), rgba(0,212,255,0.1), rgba(255,255,255,0.05))' }} />
 
-              {/* Socials row */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              {/* socials row */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
                 <p style={{ fontSize: 11, fontFamily: 'Outfit,sans-serif', textTransform: 'uppercase', letterSpacing: '0.14em', color: 'rgba(255,255,255,0.22)', marginRight: 4 }}>
                   Find me on
                 </p>
