@@ -497,11 +497,11 @@ export default function AcademicSection() {
             </div>
             <h2 style={{
               fontSize: '2.8rem', fontWeight: 800, fontFamily: "'Outfit',sans-serif",
-              marginBottom: 8,
+              marginBottom: 24,
             }}>
               <span className="gradient-text">Semester Analytics</span>
             </h2>
-            <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14, fontFamily: "'Outfit',sans-serif", maxWidth: 450, margin: '0 auto' }}>
+            <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 16, fontFamily: "'Outfit',sans-serif", maxWidth: 600, margin: '0 auto', lineHeight: 1.6 }}>
               Hover to explore TGPA progression. Click to dive into detailed semester-wise analytics.
             </p>
           </motion.div>

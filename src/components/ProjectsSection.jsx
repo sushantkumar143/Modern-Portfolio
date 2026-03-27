@@ -27,12 +27,12 @@ export default function ProjectsSection() {
           style={{ textAlign: 'center', marginBottom: '60px' }}
         >
           <h2 style={{
-            fontSize: '3rem', fontWeight: 800,
-            fontFamily: "'Outfit', sans-serif", marginBottom: '8px',
+            fontSize: '3.2rem', fontWeight: 800,
+            fontFamily: "'Outfit', sans-serif", marginBottom: '18px',
           }}>
             <span className="gradient-text">Projects</span>
           </h2>
-          <p style={{ color: '#9ca3b0', fontSize: '1.1rem' }}>Things I've built</p>
+          <p style={{ color: '#9ca3b0', fontSize: '1.1rem', maxWidth: '600px', margin: '0 auto', lineHeight: 1.6 }}>Things I've built</p>
         </motion.div>
 
         {/* Categories Navbar */}

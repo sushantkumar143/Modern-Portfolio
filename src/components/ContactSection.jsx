@@ -797,9 +797,8 @@ export default function ContactSection() {
             <span className="h-px w-7" style={{ background: 'linear-gradient(90deg, var(--color-neon), transparent)', display: 'block' }} />
           </motion.div>
 
-          <h2 className="section-title gradient-text mb-3">Get In Touch</h2>
-
-          <p className="font-['Outfit'] text-base text-white/40 max-w-xs mx-auto leading-relaxed">
+          <h2 className="section-title gradient-text mb-6">Get In Touch</h2>
+          <p className="font-['Outfit'] text-base text-white/40 max-w-lg mx-auto leading-relaxed px-4">
             Have a project in mind? Let's build something{' '}
             <span style={{ color: 'var(--color-neon)', opacity: 0.85 }}>amazing</span> together.
           </p>

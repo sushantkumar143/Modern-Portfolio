@@ -116,11 +116,11 @@ export default function ExperienceSection() {
       }}>
         <h2 style={{
           fontSize: '3rem', fontWeight: 800,
-          fontFamily: "'Outfit', sans-serif", marginBottom: '0px',
+          fontFamily: "'Outfit', sans-serif", marginBottom: '24px',
         }}>
           <span className="gradient-text">Experience</span>
         </h2>
-        <p style={{ color: '#9ca3b0', fontSize: '1.05rem' }}>Internships & work experience</p>
+        <p style={{ color: '#9ca3b0', fontSize: '1.05rem', maxWidth: '600px', margin: '0 auto' }}>Internships & work experience</p>
 
         {/* Dark gradient shadow that fades cards as they approach */}
         <div style={{

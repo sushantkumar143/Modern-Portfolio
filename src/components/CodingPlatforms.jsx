@@ -467,6 +467,245 @@ function SummaryPill({ label, value, color, delay, isInView }) {
 }
 
 /* ══════════════════════════════════════════════════════════
+   LEETCODE BADGE RACKS — trophy shelf showcase
+   ══════════════════════════════════════════════════════════ */
+const BADGE_RACKS = [
+  {
+    label: '🏆 Annual Champion — 365 Days',
+    badges: [
+      { src: '/Assets/badges/365_new.gif', alt: '365 Days Badge' },
+    ],
+  },
+  {
+    label: '🔥 Milestone Streaks — 200 & 100 Days',
+    badges: [
+      { src: '/Assets/badges/200.gif', alt: '200 Days Badge' },
+      { src: '/Assets/badges/2024-100.gif', alt: '100 Days Badge (2024)' },
+      { src: '/Assets/badges/25100.gif', alt: '100 Days Badge (2025)' },
+    ],
+  },
+  {
+    label: '⚡ Consistency Streaks — 50 Days',
+    badges: [
+      { src: '/Assets/badges/50.gif', alt: '50 Days Badge' },
+      { src: '/Assets/badges/2024-50.gif', alt: '50 Days Badge (2024)' },
+      { src: '/Assets/badges/2550.gif', alt: '50 Days Badge (2025)' },
+    ],
+  },
+  {
+    label: '📅 Monthly Conqueror — Set I',
+    badges: [
+      { src: '/Assets/badges/1.gif', alt: 'Monthly Badge I' },
+      { src: '/Assets/badges/2.gif', alt: 'Monthly Badge II' },
+      { src: '/Assets/badges/202508.gif', alt: 'Aug 2025 Badge' },
+    ],
+  },
+  {
+    label: '📅 Monthly Conqueror — Set II',
+    badges: [
+      { src: '/Assets/badges/202509.gif', alt: 'Sep 2025 Badge' },
+      { src: '/Assets/badges/202510.gif', alt: 'Oct 2025 Badge' },
+      { src: '/Assets/badges/202511.gif', alt: 'Nov 2025 Badge' },
+      { src: '/Assets/badges/202512.gif', alt: 'Dec 2025 Badge' },
+    ],
+  },
+];
+
+/* Shelf bracket SVG */
+const ShelfBracket = ({ flip }) => (
+  <svg
+    width="18" height="28" viewBox="0 0 18 28"
+    style={{ transform: flip ? 'scaleX(-1)' : 'none', flexShrink: 0 }}
+  >
+    <path
+      d="M2 0 C2 0, 2 20, 16 24 L16 28 L0 28 L0 0 Z"
+      fill="url(#bracketGold)"
+    />
+    <defs>
+      <linearGradient id="bracketGold" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stopColor="#F5D061" />
+        <stop offset="50%" stopColor="#D4AF37" />
+        <stop offset="100%" stopColor="#B8860B" />
+      </linearGradient>
+    </defs>
+  </svg>
+);
+
+function BadgeRackSection({ isInView }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 50 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.9, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+      style={{ marginTop: 64 }}
+    >
+      {/* Section sub-header */}
+      <div style={{ textAlign: 'center', marginBottom: 48 }}>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.85 }}
+          animate={isInView ? { opacity: 1, scale: 1 } : {}}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          style={{ display: 'inline-flex', alignItems: 'center', gap: 12, marginBottom: 16 }}
+        >
+          <span style={{
+            height: 1, width: 50, display: 'block',
+            background: 'linear-gradient(90deg, transparent, #D4AF37)',
+          }} />
+          <span style={{
+            fontSize: 11, fontFamily: 'Outfit,sans-serif', fontWeight: 600,
+            letterSpacing: '0.22em', textTransform: 'uppercase',
+            background: 'linear-gradient(135deg, #F5D061, #D4AF37, #B8860B)',
+            WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+          }}>
+            Badge Collection
+          </span>
+          <span style={{
+            height: 1, width: 50, display: 'block',
+            background: 'linear-gradient(90deg, #D4AF37, transparent)',
+          }} />
+        </motion.div>
+
+        <h3 style={{
+          fontFamily: '"Great Vibes", cursive',
+          fontSize: 'clamp(28px, 4vw, 44px)',
+          fontWeight: 400,
+          background: 'linear-gradient(135deg, #FFF8DC, #F5D061, #D4AF37, #F5D061, #FFF8DC)',
+          backgroundSize: '200% auto',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          animation: 'shineText 3s linear infinite',
+          textShadow: 'none',
+          margin: 0,
+          lineHeight: 1.3,
+        }}>
+          LeetCode Trophy Shelf
+        </h3>
+        <p style={{
+          fontFamily: 'Outfit,sans-serif', fontSize: 14,
+          color: 'rgba(255,255,255,0.35)', marginTop: 10,
+          maxWidth: 460, margin: '10px auto 0',
+        }}>
+          Earned through relentless consistency and daily problem solving
+        </p>
+      </div>
+
+      {/* Shimmer keyframes (injected once) */}
+      <style>{`
+        @keyframes shineText {
+          0% { background-position: 200% center; }
+          100% { background-position: -200% center; }
+        }
+        @keyframes shelfShimmer {
+          0% { left: -100%; }
+          100% { left: 200%; }
+        }
+      `}</style>
+
+      {/* ── Racks ── */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        {BADGE_RACKS.map((rack, ri) => (
+          <motion.div
+            key={ri}
+            initial={{ opacity: 0, y: 35 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.5 + ri * 0.12, ease: [0.22, 1, 0.36, 1] }}
+          >
+            {/* Rack label */}
+            <div style={{ textAlign: 'center', marginBottom: 6 }}>
+              <span style={{
+                fontFamily: '"Dancing Script", cursive',
+                fontSize: 'clamp(16px, 2.5vw, 22px)',
+                fontWeight: 700,
+                background: 'linear-gradient(135deg, #FFF8DC, #F5D061, #D4AF37, #B8860B)',
+                backgroundSize: '200% auto',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                animation: 'shineText 4s linear infinite',
+                animationDelay: `${ri * 0.5}s`,
+                textShadow: 'none',
+                letterSpacing: '0.02em',
+              }}>
+                {rack.label}
+              </span>
+            </div>
+
+            {/* Badge display area */}
+            <div style={{
+              display: 'flex',
+              alignItems: 'flex-end',
+              justifyContent: 'center',
+              gap: rack.badges.length === 1 ? 0 : 'clamp(12px, 3vw, 36px)',
+              minHeight: rack.badges.length === 1 ? 140 : 120,
+              padding: '12px 20px 0',
+              flexWrap: 'wrap',
+            }}>
+              {rack.badges.map((badge, bi) => (
+                <motion.div
+                  key={bi}
+                  initial={{ opacity: 0, scale: 0.6, y: 20 }}
+                  animate={isInView ? { opacity: 1, scale: 1, y: 0 } : {}}
+                  transition={{ duration: 0.5, delay: 0.7 + ri * 0.12 + bi * 0.08, type: 'spring', stiffness: 120 }}
+                  whileHover={{ scale: 1.18, y: -10, transition: { duration: 0.3 } }}
+                  style={{ cursor: 'pointer', position: 'relative' }}
+                >
+                  <motion.img
+                    src={badge.src}
+                    alt={badge.alt}
+                    title={badge.alt}
+                    whileHover={{
+                      filter: 'drop-shadow(0 0 18px rgba(212,175,55,0.6)) drop-shadow(0 0 40px rgba(245,208,97,0.3))',
+                    }}
+                    style={{
+                      width: rack.badges.length === 1 ? 'clamp(100px, 14vw, 150px)' : 'clamp(80px, 11vw, 120px)',
+                      height: 'auto',
+                      objectFit: 'contain',
+                      filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.5))',
+                      transition: 'filter 0.3s',
+                    }}
+                  />
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Glass shelf plank */}
+            <div style={{
+              display: 'flex',
+              alignItems: 'flex-start',
+              justifyContent: 'center',
+              position: 'relative',
+            }}>
+              <ShelfBracket />
+              <div style={{
+                flex: 1,
+                maxWidth: 800,
+                height: 8,
+                position: 'relative',
+                overflow: 'hidden',
+                borderRadius: '0 0 4px 4px',
+                background: 'linear-gradient(180deg, rgba(212,175,55,0.35) 0%, rgba(184,134,11,0.15) 50%, rgba(212,175,55,0.25) 100%)',
+                boxShadow: '0 4px 20px rgba(212,175,55,0.15), 0 1px 0 rgba(255,248,220,0.2) inset, 0 -1px 3px rgba(0,0,0,0.3)',
+                borderBottom: '1px solid rgba(212,175,55,0.3)',
+              }}>
+                {/* Shimmer effect */}
+                <div style={{
+                  position: 'absolute',
+                  top: 0, left: '-100%',
+                  width: '60%', height: '100%',
+                  background: 'linear-gradient(90deg, transparent, rgba(255,248,220,0.25), transparent)',
+                  animation: 'shelfShimmer 3s ease-in-out infinite',
+                  animationDelay: `${ri * 0.6}s`,
+                }} />
+              </div>
+              <ShelfBracket flip />
+            </div>
+          </motion.div>
+        ))}
+      </div>
+    </motion.div>
+  );
+}
+
+/* ══════════════════════════════════════════════════════════
    MAIN SECTION
    ══════════════════════════════════════════════════════════ */
 export default function CodingPlatforms() {
@@ -604,6 +843,9 @@ export default function CodingPlatforms() {
           <SummaryPill label="Active Streak" value="60+ days" color="#39d353" delay={1.0} isInView={isInView} />
           <SummaryPill label="Contests" value="30+" color="#FFA116" delay={1.1} isInView={isInView} />
         </motion.div>
+
+        {/* ── LeetCode Badge Trophy Rack ── */}
+        <BadgeRackSection isInView={isInView} />
       </div>
     </section>
   );

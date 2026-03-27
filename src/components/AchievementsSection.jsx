@@ -386,9 +386,9 @@ export default function AchievementsSection() {
             <span className="h-px w-7" style={{ background: 'linear-gradient(90deg, var(--color-neon), transparent)', display: 'block' }} />
           </motion.div>
 
-          <h2 className="section-title gradient-text mb-3">Achievements</h2>
+          <h2 className="section-title gradient-text mb-6">Achievements</h2>
 
-          <p className="font-['Outfit'] text-sm text-white/40 max-w-md mx-auto leading-relaxed">
+          <p className="font-['Outfit'] text-base text-white/40 max-w-xl mx-auto leading-relaxed px-4">
             Key milestones and accomplishments from my academic, technical, and leadership journey.
           </p>
         </motion.div>

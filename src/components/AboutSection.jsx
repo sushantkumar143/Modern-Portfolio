@@ -121,10 +121,10 @@ export default function AboutSection() {
             transition={{ duration: 0.7 }}
             className="w-full text-center"
           >
-            <h2 className="text-5xl md:text-6xl font-extrabold mb-3 font-heading">
+            <h2 className="text-5xl md:text-6xl font-extrabold mb-6 font-heading">
               <span className="gradient-text">About Me</span>
             </h2>
-            <p className="text-[#9ca3b0] text-lg">The story behind the code</p>
+            <p className="text-[#9ca3b0] text-lg max-w-xl mx-auto">The story behind the code</p>
           </motion.div>
 
           {/* Visual — AI Portrait with glow */}
