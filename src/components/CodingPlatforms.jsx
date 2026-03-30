@@ -467,17 +467,19 @@ function SummaryPill({ label, value, color, delay, isInView }) {
 }
 
 /* ══════════════════════════════════════════════════════════
-   LEETCODE BADGE RACKS — trophy shelf showcase
+   LEETCODE BADGE RACKS — trophy photo collage
    ══════════════════════════════════════════════════════════ */
 const BADGE_RACKS = [
   {
     label: '🏆 Annual Champion — 365 Days',
+    area: 'champion',
     badges: [
       { src: '/Assets/badges/365_new.gif', alt: '365 Days Badge' },
     ],
   },
   {
     label: '🔥 Milestone Streaks — 200 & 100 Days',
+    area: 'milestone',
     badges: [
       { src: '/Assets/badges/200.gif', alt: '200 Days Badge' },
       { src: '/Assets/badges/2024-100.gif', alt: '100 Days Badge (2024)' },
@@ -486,6 +488,7 @@ const BADGE_RACKS = [
   },
   {
     label: '⚡ Consistency Streaks — 50 Days',
+    area: 'consistency',
     badges: [
       { src: '/Assets/badges/50.gif', alt: '50 Days Badge' },
       { src: '/Assets/badges/2024-50.gif', alt: '50 Days Badge (2024)' },
@@ -494,6 +497,7 @@ const BADGE_RACKS = [
   },
   {
     label: '📅 Monthly Conqueror — Set I',
+    area: 'monthly1',
     badges: [
       { src: '/Assets/badges/1.gif', alt: 'Monthly Badge I' },
       { src: '/Assets/badges/2.gif', alt: 'Monthly Badge II' },
@@ -502,6 +506,7 @@ const BADGE_RACKS = [
   },
   {
     label: '📅 Monthly Conqueror — Set II',
+    area: 'monthly2',
     badges: [
       { src: '/Assets/badges/202509.gif', alt: 'Sep 2025 Badge' },
       { src: '/Assets/badges/202510.gif', alt: 'Oct 2025 Badge' },
@@ -511,27 +516,11 @@ const BADGE_RACKS = [
   },
 ];
 
-/* Shelf bracket SVG */
-const ShelfBracket = ({ flip }) => (
-  <svg
-    width="18" height="28" viewBox="0 0 18 28"
-    style={{ transform: flip ? 'scaleX(-1)' : 'none', flexShrink: 0 }}
-  >
-    <path
-      d="M2 0 C2 0, 2 20, 16 24 L16 28 L0 28 L0 0 Z"
-      fill="url(#bracketGold)"
-    />
-    <defs>
-      <linearGradient id="bracketGold" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%" stopColor="#F5D061" />
-        <stop offset="50%" stopColor="#D4AF37" />
-        <stop offset="100%" stopColor="#B8860B" />
-      </linearGradient>
-    </defs>
-  </svg>
-);
+/* No rotation — clean straight layout */
 
 function BadgeRackSection({ isInView }) {
+  const [hoveredRack, setHoveredRack] = useState(null);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 50 }}
@@ -589,117 +578,165 @@ function BadgeRackSection({ isInView }) {
         </p>
       </div>
 
-      {/* Shimmer keyframes (injected once) */}
+      {/* Collage keyframes */}
       <style>{`
         @keyframes shineText {
           0% { background-position: 200% center; }
           100% { background-position: -200% center; }
         }
-        @keyframes shelfShimmer {
-          0% { left: -100%; }
-          100% { left: 200%; }
+        @keyframes collagePulse {
+          0%, 100% { box-shadow: 0 8px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.04); }
+          50% { box-shadow: 0 8px 32px rgba(212,175,55,0.12), inset 0 1px 0 rgba(255,255,255,0.06); }
+        }
+        @keyframes collageBorderGlow {
+          0%, 100% { border-color: rgba(212,175,55,0.12); }
+          50% { border-color: rgba(212,175,55,0.28); }
         }
       `}</style>
 
-      {/* ── Racks ── */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-        {BADGE_RACKS.map((rack, ri) => (
-          <motion.div
-            key={ri}
-            initial={{ opacity: 0, y: 35 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.7, delay: 0.5 + ri * 0.12, ease: [0.22, 1, 0.36, 1] }}
-          >
-            {/* Rack label */}
-            <div style={{ textAlign: 'center', marginBottom: 6 }}>
-              <span style={{
-                fontFamily: '"Dancing Script", cursive',
-                fontSize: 'clamp(16px, 2.5vw, 22px)',
-                fontWeight: 700,
-                background: 'linear-gradient(135deg, #FFF8DC, #F5D061, #D4AF37, #B8860B)',
-                backgroundSize: '200% auto',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                animation: 'shineText 4s linear infinite',
-                animationDelay: `${ri * 0.5}s`,
-                textShadow: 'none',
-                letterSpacing: '0.02em',
-              }}>
-                {rack.label}
-              </span>
-            </div>
+      {/* ── Photo Collage Grid ── */}
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(3, 1fr)',
+        gridTemplateRows: 'auto auto auto',
+        gridTemplateAreas: `
+          "champion milestone milestone"
+          "champion consistency consistency"
+          "monthly1 monthly1 monthly2"
+        `,
+        gap: 14,
+        marginTop: 40,
+      }}>
+        {BADGE_RACKS.map((rack, ri) => {
+          const isHovered = hoveredRack === ri;
 
-            {/* Badge display area */}
-            <div style={{
-              display: 'flex',
-              alignItems: 'flex-end',
-              justifyContent: 'center',
-              gap: rack.badges.length === 1 ? 0 : 'clamp(12px, 3vw, 36px)',
-              minHeight: rack.badges.length === 1 ? 140 : 120,
-              padding: '12px 20px 0',
-              flexWrap: 'wrap',
-            }}>
-              {rack.badges.map((badge, bi) => (
-                <motion.div
-                  key={bi}
-                  initial={{ opacity: 0, scale: 0.6, y: 20 }}
-                  animate={isInView ? { opacity: 1, scale: 1, y: 0 } : {}}
-                  transition={{ duration: 0.5, delay: 0.7 + ri * 0.12 + bi * 0.08, type: 'spring', stiffness: 120 }}
-                  whileHover={{ scale: 1.18, y: -10, transition: { duration: 0.3 } }}
-                  style={{ cursor: 'pointer', position: 'relative' }}
-                >
-                  <motion.img
-                    src={badge.src}
-                    alt={badge.alt}
-                    title={badge.alt}
-                    whileHover={{
-                      filter: 'drop-shadow(0 0 18px rgba(212,175,55,0.6)) drop-shadow(0 0 40px rgba(245,208,97,0.3))',
-                    }}
-                    style={{
-                      width: rack.badges.length === 1 ? 'clamp(100px, 14vw, 150px)' : 'clamp(80px, 11vw, 120px)',
-                      height: 'auto',
-                      objectFit: 'contain',
-                      filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.5))',
-                      transition: 'filter 0.3s',
-                    }}
-                  />
-                </motion.div>
-              ))}
-            </div>
-
-            {/* Glass shelf plank */}
-            <div style={{
-              display: 'flex',
-              alignItems: 'flex-start',
-              justifyContent: 'center',
-              position: 'relative',
-            }}>
-              <ShelfBracket />
-              <div style={{
-                flex: 1,
-                maxWidth: 800,
-                height: 8,
+          return (
+            <motion.div
+              key={ri}
+              initial={{ opacity: 0, y: 30 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.7, delay: 0.5 + ri * 0.12, ease: [0.22, 1, 0.36, 1] }}
+              whileHover={{
+                y: -6,
+                scale: 1.02,
+                zIndex: 10,
+                transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] },
+              }}
+              onMouseEnter={() => setHoveredRack(ri)}
+              onMouseLeave={() => setHoveredRack(null)}
+              style={{
+                gridArea: rack.area,
+                background: 'rgba(8,12,24,0.65)',
+                backdropFilter: 'blur(32px)',
+                borderRadius: 20,
+                padding: rack.badges.length === 1 ? '24px 20px' : '20px 16px',
+                border: '1.5px solid rgba(212,175,55,0.12)',
+                boxShadow: '0 8px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.04)',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
                 position: 'relative',
                 overflow: 'hidden',
-                borderRadius: '0 0 4px 4px',
-                background: 'linear-gradient(180deg, rgba(212,175,55,0.35) 0%, rgba(184,134,11,0.15) 50%, rgba(212,175,55,0.25) 100%)',
-                boxShadow: '0 4px 20px rgba(212,175,55,0.15), 0 1px 0 rgba(255,248,220,0.2) inset, 0 -1px 3px rgba(0,0,0,0.3)',
-                borderBottom: '1px solid rgba(212,175,55,0.3)',
-              }}>
-                {/* Shimmer effect */}
-                <div style={{
+                animation: `collagePulse ${4 + ri * 0.5}s ease-in-out infinite, collageBorderGlow ${3 + ri * 0.7}s ease-in-out infinite`,
+                cursor: 'pointer',
+              }}
+            >
+              {/* Corner accent — top-left */}
+              <div style={{
+                position: 'absolute', top: 0, left: 0,
+                width: 40, height: 40,
+                borderTop: '2px solid rgba(212,175,55,0.3)',
+                borderLeft: '2px solid rgba(212,175,55,0.3)',
+                borderRadius: '20px 0 0 0',
+                pointerEvents: 'none',
+              }} />
+              {/* Corner accent — bottom-right */}
+              <div style={{
+                position: 'absolute', bottom: 0, right: 0,
+                width: 40, height: 40,
+                borderBottom: '2px solid rgba(212,175,55,0.3)',
+                borderRight: '2px solid rgba(212,175,55,0.3)',
+                borderRadius: '0 0 20px 0',
+                pointerEvents: 'none',
+              }} />
+
+              {/* Animated glow blob */}
+              <motion.div
+                animate={{
+                  opacity: isHovered ? 0.2 : 0.06,
+                  scale: isHovered ? 1.4 : 1,
+                }}
+                transition={{ duration: 0.5 }}
+                style={{
                   position: 'absolute',
-                  top: 0, left: '-100%',
-                  width: '60%', height: '100%',
-                  background: 'linear-gradient(90deg, transparent, rgba(255,248,220,0.25), transparent)',
-                  animation: 'shelfShimmer 3s ease-in-out infinite',
-                  animationDelay: `${ri * 0.6}s`,
-                }} />
+                  top: rack.area === 'champion' ? '30%' : -40,
+                  right: rack.area === 'champion' ? '50%' : -40,
+                  width: 200, height: 200, borderRadius: '50%',
+                  background: 'radial-gradient(circle, rgba(212,175,55,0.3) 0%, transparent 70%)',
+                  pointerEvents: 'none',
+                  transform: 'translate(50%, -50%)',
+                }}
+              />
+
+              {/* Rack label */}
+              <div style={{ textAlign: 'center', marginBottom: rack.badges.length === 1 ? 16 : 12, zIndex: 2 }}>
+                <span style={{
+                  fontFamily: '"Dancing Script", cursive',
+                  fontSize: rack.badges.length === 1 ? 'clamp(20px, 2.5vw, 26px)' : 'clamp(16px, 2vw, 20px)',
+                  fontWeight: 700,
+                  background: 'linear-gradient(135deg, #FFF8DC, #F5D061, #D4AF37, #B8860B)',
+                  backgroundSize: '200% auto',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  animation: 'shineText 4s linear infinite',
+                  animationDelay: `${ri * 0.5}s`,
+                  textShadow: 'none',
+                  letterSpacing: '0.02em',
+                }}>
+                  {rack.label}
+                </span>
               </div>
-              <ShelfBracket flip />
-            </div>
-          </motion.div>
-        ))}
+
+              {/* Badge display area */}
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: rack.badges.length >= 4 ? 'clamp(10px, 2vw, 24px)' : 'clamp(10px, 2vw, 20px)',
+                flexWrap: 'wrap',
+                zIndex: 2,
+              }}>
+                {rack.badges.map((badge, bi) => (
+                  <motion.div
+                    key={bi}
+                    initial={{ opacity: 0, scale: 0.6, y: 20 }}
+                    animate={isInView ? { opacity: 1, scale: 1, y: 0 } : {}}
+                    transition={{ duration: 0.5, delay: 0.7 + ri * 0.12 + bi * 0.08, type: 'spring', stiffness: 120 }}
+                    whileHover={{ scale: 1.18, y: -10, transition: { duration: 0.3 } }}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    <motion.img
+                      src={badge.src}
+                      alt={badge.alt}
+                      title={badge.alt}
+                      whileHover={{
+                        filter: 'drop-shadow(0 0 18px rgba(212,175,55,0.6)) drop-shadow(0 0 40px rgba(245,208,97,0.3))',
+                      }}
+                      style={{
+                        width: rack.badges.length === 1 ? 'clamp(110px, 16vw, 170px)' : 'clamp(70px, 10vw, 110px)',
+                        height: 'auto',
+                        objectFit: 'contain',
+                        filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.5))',
+                        transition: 'filter 0.3s',
+                      }}
+                    />
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          );
+        })}
       </div>
     </motion.div>
   );
@@ -723,7 +760,7 @@ export default function CodingPlatforms() {
           setCfData({ rating: u.rating || 0, maxRating: u.maxRating || 0, rank: u.rank || 'unrated' });
         }
       })
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   return (
