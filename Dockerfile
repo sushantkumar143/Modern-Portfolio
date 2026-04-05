@@ -1,36 +1,58 @@
-# Build Stage
-FROM node:20-alpine AS build
+# # Build Stage
+# FROM node:20-alpine AS build
 
-# Setting working directory
+# # Setting working directory
+# WORKDIR /app
+
+# # Copy only dependency files first -- (better caching)
+# COPY package.json package-lock.json ./
+
+# # Clean & reliable install
+# RUN npm ci
+
+# # Copy rest of the project
+# COPY . .
+
+# # Build the Vite app
+# RUN npm run build
+
+
+# # ----------- Production Stage -----------
+# FROM nginx:alpine
+
+# # Remove default nginx config
+# RUN rm -rf /etc/nginx/conf.d/default.conf
+
+# # Copy custom nginx config
+# COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# # Copy built files from build stage
+# COPY --from=build /app/dist /usr/share/nginx/html
+
+# # Expose port
+# EXPOSE 80
+
+# # Start nginx
+# CMD ["nginx", "-g", "daemon off;"]
+
+
+# Use Node image
+FROM node:20-alpine
+
+# Set working directory
 WORKDIR /app
 
-# Copy only dependency files first -- (better caching)
+# Copy dependency files
 COPY package.json package-lock.json ./
 
-# Clean & reliable install
-RUN npm ci
+# Install dependencies
+RUN npm install
 
-# Copy rest of the project
+# Copy all project files
 COPY . .
 
-# Build the Vite app
-RUN npm run build
+# Expose Vite default port
+EXPOSE 5173
 
-
-# ----------- Production Stage -----------
-FROM nginx:alpine
-
-# Remove default nginx config
-RUN rm -rf /etc/nginx/conf.d/default.conf
-
-# Copy custom nginx config
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-# Copy built files from build stage
-COPY --from=build /app/dist /usr/share/nginx/html
-
-# Expose port
-EXPOSE 80
-
-# Start nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Run Vite dev server
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
