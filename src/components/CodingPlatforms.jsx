@@ -18,9 +18,9 @@ const PROFILES = [
     color: '#FFA116',
     bg: 'rgba(255,161,22,0.06)',
     stats: [
-      { label: 'Problems Solved', value: '250+', icon: FiCode },
-      { label: 'Contest Rating', value: '1500+', icon: FiTrendingUp },
-      { label: 'Max Streak', value: '60+ days', icon: FiZap },
+      { label: 'Problems Solved', value: '1500+', icon: FiCode },
+      { label: 'Contest Rating', value: '1414', icon: FiTrendingUp },
+      { label: 'Max Streak', value: '90+ days', icon: FiZap },
     ],
   },
   {

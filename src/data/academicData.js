@@ -14,17 +14,17 @@ export const studentInfo = {
 };
 
 export const gradePoints = {
-  'O': 10, 'A+': 9, 'A': 8, 'B+': 7, 'B': 6, 'C': 5, 'D': 4,
+  'O': 10, 'A+': 10, 'A': 8, 'B+': 7, 'B': 6, 'C': 5, 'D': 4,
 };
 
 export const gradeColors = {
-  'O':  '#00d4ff', // Cyan — Outstanding
+  'O': '#00d4ff', // Cyan — Outstanding
   'A+': '#a855f7', // Purple — Excellent
-  'A':  '#3b82f6', // Blue — Very Good
+  'A': '#3b82f6', // Blue — Very Good
   'B+': '#f59e0b', // Amber — Good
-  'B':  '#eab308', // Yellow — Above Average
-  'C':  '#f97316', // Orange — Average
-  'D':  '#ef4444', // Red — Marginal
+  'B': '#eab308', // Yellow — Above Average
+  'C': '#f97316', // Orange — Average
+  'D': '#ef4444', // Red — Marginal
 };
 
 export const semesters = [
@@ -90,15 +90,15 @@ export const semesters = [
   },
   {
     term: 'V',
-    tgpa: 8.86,
-    percentage: 88.6,
+    tgpa: 9.00,
+    percentage: 90.0,
     courses: [
       { code: 'CSE322', name: 'Formal Languages & Automation Theory', credits: 3, grade: 'A' },
       { code: 'CSE329', name: 'Prelude to Competitive Coding', credits: 3, grade: 'O' },
       { code: 'CSE330', name: 'Competitive Coding Approaches', credits: 3, grade: 'O' },
       { code: 'CSE443', name: 'Seminar on Summer Training', credits: 3, grade: 'A+' },
       { code: 'INT234', name: 'Predictive Analytics', credits: 3, grade: 'A+' },
-      { code: 'INT331', name: 'Fundamentals of DevOps', credits: 3, grade: 'A' },
+      { code: 'INT331', name: 'Fundamentals of DevOps', credits: 3, grade: 'A+' },
       { code: 'INT374', name: 'Data Analytics with Power BI', credits: 3, grade: 'A' },
     ],
   },

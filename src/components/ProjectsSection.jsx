@@ -372,7 +372,7 @@ export default function ProjectsSection() {
               display: 'flex',
               flexDirection: 'column',
               padding: '40px',
-              gap: '40px',
+              gap: '30px',
             }}>
               {/* Image */}
               <div style={{
@@ -390,23 +390,318 @@ export default function ProjectsSection() {
                 />
               </div>
 
-              {/* Info */}
-              <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-              }}>
-                <div style={{
-                  background: 'rgba(255,255,255,0.03)',
-                  border: '1px solid rgba(255,255,255,0.05)',
-                  padding: '24px',
-                  borderRadius: '16px',
-                  marginBottom: '30px',
-                }}>
-                  <p style={{ color: '#e4e4e7', fontSize: '1.1rem', lineHeight: 1.6 }}>
-                    {expandedProject.description}
-                  </p>
-                </div>
+              {/* Deep Description or Fallback */}
+              {expandedProject.deepDescription ? (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+                  {/* Brief overview */}
+                  <div style={{
+                    background: 'linear-gradient(135deg, rgba(var(--neon-rgb), 0.06), rgba(123, 47, 247, 0.06))',
+                    border: '1px solid rgba(var(--neon-rgb), 0.15)',
+                    padding: '24px',
+                    borderRadius: '16px',
+                  }}>
+                    <p style={{ color: '#d1d5db', fontSize: '1.05rem', lineHeight: 1.7, margin: 0 }}>
+                      {expandedProject.description}
+                    </p>
+                  </div>
 
+                  {/* Render each deep description section */}
+                  {expandedProject.deepDescription.map((section, sIdx) => (
+                    <div key={sIdx} style={{
+                      background: 'rgba(255,255,255,0.02)',
+                      border: '1px solid rgba(255,255,255,0.06)',
+                      borderRadius: '16px',
+                      overflow: 'hidden',
+                    }}>
+                      {/* Section Header */}
+                      <div style={{
+                        padding: '16px 24px',
+                        borderBottom: '1px solid rgba(255,255,255,0.06)',
+                        background: 'rgba(255,255,255,0.02)',
+                      }}>
+                        <h4 style={{
+                          fontSize: '1.2rem',
+                          fontWeight: 700,
+                          fontFamily: "'Outfit', sans-serif",
+                          color: '#fff',
+                          margin: 0,
+                        }}>
+                          {section.title}
+                        </h4>
+                        {section.text && (
+                          <p style={{ color: '#9ca3b0', fontSize: '0.92rem', lineHeight: 1.6, margin: '8px 0 0' }}>
+                            {section.text}
+                          </p>
+                        )}
+                      </div>
+
+                      {/* Section Content */}
+                      <div style={{ padding: '20px 24px' }}>
+                        {/* Items layout (Key Features, Deployment, Evaluation) */}
+                        {section.items && (
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                            {section.items.map((item, iIdx) => (
+                              <div key={iIdx} style={{
+                                display: 'flex',
+                                gap: '12px',
+                                alignItems: 'flex-start',
+                                padding: '12px 16px',
+                                borderRadius: '12px',
+                                background: 'rgba(255,255,255,0.02)',
+                                border: '1px solid rgba(255,255,255,0.04)',
+                                transition: 'all 0.3s ease',
+                              }}
+                                onMouseEnter={(e) => {
+                                  e.currentTarget.style.background = 'rgba(var(--neon-rgb), 0.04)';
+                                  e.currentTarget.style.borderColor = 'rgba(var(--neon-rgb), 0.15)';
+                                }}
+                                onMouseLeave={(e) => {
+                                  e.currentTarget.style.background = 'rgba(255,255,255,0.02)';
+                                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.04)';
+                                }}
+                              >
+                                <span style={{
+                                  color: 'var(--color-neon)',
+                                  fontSize: '1.1rem',
+                                  lineHeight: 1,
+                                  marginTop: '3px',
+                                  flexShrink: 0,
+                                }}>▸</span>
+                                <div>
+                                  <span style={{
+                                    fontWeight: 700,
+                                    color: '#e4e4e7',
+                                    fontSize: '0.95rem',
+                                    fontFamily: "'Outfit', sans-serif",
+                                  }}>{item.label}</span>
+                                  <span style={{ color: '#6b7280', margin: '0 8px' }}>—</span>
+                                  <span style={{
+                                    color: '#9ca3b0',
+                                    fontSize: '0.9rem',
+                                    lineHeight: 1.6,
+                                  }}>{item.text}</span>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+
+                        {/* Agents table layout */}
+                        {section.agents && (
+                          <div style={{ overflowX: 'auto' }}>
+                            <table style={{
+                              width: '100%',
+                              borderCollapse: 'separate',
+                              borderSpacing: '0 6px',
+                            }}>
+                              <thead>
+                                <tr>
+                                  {['Agent', 'Responsibility', 'Model'].map((h) => (
+                                    <th key={h} style={{
+                                      textAlign: 'left',
+                                      padding: '10px 14px',
+                                      color: 'var(--color-neon)',
+                                      fontSize: '0.8rem',
+                                      fontWeight: 700,
+                                      textTransform: 'uppercase',
+                                      letterSpacing: '1.5px',
+                                      borderBottom: '1px solid rgba(var(--neon-rgb), 0.15)',
+                                    }}>{h}</th>
+                                  ))}
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {section.agents.map((agent, aIdx) => (
+                                  <tr key={aIdx} style={{
+                                    transition: 'all 0.2s ease',
+                                  }}
+                                    onMouseEnter={(e) => {
+                                      e.currentTarget.style.background = 'rgba(var(--neon-rgb), 0.04)';
+                                    }}
+                                    onMouseLeave={(e) => {
+                                      e.currentTarget.style.background = 'transparent';
+                                    }}
+                                  >
+                                    <td style={{
+                                      padding: '10px 14px',
+                                      fontWeight: 700,
+                                      color: '#e4e4e7',
+                                      fontSize: '0.9rem',
+                                      fontFamily: "'Outfit', sans-serif",
+                                      whiteSpace: 'nowrap',
+                                      borderRadius: '8px 0 0 8px',
+                                    }}>{agent.name}</td>
+                                    <td style={{
+                                      padding: '10px 14px',
+                                      color: '#9ca3b0',
+                                      fontSize: '0.85rem',
+                                      lineHeight: 1.5,
+                                    }}>{agent.role}</td>
+                                    <td style={{
+                                      padding: '10px 14px',
+                                      borderRadius: '0 8px 8px 0',
+                                    }}>
+                                      <span style={{
+                                        padding: '4px 12px',
+                                        borderRadius: '20px',
+                                        fontSize: '0.78rem',
+                                        fontWeight: 600,
+                                        background: agent.model === 'N/A'
+                                          ? 'rgba(255,255,255,0.05)'
+                                          : 'rgba(123, 47, 247, 0.12)',
+                                        color: agent.model === 'N/A' ? '#6b7280' : '#a78bfa',
+                                        border: `1px solid ${agent.model === 'N/A' ? 'rgba(255,255,255,0.08)' : 'rgba(123, 47, 247, 0.25)'}`,
+                                        whiteSpace: 'nowrap',
+                                      }}>{agent.model}</span>
+                                    </td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
+                        )}
+
+                        {/* Stages pipeline layout */}
+                        {section.stages && (
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                            {section.stages.map((stage, sIdx2) => (
+                              <div key={sIdx2} style={{
+                                display: 'flex',
+                                alignItems: 'stretch',
+                                gap: '16px',
+                              }}>
+                                {/* Pipeline line */}
+                                <div style={{
+                                  display: 'flex',
+                                  flexDirection: 'column',
+                                  alignItems: 'center',
+                                  width: '24px',
+                                  flexShrink: 0,
+                                  paddingTop: '16px',
+                                }}>
+                                  <div style={{
+                                    width: '12px',
+                                    height: '12px',
+                                    borderRadius: '50%',
+                                    background: 'var(--color-neon)',
+                                    boxShadow: '0 0 8px rgba(var(--neon-rgb), 0.4)',
+                                    flexShrink: 0,
+                                  }} />
+                                  {sIdx2 < section.stages.length - 1 && (
+                                    <div style={{
+                                      width: '2px',
+                                      flex: 1,
+                                      background: 'linear-gradient(to bottom, var(--color-neon), rgba(var(--neon-rgb), 0.1))',
+                                      marginTop: '4px',
+                                    }} />
+                                  )}
+                                </div>
+                                {/* Stage content */}
+                                <div style={{
+                                  padding: '12px 16px',
+                                  borderRadius: '12px',
+                                  background: 'rgba(255,255,255,0.02)',
+                                  border: '1px solid rgba(255,255,255,0.04)',
+                                  flex: 1,
+                                  marginBottom: '8px',
+                                }}>
+                                  <div style={{
+                                    fontWeight: 700,
+                                    color: '#e4e4e7',
+                                    fontSize: '0.92rem',
+                                    fontFamily: "'Outfit', sans-serif",
+                                    marginBottom: '4px',
+                                  }}>{stage.name}</div>
+                                  <div style={{
+                                    color: '#9ca3b0',
+                                    fontSize: '0.85rem',
+                                    lineHeight: 1.6,
+                                  }}>{stage.detail}</div>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+
+                        {/* Metrics cards layout */}
+                        {section.metrics && (
+                          <div style={{
+                            display: 'grid',
+                            gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))',
+                            gap: '12px',
+                          }}>
+                            {section.metrics.map((m, mIdx) => {
+                              const colors = ['#00d4ff', '#a78bfa', '#34d399', '#f59e0b', '#f472b6'];
+                              const accentColor = colors[mIdx % colors.length];
+                              return (
+                                <div key={mIdx} style={{
+                                  padding: '16px',
+                                  borderRadius: '14px',
+                                  background: 'rgba(255,255,255,0.02)',
+                                  border: `1px solid ${accentColor}22`,
+                                  textAlign: 'center',
+                                  transition: 'all 0.3s ease',
+                                }}
+                                  onMouseEnter={(e) => {
+                                    e.currentTarget.style.borderColor = `${accentColor}55`;
+                                    e.currentTarget.style.background = `${accentColor}08`;
+                                    e.currentTarget.style.transform = 'translateY(-2px)';
+                                  }}
+                                  onMouseLeave={(e) => {
+                                    e.currentTarget.style.borderColor = `${accentColor}22`;
+                                    e.currentTarget.style.background = 'rgba(255,255,255,0.02)';
+                                    e.currentTarget.style.transform = 'translateY(0)';
+                                  }}
+                                >
+                                  <div style={{
+                                    fontSize: '1.5rem',
+                                    fontWeight: 800,
+                                    fontFamily: "'Outfit', sans-serif",
+                                    color: accentColor,
+                                    marginBottom: '4px',
+                                  }}>{m.value}</div>
+                                  <div style={{
+                                    fontSize: '0.82rem',
+                                    fontWeight: 700,
+                                    color: '#e4e4e7',
+                                    marginBottom: '4px',
+                                  }}>{m.metric}</div>
+                                  <div style={{
+                                    fontSize: '0.75rem',
+                                    color: '#6b7280',
+                                    lineHeight: 1.4,
+                                  }}>{m.detail}</div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                /* Fallback: plain description for projects without deepDescription */
+                <div style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                }}>
+                  <div style={{
+                    background: 'rgba(255,255,255,0.03)',
+                    border: '1px solid rgba(255,255,255,0.05)',
+                    padding: '24px',
+                    borderRadius: '16px',
+                    marginBottom: '30px',
+                  }}>
+                    <p style={{ color: '#e4e4e7', fontSize: '1.1rem', lineHeight: 1.6 }}>
+                      {expandedProject.description}
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {/* Tech Tags + Links (always shown) */}
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginBottom: '30px' }}>
                   {expandedProject.tech.map(t => (
                     <span key={t} style={{
