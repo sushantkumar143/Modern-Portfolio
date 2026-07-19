@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import { navLinks, personalInfo } from '../data/portfolioData';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiGithub, FiLinkedin, FiTwitter } from 'react-icons/fi';
@@ -502,7 +502,7 @@ export default function Navbar() {
 
       {/* Responsive styles */}
       <style>{`
-        @media (max-width: 768px) {
+        @media (max-width: 940px) {
           .navbar-logo-img {
             height: 40px !important;
           }

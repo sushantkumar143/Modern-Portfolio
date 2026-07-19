@@ -43,7 +43,7 @@ export default function AboutSection() {
   const [isMobile, setIsMobile] = React.useState(false);
 
   React.useEffect(() => {
-    const mq = window.matchMedia('(max-width: 768px)');
+    const mq = window.matchMedia('(max-width: 940px)');
     setIsMobile(mq.matches);
     const handler = (e) => setIsMobile(e.matches);
     mq.addEventListener('change', handler);
@@ -55,7 +55,7 @@ export default function AboutSection() {
       if (!sectionRef.current || !leftContentRef.current || !cardsContainerRef.current) return;
 
       // Skip GSAP pinning on mobile — it breaks native touch scrolling
-      if (window.innerWidth <= 768) return;
+      if (window.innerWidth <= 940) return;
 
       const ctx = gsap.context(() => {
         // Native CSS sticky is used on the left column instead of GSAP pin for better responsiveness

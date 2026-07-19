@@ -1,4 +1,4 @@
-@import "tailwindcss";
+﻿@import "tailwindcss";
 
 :root {
   --color-neon: #00d4ff;
@@ -138,7 +138,7 @@ ul {
   margin-right: auto;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 940px) {
   .section-padding {
     padding: 60px 4%;
   }
@@ -802,7 +802,7 @@ ul {
   }
 }
 
-@media (max-width: 768px) and (min-width: 481px) {
+@media (max-width: 940px) and (min-width: 481px) {
   .chatbot-window {
     width: 360px;
     height: 500px;
@@ -812,9 +812,9 @@ ul {
 }
 
 /* ============================================
-   RESPONSIVE — MOBILE (≤768px)
+   RESPONSIVE — MOBILE (≤940px)
    ============================================ */
-@media (max-width: 768px) {
+@media (max-width: 940px) {
   .section-title {
     font-size: 2rem;
   }
@@ -900,7 +900,7 @@ ul {
   height: 100%;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 940px) {
   .hover-glow-border {
     display: none;
   }

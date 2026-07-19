@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+﻿import { useState, useRef, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { projects } from '../data/portfolioData';
 import { FiGithub, FiExternalLink, FiMaximize2, FiX } from 'react-icons/fi';
@@ -13,7 +13,7 @@ export default function ProjectsSection() {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const mq = window.matchMedia('(max-width: 768px)');
+    const mq = window.matchMedia('(max-width: 940px)');
     setIsMobile(mq.matches);
     const handler = (e) => setIsMobile(e.matches);
     mq.addEventListener('change', handler);

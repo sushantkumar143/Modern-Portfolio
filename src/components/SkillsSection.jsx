@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, Component, Suspense } from 'react';
+﻿import React, { useState, useRef, useEffect, Component, Suspense } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { skillCategories } from '../data/portfolioData';
 
@@ -327,7 +327,7 @@ function SphereIconCloud() {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const mq = window.matchMedia('(max-width: 768px)');
+    const mq = window.matchMedia('(max-width: 940px)');
     setIsMobile(mq.matches);
     const handler = (e) => setIsMobile(e.matches);
     mq.addEventListener('change', handler);
@@ -391,7 +391,7 @@ export default function SkillsSection() {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const mq = window.matchMedia('(max-width: 768px)');
+    const mq = window.matchMedia('(max-width: 940px)');
     setIsMobile(mq.matches);
     const handler = (e) => setIsMobile(e.matches);
     mq.addEventListener('change', handler);

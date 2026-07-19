@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from 'react';
+﻿import { useRef, useEffect, useState } from 'react';
 import { motion, useInView, useMotionValue, useSpring, AnimatePresence, useMotionTemplate } from 'framer-motion';
 
 function HoverBorderCard({ children, style, contentStyle, motionProps, className, onClick }) {
@@ -81,7 +81,7 @@ function AchievementRow({ item, index }) {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const mq = window.matchMedia('(max-width: 768px)');
+    const mq = window.matchMedia('(max-width: 940px)');
     setIsMobile(mq.matches);
     const handler = (e) => setIsMobile(e.matches);
     mq.addEventListener('change', handler);
@@ -435,7 +435,7 @@ export default function AchievementsSection() {
           border-radius: inherit;
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 940px) {
           .achievements-row {
             grid-template-columns: 1fr !important;
             gap: 20px !important;

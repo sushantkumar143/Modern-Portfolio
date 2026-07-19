@@ -149,8 +149,8 @@ export default function HeroSection() {
 
   useEffect(() => {
     const checkSize = () => {
-      setIsMobile(window.innerWidth <= 768);
-      setIsTablet(window.innerWidth > 768 && window.innerWidth <= 1024);
+      setIsMobile(window.innerWidth <= 940);
+      setIsTablet(window.innerWidth > 940 && window.innerWidth <= 1024);
     };
     checkSize();
     window.addEventListener('resize', checkSize);
@@ -226,8 +226,8 @@ export default function HeroSection() {
         margin: '0 auto',
         width: '100%',
         display: 'grid',
-        gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',
-        gap: isMobile ? '30px' : isTablet ? '30px' : '60px',
+        gridTemplateColumns: (isMobile || isTablet) ? '1fr' : '1fr 1fr',
+        gap: (isMobile || isTablet) ? '30px' : '60px',
         alignItems: 'center',
         position: 'relative',
         zIndex: 10,
@@ -238,7 +238,7 @@ export default function HeroSection() {
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, ease: 'easeOut' }}
-          style={{ padding: '20px 0', textAlign: isMobile ? 'center' : 'left' }}
+          style={{ padding: '20px 0', textAlign: (isMobile || isTablet) ? 'center' : 'left' }}
         >
           {/* Greeting */}
           <p style={{
@@ -269,7 +269,7 @@ export default function HeroSection() {
             height: '42px',
             display: 'flex',
             alignItems: 'center',
-            justifyContent: isMobile ? 'center' : 'flex-start',
+            justifyContent: (isMobile || isTablet) ? 'center' : 'flex-start',
           }}>
             <span style={{ color: '#00d4ff', fontWeight: 600, letterSpacing: '0.5px' }}>
               {'< '}{typedText}
@@ -289,13 +289,13 @@ export default function HeroSection() {
             lineHeight: 1.7,
             marginBottom: isMobile ? '28px' : '40px',
             maxWidth: '520px',
-            margin: isMobile ? '0 auto 28px' : undefined,
+            margin: (isMobile || isTablet) ? '0 auto 28px' : undefined,
           }}>
             {personalInfo.tagline}
           </p>
 
           {/* CTA Buttons */}
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: isMobile ? '12px' : '16px', marginBottom: isMobile ? '20px' : '40px', justifyContent: isMobile ? 'center' : 'flex-start' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: isMobile ? '12px' : '16px', marginBottom: isMobile ? '20px' : '40px', justifyContent: (isMobile || isTablet) ? 'center' : 'flex-start' }}>
             <a
               href="#contact"
               style={btnPrimaryBase}

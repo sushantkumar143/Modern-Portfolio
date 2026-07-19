@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect, useMemo } from 'react';
+﻿import { useRef, useState, useEffect, useMemo } from 'react';
 import { motion, useInView, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import {
   SiLeetcode, SiHackerrank, SiCodeforces, SiGeeksforgeeks
@@ -523,7 +523,7 @@ function BadgeRackSection({ isInView }) {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const mq = window.matchMedia('(max-width: 768px)');
+    const mq = window.matchMedia('(max-width: 940px)');
     setIsMobile(mq.matches);
     const handler = (e) => setIsMobile(e.matches);
     mq.addEventListener('change', handler);
@@ -767,7 +767,7 @@ export default function CodingPlatforms() {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const mq = window.matchMedia('(max-width: 768px)');
+    const mq = window.matchMedia('(max-width: 940px)');
     setIsMobile(mq.matches);
     const handler = (e) => setIsMobile(e.matches);
     mq.addEventListener('change', handler);
