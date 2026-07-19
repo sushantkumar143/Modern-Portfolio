@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { experience } from '../data/portfolioData';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -10,6 +10,15 @@ export default function ExperienceSection() {
   const lineRef = useRef(null);
   const timelineRef = useRef(null);
   const cardsRef = useRef([]);
+  const [isMobile, setIsMobile] = React.useState(false);
+
+  React.useEffect(() => {
+    const mq = window.matchMedia('(max-width: 768px)');
+    setIsMobile(mq.matches);
+    const handler = (e) => setIsMobile(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -99,7 +108,7 @@ export default function ExperienceSection() {
       ref={sectionRef}
       style={{
         position: 'relative',
-        padding: '0 6% 80px',
+        padding: isMobile ? '0 4% 60px' : '0 6% 80px',
       }}
     >
       {/* ── Sticky Heading — semi-transparent with fade zone below ── */}
@@ -143,8 +152,8 @@ export default function ExperienceSection() {
       }}>
         {/* Faint guide line */}
         <div style={{
-          position: 'absolute', left: '50%', top: 0, height: '100%',
-          width: '1px', transform: 'translateX(-50%)',
+          position: 'absolute', left: isMobile ? '20px' : '50%', top: 0, height: '100%',
+          width: '1px', transform: isMobile ? 'none' : 'translateX(-50%)',
           background: 'rgba(255,255,255,0.04)',
         }} />
 
@@ -152,11 +161,11 @@ export default function ExperienceSection() {
         <div
           ref={lineRef}
           style={{
-            position: 'absolute', left: '50%',
+            position: 'absolute', left: isMobile ? '20px' : '50%',
             top: '-40px',
             height: 'calc(100% + 100px)',
             width: '3px', borderRadius: '2px',
-            transform: 'translateX(-50%) scaleY(0)',
+            transform: isMobile ? 'scaleY(0)' : 'translateX(-50%) scaleY(0)',
             transformOrigin: 'top center',
             background: 'linear-gradient(to bottom, transparent 0%, var(--color-neon) 8%, #7b2ff7 92%, transparent 100%)',
             zIndex: 1,
@@ -165,7 +174,7 @@ export default function ExperienceSection() {
 
         {/* Experience Cards */}
         {experience.map((exp, index) => {
-          const isLeft = index % 2 === 0;
+          const isLeft = isMobile ? false : index % 2 === 0;
 
           return (
             <div
@@ -173,36 +182,39 @@ export default function ExperienceSection() {
               ref={(el) => (cardsRef.current[index] = el)}
               style={{
                 display: 'flex',
-                justifyContent: isLeft ? 'flex-start' : 'flex-end',
+                justifyContent: isMobile ? 'flex-start' : (isLeft ? 'flex-start' : 'flex-end'),
                 position: 'relative',
-                marginBottom: index < experience.length - 1 ? '50px' : '0',
+                marginBottom: index < experience.length - 1 ? (isMobile ? '30px' : '50px') : '0',
+                paddingLeft: isMobile ? '48px' : '0',
               }}
             >
               {/* Dot */}
               <div className="tl-dot" style={{
-                position: 'absolute', left: '50%', top: '28px',
-                width: '18px', height: '18px', borderRadius: '50%',
-                transform: 'translateX(-50%) scale(0)',
+                position: 'absolute', left: isMobile ? '14px' : '50%', top: '28px',
+                width: isMobile ? '14px' : '18px', height: isMobile ? '14px' : '18px', borderRadius: '50%',
+                transform: isMobile ? 'scale(0)' : 'translateX(-50%) scale(0)',
                 background: 'linear-gradient(135deg, var(--color-neon), #7b2ff7)',
                 boxShadow: '0 0 14px rgba(var(--neon-rgb), 0.6), 0 0 35px rgba(var(--neon-rgb), 0.15)',
                 zIndex: 3, border: '3px solid #0a0a0f', opacity: 0,
               }} />
 
               {/* Connector */}
-              <div className="tl-connector" style={{
-                position: 'absolute', top: '36px',
-                left: isLeft ? 'auto' : 'calc(50% + 9px)',
-                right: isLeft ? 'calc(50% - 9px)' : 'auto',
-                width: '45px', height: '2px',
-                background: 'rgba(var(--neon-rgb), 0.5)',
-                transformOrigin: isLeft ? 'right center' : 'left center',
-                opacity: 0, zIndex: 2,
-              }} />
+              {!isMobile && (
+                <div className="tl-connector" style={{
+                  position: 'absolute', top: '36px',
+                  left: isLeft ? 'auto' : 'calc(50% + 9px)',
+                  right: isLeft ? 'calc(50% - 9px)' : 'auto',
+                  width: '45px', height: '2px',
+                  background: 'rgba(var(--neon-rgb), 0.5)',
+                  transformOrigin: isLeft ? 'right center' : 'left center',
+                  opacity: 0, zIndex: 2,
+                }} />
+              )}
 
               {/* Card */}
               <div className="tl-card" style={{
-                width: 'calc(50% - 70px)',
-                padding: '30px 32px',
+                width: isMobile ? '100%' : 'calc(50% - 70px)',
+                padding: isMobile ? '22px 20px' : '30px 32px',
                 borderRadius: '18px',
                 background: '#111118',
                 border: '1px solid rgba(255,255,255,0.07)',

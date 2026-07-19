@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -40,21 +40,25 @@ export default function AboutSection() {
   const cardsContainerRef = useRef(null);
   const cardsRef = useRef([]);
   const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
+  const [isMobile, setIsMobile] = React.useState(false);
+
+  React.useEffect(() => {
+    const mq = window.matchMedia('(max-width: 768px)');
+    setIsMobile(mq.matches);
+    const handler = (e) => setIsMobile(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
       if (!sectionRef.current || !leftContentRef.current || !cardsContainerRef.current) return;
 
+      // Skip GSAP pinning on mobile — it breaks native touch scrolling
+      if (window.innerWidth <= 768) return;
+
       const ctx = gsap.context(() => {
-        // Pin the entire left column (heading + image) while right-side scrolls.
-        // It stays pinned until the bottom of the section reaches the bottom of the screen.
-        ScrollTrigger.create({
-          trigger: sectionRef.current,
-          start: 'top 40px',
-          end: 'bottom bottom',
-          pin: leftContentRef.current,
-          pinSpacing: false,
-        });
+        // Native CSS sticky is used on the left column instead of GSAP pin for better responsiveness
 
         // Fade out previous cards as new ones come in (except the last)
         cardsRef.current.forEach((card, i) => {
@@ -106,13 +110,13 @@ export default function AboutSection() {
       className="relative overflow-visible"
       style={{
         background: 'linear-gradient(180deg, rgba(0,0,0,0.22) 0%, rgba(15,15,15,0.22) 100%)',
-        padding: '120px 5% 220px',
+        padding: isMobile ? '80px 4% 120px' : '120px 5% 220px',
       }}
     >
       <div className="w-full max-w-[1400px] mx-auto flex flex-col lg:flex-row justify-center items-start gap-16 lg:gap-32">
 
-        {/* ═══ LEFT COLUMN — Sticky Visual & Heading (pinned by GSAP together) ═══ */}
-        <div ref={leftContentRef} className="w-full lg:w-[450px] shrink-0 flex flex-col items-center gap-12 pt-[40px]">
+        {/* ═══ LEFT COLUMN — Sticky Visual & Heading (CSS sticky) ═══ */}
+        <div ref={leftContentRef} className="w-full lg:w-[450px] shrink-0 flex flex-col items-center gap-12 lg:sticky lg:top-[120px] pt-[40px] z-10">
 
           {/* Section Title — Horizontally Centered */}
           <motion.div
@@ -220,21 +224,22 @@ export default function AboutSection() {
               ref={(el) => (cardsRef.current[i] = el)}
               className="relative rounded-2xl border border-white/5 transition-colors duration-1000"
               style={{
-                position: 'sticky',
-                top: `${158 + i * 70}px`, // Stacks elegantly
+                position: isMobile ? 'relative' : 'sticky',
+                top: isMobile ? 'auto' : `${158 + i * 70}px`,
                 zIndex: i,
-                // marginBottom: i === storyBlocks.length - 1 ? '0' : '45vh', // Much more scroll space
                 marginBottom:
-                  i === storyBlocks.length - 1
-                    ? '0'
-                    : i === storyBlocks.length - 2
-                      ? '8vh'
-                      : '18vh',
+                  isMobile
+                    ? '24px'
+                    : i === storyBlocks.length - 1
+                      ? '0'
+                      : i === storyBlocks.length - 2
+                        ? '8vh'
+                        : '18vh',
                 background: 'rgba(15,15,20,0.85)',
-                backdropFilter: 'blur(12px)',
-                boxShadow: '0 -8px 40px rgba(0,0,0,0.5)', // Upward shadow for overlap separation
-                padding: '32px 44px',
-                minHeight: '260px', // Slightly taller text div
+                backdropFilter: isMobile ? 'blur(8px)' : 'blur(12px)',
+                boxShadow: isMobile ? '0 4px 20px rgba(0,0,0,0.3)' : '0 -8px 40px rgba(0,0,0,0.5)',
+                padding: isMobile ? '24px 20px' : '32px 44px',
+                minHeight: isMobile ? 'auto' : '260px',
               }}
             >
               {/* Golden accent line at top */}

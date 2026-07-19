@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiSettings, FiLinkedin, FiGithub, FiInstagram, FiTwitter } from 'react-icons/fi';
 
@@ -32,7 +32,16 @@ const NAV_LINKS = [
 
 export default function FloatingNavbar() {
   const [isHovered, setIsHovered] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const colorInputRef = useRef(null);
+
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 768px)');
+    setIsMobile(mq.matches);
+    const handler = (e) => setIsMobile(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
 
   const handleColorChange = (e) => {
     const newColor = e.target.value;
@@ -48,6 +57,9 @@ export default function FloatingNavbar() {
       colorInputRef.current.click();
     }
   };
+
+  // Don't render on mobile
+  if (isMobile) return null;
 
   return (
     <motion.div

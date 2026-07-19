@@ -283,6 +283,16 @@ function SemesterCard({ sem, index }) {
    FULLSCREEN ANALYTICS MODAL
    ════════════════════════════════════════════════════════ */
 function AnalyticsModal({ onClose }) {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 768px)');
+    setIsMobile(mq.matches);
+    const handler = (e) => setIsMobile(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
+
   const gradeDistribution = {};
   semesters.forEach(s => s.courses.forEach(c => {
     gradeDistribution[c.grade] = (gradeDistribution[c.grade] || 0) + 1;
@@ -314,7 +324,7 @@ function AnalyticsModal({ onClose }) {
           width: '100%', maxWidth: 960, maxHeight: '90vh', overflowY: 'auto',
           background: '#0a0a0f',
           border: '1px solid rgba(var(--neon-rgb),0.15)',
-          borderRadius: 24, padding: '40px 36px',
+          borderRadius: isMobile ? 16 : 24, padding: isMobile ? '24px 16px' : '40px 36px',
           boxShadow: '0 0 80px rgba(var(--neon-rgb),0.08)',
         }}
       >
@@ -345,7 +355,7 @@ function AnalyticsModal({ onClose }) {
         </div>
 
         {/* Stat Cards Row */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16, marginBottom: 32 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)', gap: 16, marginBottom: 32 }}>
           {[
             { label: 'CGPA', value: studentInfo.cgpa, dec: 2, color: 'var(--color-neon)' },
             { label: 'Best Semester', value: insights.bestSemester.tgpa, dec: 2, sub: `Sem ${insights.bestSemester.term}` },
@@ -376,7 +386,7 @@ function AnalyticsModal({ onClose }) {
         </div>
 
         {/* Charts Row */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, marginBottom: 32 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 24, marginBottom: 32 }}>
           {/* Line chart */}
           <div style={{
             background: 'rgba(255,255,255,0.02)', borderRadius: 16,
@@ -450,6 +460,15 @@ export default function AcademicSection() {
   const inView = useInView(ref, { once: false, margin: '-100px' });
   const [hovered, setHovered] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 768px)');
+    setIsMobile(mq.matches);
+    const handler = (e) => setIsMobile(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
 
   const tgpas = semesters.map(s => s.tgpa);
   const trend = tgpas[tgpas.length - 1] - tgpas[tgpas.length - 2];
@@ -459,7 +478,7 @@ export default function AcademicSection() {
       <section
         id="academics"
         ref={ref}
-        style={{ position: 'relative', padding: '80px 6%', overflow: 'hidden' }}
+        style={{ position: 'relative', padding: isMobile ? '60px 4%' : '80px 6%', overflow: 'hidden' }}
       >
         {/* Background decorations */}
         <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
@@ -515,11 +534,11 @@ export default function AcademicSection() {
             onMouseLeave={() => setHovered(false)}
             onClick={() => setModalOpen(true)}
             style={{
-              display: 'grid', gridTemplateColumns: '1fr 1fr',
-              gap: 32, cursor: 'pointer',
+              display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',
+              gap: isMobile ? 20 : 32, cursor: 'pointer',
               background: hovered ? '#13131d' : '#0a0a0f',
               border: `1px solid ${hovered ? 'rgba(var(--neon-rgb),0.2)' : 'rgba(255,255,255,0.07)'}`,
-              borderRadius: 24, padding: '40px 36px',
+              borderRadius: 24, padding: isMobile ? '24px 20px' : '40px 36px',
               boxShadow: hovered ? '0 12px 60px rgba(var(--neon-rgb),0.1)' : '0 8px 30px rgba(0,0,0,0.25)',
               transition: 'all 0.4s cubic-bezier(0.22,1,0.36,1)',
             }}
@@ -532,7 +551,7 @@ export default function AcademicSection() {
                   Cumulative GPA
                 </span>
                 <div style={{
-                  fontSize: 64, fontWeight: 800, fontFamily: "'Outfit',sans-serif",
+                  fontSize: isMobile ? 48 : 64, fontWeight: 800, fontFamily: "'Outfit',sans-serif",
                   background: 'linear-gradient(135deg, var(--color-neon), #7b2ff7)',
                   WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
                   lineHeight: 1.1,
@@ -550,7 +569,7 @@ export default function AcademicSection() {
               </div>
 
               {/* Insights row */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 20 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr 1fr' : '1fr 1fr', gap: 16, marginBottom: 20 }}>
                 <div style={{
                   background: 'rgba(var(--neon-rgb),0.05)', borderRadius: 14,
                   padding: '14px 16px', border: '1px solid rgba(var(--neon-rgb),0.1)',
@@ -605,7 +624,7 @@ export default function AcademicSection() {
 
             {/* RIGHT — Chart */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <TGPAChart animate={hovered || inView} width={440} height={240} />
+              <TGPAChart animate={hovered || inView} width={isMobile ? 300 : 440} height={isMobile ? 180 : 240} />
             </div>
           </motion.div>
         </div>
@@ -621,6 +640,10 @@ export default function AcademicSection() {
         @media (max-width: 768px) {
           #academics [style*="grid-template-columns: 1fr 1fr"] {
             grid-template-columns: 1fr !important;
+          }
+          #academics svg {
+            max-width: 100%;
+            height: auto;
           }
         }
       `}</style>

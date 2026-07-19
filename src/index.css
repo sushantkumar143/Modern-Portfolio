@@ -810,3 +810,98 @@ ul {
     right: 16px;
   }
 }
+
+/* ============================================
+   RESPONSIVE — MOBILE (≤768px)
+   ============================================ */
+@media (max-width: 768px) {
+  .section-title {
+    font-size: 2rem;
+  }
+
+  .section-subtitle {
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+  }
+
+  .neon-glow {
+    box-shadow: 0 0 8px rgba(0, 212, 255, 0.15), 0 0 20px rgba(0, 212, 255, 0.05);
+  }
+
+  .neon-text {
+    text-shadow: 0 0 6px rgba(0, 212, 255, 0.3);
+  }
+
+  .glass {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .glass-strong {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  /* Hide desktop-only elements */
+  .hide-mobile {
+    display: none !important;
+  }
+
+  /* Scrollbar — use native on mobile */
+  ::-webkit-scrollbar {
+    width: 0px;
+    display: none;
+  }
+
+  /* Reduce heavy animations */
+  .animate-float {
+    animation: none;
+  }
+}
+
+/* ============================================
+   RESPONSIVE — TABLET (769px–1024px)
+   ============================================ */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .section-title {
+    font-size: 2.5rem;
+  }
+
+  .section-padding {
+    padding: 80px 5%;
+  }
+}
+
+/* ============================================
+   HOVER GLOW CARD — Responsive
+   ============================================ */
+.hover-glow-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.hover-glow-border {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 0;
+}
+
+.hover-glow-card:hover .hover-glow-border {
+  opacity: 1;
+}
+
+.hover-glow-content {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+}
+
+@media (max-width: 768px) {
+  .hover-glow-border {
+    display: none;
+  }
+}

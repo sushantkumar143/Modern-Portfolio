@@ -144,6 +144,18 @@ export default function HeroSection() {
   const heroRef = useRef(null);
   const [isDownloading, setIsDownloading] = useState(false);
   const [downloadProgress, setDownloadProgress] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
+
+  useEffect(() => {
+    const checkSize = () => {
+      setIsMobile(window.innerWidth <= 768);
+      setIsTablet(window.innerWidth > 768 && window.innerWidth <= 1024);
+    };
+    checkSize();
+    window.addEventListener('resize', checkSize);
+    return () => window.removeEventListener('resize', checkSize);
+  }, []);
 
   const handleDownload = (e) => {
     // We don't call e.preventDefault() here if we want the browser to handle the link,
@@ -188,10 +200,10 @@ export default function HeroSection() {
       id="hero"
       style={{
         position: 'relative',
-        minHeight: '100vh',
+        minHeight: isMobile ? 'auto' : '100vh',
         display: 'flex',
-        alignItems: 'center',
-        padding: '120px 6% 80px',
+        alignItems: isMobile ? 'flex-start' : 'center',
+        padding: isMobile ? '100px 5% 60px' : isTablet ? '110px 5% 60px' : '120px 6% 80px',
         overflow: 'hidden',
       }}
     >
@@ -214,8 +226,8 @@ export default function HeroSection() {
         margin: '0 auto',
         width: '100%',
         display: 'grid',
-        gridTemplateColumns: '1fr 1fr',
-        gap: '60px',
+        gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',
+        gap: isMobile ? '30px' : isTablet ? '30px' : '60px',
         alignItems: 'center',
         position: 'relative',
         zIndex: 10,
@@ -226,7 +238,7 @@ export default function HeroSection() {
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, ease: 'easeOut' }}
-          style={{ padding: '20px 0' }}
+          style={{ padding: '20px 0', textAlign: isMobile ? 'center' : 'left' }}
         >
           {/* Greeting */}
           <p style={{
@@ -252,11 +264,12 @@ export default function HeroSection() {
 
           {/* Typed role */}
           <div style={{
-            fontSize: '1.4rem',
+            fontSize: isMobile ? '1.1rem' : '1.4rem',
             marginBottom: '8px',
             height: '42px',
             display: 'flex',
             alignItems: 'center',
+            justifyContent: isMobile ? 'center' : 'flex-start',
           }}>
             <span style={{ color: '#00d4ff', fontWeight: 600, letterSpacing: '0.5px' }}>
               {'< '}{typedText}
@@ -272,16 +285,17 @@ export default function HeroSection() {
           {/* Tagline */}
           <p style={{
             color: '#9ca3b0',
-            fontSize: '1.1rem',
+            fontSize: isMobile ? '0.95rem' : '1.1rem',
             lineHeight: 1.7,
-            marginBottom: '40px',
+            marginBottom: isMobile ? '28px' : '40px',
             maxWidth: '520px',
+            margin: isMobile ? '0 auto 28px' : undefined,
           }}>
             {personalInfo.tagline}
           </p>
 
           {/* CTA Buttons */}
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', marginBottom: '40px' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: isMobile ? '12px' : '16px', marginBottom: isMobile ? '20px' : '40px', justifyContent: isMobile ? 'center' : 'flex-start' }}>
             <a
               href="#contact"
               style={btnPrimaryBase}
@@ -396,67 +410,71 @@ export default function HeroSection() {
             ))}
           </div> */}
         </motion.div>
-        {/* Right Column – 3D Robot Canvas */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1, delay: 0.3 }}
-          style={{
-            height: '550px',
-            width: '100%',
-            position: 'relative',
-            zIndex: 5,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            pointerEvents: 'none' // Disable pointer events on wrapper
-          }}
-        >
-          <Canvas camera={{ position: [0, 0, 10], fov: 45 }} style={{ pointerEvents: 'auto' }}>
-            <ambientLight intensity={0.5} />
-            <directionalLight position={[10, 10, 10]} intensity={1.5} />
-            <directionalLight position={[-10, 10, -10]} intensity={0.5} />
-            <Environment preset="city" />
+        {/* Right Column – 3D Robot Canvas (hidden on mobile for performance) */}
+        {!isMobile && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, delay: 0.3 }}
+            style={{
+              height: isTablet ? '400px' : '550px',
+              width: '100%',
+              position: 'relative',
+              zIndex: 5,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              pointerEvents: 'none'
+            }}
+          >
+            <Canvas camera={{ position: [0, 0, 10], fov: 45 }} style={{ pointerEvents: 'auto' }}>
+              <ambientLight intensity={0.5} />
+              <directionalLight position={[10, 10, 10]} intensity={1.5} />
+              <directionalLight position={[-10, 10, -10]} intensity={0.5} />
+              <Environment preset="city" />
 
-            <OrbitControls
-              enableZoom={false}
-              enablePan={false}
-              maxPolarAngle={Math.PI / 2 + 0.2}
-              minPolarAngle={Math.PI / 2 - 0.2}
-            />
+              <OrbitControls
+                enableZoom={false}
+                enablePan={false}
+                maxPolarAngle={Math.PI / 2 + 0.2}
+                minPolarAngle={Math.PI / 2 - 0.2}
+              />
 
-            <CursorResponsiveGroup basePosition={[0, +4, 0]}>
-              <Float speed={2.5} rotationIntensity={0.5} floatIntensity={1.5}>
-                <group scale={3.5}>
-                  <Robot3D />
-                </group>
-              </Float>
-            </CursorResponsiveGroup>
-          </Canvas>
-        </motion.div>
+              <CursorResponsiveGroup basePosition={[0, +4, 0]}>
+                <Float speed={2.5} rotationIntensity={0.5} floatIntensity={1.5}>
+                  <group scale={3.5}>
+                    <Robot3D />
+                  </group>
+                </Float>
+              </CursorResponsiveGroup>
+            </Canvas>
+          </motion.div>
+        )}
       </div>
 
-      {/* Scroll indicator */}
-      <motion.div
-        style={{
-          position: 'absolute', bottom: '32px',
-          left: '50%', transform: 'translateX(-50%)',
-        }}
-        animate={{ y: [0, 8, 0] }}
-        transition={{ repeat: Infinity, duration: 1.5 }}
-      >
-        <div style={{
-          width: '28px', height: '46px', borderRadius: '50px',
-          border: '2px solid rgba(0,212,255,0.3)',
-          display: 'flex', alignItems: 'flex-start', justifyContent: 'center',
-          paddingTop: '8px',
-        }}>
+      {/* Scroll indicator — hidden on mobile */}
+      {!isMobile && (
+        <motion.div
+          style={{
+            position: 'absolute', bottom: '32px',
+            left: '50%', transform: 'translateX(-50%)',
+          }}
+          animate={{ y: [0, 8, 0] }}
+          transition={{ repeat: Infinity, duration: 1.5 }}
+        >
           <div style={{
-            width: '4px', height: '10px', borderRadius: '4px',
-            background: '#00d4ff',
-          }} />
-        </div>
-      </motion.div>
+            width: '28px', height: '46px', borderRadius: '50px',
+            border: '2px solid rgba(0,212,255,0.3)',
+            display: 'flex', alignItems: 'flex-start', justifyContent: 'center',
+            paddingTop: '8px',
+          }}>
+            <div style={{
+              width: '4px', height: '10px', borderRadius: '4px',
+              background: '#00d4ff',
+            }} />
+          </div>
+        </motion.div>
+      )}
     </section>
   );
 }

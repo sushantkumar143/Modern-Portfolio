@@ -520,6 +520,15 @@ const BADGE_RACKS = [
 
 function BadgeRackSection({ isInView }) {
   const [hoveredRack, setHoveredRack] = useState(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 768px)');
+    setIsMobile(mq.matches);
+    const handler = (e) => setIsMobile(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
 
   return (
     <motion.div
@@ -597,9 +606,15 @@ function BadgeRackSection({ isInView }) {
       {/* ── Photo Collage Grid ── */}
       <div style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(3, 1fr)',
-        gridTemplateRows: 'auto auto auto',
-        gridTemplateAreas: `
+        gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)',
+        gridTemplateRows: isMobile ? 'auto' : 'auto auto auto',
+        gridTemplateAreas: isMobile ? `
+          "champion"
+          "milestone"
+          "consistency"
+          "monthly1"
+          "monthly2"
+        ` : `
           "champion milestone milestone"
           "champion consistency consistency"
           "monthly1 monthly1 monthly2"
@@ -749,6 +764,15 @@ export default function CodingPlatforms() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-60px' });
   const [cfData, setCfData] = useState(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 768px)');
+    setIsMobile(mq.matches);
+    const handler = (e) => setIsMobile(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
 
   // Fetch Codeforces data live
   useEffect(() => {
@@ -768,7 +792,7 @@ export default function CodingPlatforms() {
       id="coding"
       ref={ref}
       className="section-padding relative overflow-hidden"
-      style={{ paddingTop: 100, paddingBottom: 100 }}
+      style={{ paddingTop: isMobile ? 60 : 100, paddingBottom: isMobile ? 60 : 100 }}
     >
       {/* ── Background ── */}
       <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', overflow: 'hidden' }}>
@@ -842,7 +866,7 @@ export default function CodingPlatforms() {
         {/* ── Platform Cards ── */}
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))',
+          gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fill, minmax(340px, 1fr))',
           gap: 24,
           marginTop: 32,
         }}>
@@ -865,8 +889,8 @@ export default function CodingPlatforms() {
           style={{
             display: 'flex', flexWrap: 'wrap',
             alignItems: 'center', justifyContent: 'center',
-            gap: 20,
-            marginTop: 40,
+            gap: isMobile ? 12 : 20,
+            marginTop: isMobile ? 24 : 40,
             padding: '12px 20px',
             borderRadius: 24,
             background: 'rgba(8,12,24,0.45)',

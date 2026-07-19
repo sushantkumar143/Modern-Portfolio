@@ -7,6 +7,10 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function SmoothScroll({ children }) {
   useEffect(() => {
+    // Disable Lenis on mobile — native touch scrolling is better
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    if (isMobile) return;
+
     // Initialize Lenis with smooth settings
     // 1.5s duration is slightly slower than default for a very premium feel
     const lenis = new Lenis({

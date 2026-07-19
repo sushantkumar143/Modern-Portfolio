@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { projects } from '../data/portfolioData';
 import { FiGithub, FiExternalLink, FiMaximize2, FiX } from 'react-icons/fi';
@@ -10,13 +10,22 @@ export default function ProjectsSection() {
   const [expandedProject, setExpandedProject] = useState(null);
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 768px)');
+    setIsMobile(mq.matches);
+    const handler = (e) => setIsMobile(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
 
   const filteredProjects = activeCategory === "All"
     ? projects.slice(0, 5)
     : projects.filter(p => p.categories?.includes(activeCategory));
 
   return (
-    <section id="projects" className="section-padding relative" ref={ref} style={{ padding: '100px 6% 120px' }}>
+    <section id="projects" className="section-padding relative" ref={ref} style={{ padding: isMobile ? '60px 4% 80px' : '100px 6% 120px' }}>
       <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
 
         {/* Heading */}
@@ -42,10 +51,13 @@ export default function ProjectsSection() {
           transition={{ duration: 0.6, delay: 0.2 }}
           style={{
             display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'center',
-            gap: '12px',
-            marginBottom: '40px', // Reduced gap before first project
+            flexWrap: isMobile ? 'nowrap' : 'wrap',
+            justifyContent: isMobile ? 'flex-start' : 'center',
+            gap: isMobile ? '8px' : '12px',
+            marginBottom: isMobile ? '24px' : '40px',
+            overflowX: isMobile ? 'auto' : 'visible',
+            WebkitOverflowScrolling: 'touch',
+            paddingBottom: isMobile ? '8px' : '0',
           }}
         >
           {categories.map((cat, i) => {
@@ -55,9 +67,11 @@ export default function ProjectsSection() {
                 key={i}
                 onClick={() => setActiveCategory(cat)}
                 style={{
-                  padding: '12px 28px',
+                  padding: isMobile ? '10px 18px' : '12px 28px',
                   borderRadius: '50px',
-                  fontSize: '0.95rem',
+                  fontSize: isMobile ? '0.8rem' : '0.95rem',
+                  whiteSpace: 'nowrap',
+                  flexShrink: 0,
                   fontWeight: 600,
                   letterSpacing: '0.5px',
                   transition: 'all 0.3s ease',
@@ -97,23 +111,23 @@ export default function ProjectsSection() {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 data-lenis-prevent="true"
                 style={{
-                  position: 'sticky',
-                  top: `calc(120px + ${index * 60}px)`, // Increased to ~60px (1.5cm) gap so previous number shows half
-                  width: '85%', // Takes ~85% of container width
-                  margin: '0 auto', // centered
-                  height: '75vh',
-                  minHeight: '600px',
-                  maxHeight: '900px',
-                  marginBottom: '140px',
+                  position: isMobile ? 'relative' : 'sticky',
+                  top: isMobile ? 'auto' : `calc(120px + ${index * 60}px)`,
+                  width: isMobile ? '100%' : '85%',
+                  margin: '0 auto',
+                  height: isMobile ? 'auto' : '75vh',
+                  minHeight: isMobile ? 'auto' : '600px',
+                  maxHeight: isMobile ? 'none' : '900px',
+                  marginBottom: isMobile ? '24px' : '140px',
                   background: 'rgba(12, 12, 18, 1)',
                   border: '1px solid rgba(255,255,255,0.1)',
-                  borderRadius: '24px',
-                  boxShadow: '0 -15px 40px rgba(0,0,0,0.6), 0 0 20px rgba(var(--neon-rgb), 0.05)',
-                  overflowY: 'auto',
+                  borderRadius: isMobile ? '16px' : '24px',
+                  boxShadow: isMobile ? '0 4px 20px rgba(0,0,0,0.4)' : '0 -15px 40px rgba(0,0,0,0.6), 0 0 20px rgba(var(--neon-rgb), 0.05)',
+                  overflowY: isMobile ? 'visible' : 'auto',
                   overscrollBehavior: 'contain',
                   display: 'flex',
                   flexDirection: 'column',
-                  zIndex: index, // Ensure stacking order
+                  zIndex: index,
                 }}
                 className="project-card-scroll"
               >
@@ -121,13 +135,15 @@ export default function ProjectsSection() {
                 <div style={{
                   display: 'flex',
                   justifyContent: 'space-between',
-                  alignItems: 'center',
-                  padding: '24px 40px',
+                  alignItems: isMobile ? 'flex-start' : 'center',
+                  flexDirection: isMobile ? 'column' : 'row',
+                  gap: isMobile ? '12px' : '0',
+                  padding: isMobile ? '16px 20px' : '24px 40px',
                   borderBottom: '1px solid rgba(255,255,255,0.05)'
                 }}>
                   {/* Big Number */}
                   <span style={{
-                    fontSize: '4.5rem',
+                    fontSize: isMobile ? '2.5rem' : '4.5rem',
                     fontWeight: 900,
                     fontFamily: "'Outfit', sans-serif",
                     background: 'linear-gradient(135deg, var(--color-neon), #7b2ff7)',
@@ -143,9 +159,9 @@ export default function ProjectsSection() {
                       href={project.github}
                       style={{
                         display: 'flex', alignItems: 'center', gap: '8px',
-                        padding: '12px 24px', borderRadius: '50px',
+                        padding: isMobile ? '10px 16px' : '12px 24px', borderRadius: '50px',
                         background: 'rgba(255,255,255,0.05)',
-                        color: '#e4e4e7', fontSize: '0.95rem', fontWeight: 600,
+                        color: '#e4e4e7', fontSize: isMobile ? '0.8rem' : '0.95rem', fontWeight: 600,
                         transition: 'all 0.3s ease',
                         border: '1px solid rgba(255,255,255,0.1)'
                       }}
@@ -176,14 +192,16 @@ export default function ProjectsSection() {
                 {/* Body */}
                 <div style={{
                   display: 'flex',
+                  flexDirection: isMobile ? 'column' : 'row',
                   flex: 1,
-                  padding: '24px 40px 40px', // Reduced top padding
-                  gap: '40px',
-                  overflowY: 'visible' // Let the parent card handle the main scroll
+                  padding: isMobile ? '16px 20px 24px' : '24px 40px 40px',
+                  gap: isMobile ? '20px' : '40px',
+                  overflowY: 'visible'
                 }}>
                   {/* Left Column: Image + Date */}
                   <div style={{
-                    flex: '0 0 55%', // Take exactly 55% of space
+                    flex: isMobile ? 'none' : '0 0 55%',
+                    width: isMobile ? '100%' : 'auto',
                     display: 'flex',
                     flexDirection: 'column',
                     gap: '16px', // Space between image and date
@@ -310,7 +328,7 @@ export default function ProjectsSection() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            padding: '40px'
+            padding: isMobile ? '16px' : '40px'
           }}
           onClick={() => setExpandedProject(null)}
         >
@@ -319,12 +337,12 @@ export default function ProjectsSection() {
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             style={{
-              width: '90%',
+              width: isMobile ? '100%' : '90%',
               maxWidth: '1000px',
-              maxHeight: '90vh',
+              maxHeight: isMobile ? '95vh' : '90vh',
               background: 'rgba(12, 12, 18, 0.95)',
               border: '1px solid rgba(255,255,255,0.1)',
-              borderRadius: '24px',
+              borderRadius: isMobile ? '16px' : '24px',
               boxShadow: '0 25px 50px -12px rgba(0,0,0,0.8), 0 0 30px rgba(var(--neon-rgb), 0.1)',
               overflowY: 'auto',
               overscrollBehavior: 'contain',
@@ -338,11 +356,11 @@ export default function ProjectsSection() {
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
-              padding: '24px 40px',
+              padding: isMobile ? '20px' : '24px 40px',
               borderBottom: '1px solid rgba(255,255,255,0.05)'
             }}>
               <h3 style={{
-                fontSize: '2rem',
+                fontSize: isMobile ? '1.5rem' : '2rem',
                 fontWeight: 800,
                 fontFamily: "'Outfit', sans-serif",
                 color: '#fff',
@@ -371,8 +389,8 @@ export default function ProjectsSection() {
             <div style={{
               display: 'flex',
               flexDirection: 'column',
-              padding: '40px',
-              gap: '30px',
+              padding: isMobile ? '20px' : '40px',
+              gap: isMobile ? '20px' : '30px',
             }}>
               {/* Image */}
               <div style={{

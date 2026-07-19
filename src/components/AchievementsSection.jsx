@@ -76,9 +76,19 @@ function AnimatedCounter({ value, suffix = '', inView }) {
 function AchievementRow({ item, index }) {
   const rowRef = useRef(null);
   const isInView = useInView(rowRef, { once: false, margin: '-80px' });
-  const isLeft = index % 2 === 0; // content left, image right on even indices
   const [imgHovered, setImgHovered] = useState(false);
   const [cardHovered, setCardHovered] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 768px)');
+    setIsMobile(mq.matches);
+    const handler = (e) => setIsMobile(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
+
+  const isLeft = isMobile ? true : index % 2 === 0;
 
   /* Slide direction based on alternation */
   const contentFrom = isLeft ? -60 : 60;
@@ -89,10 +99,10 @@ function AchievementRow({ item, index }) {
       ref={rowRef}
       style={{
         display: 'grid',
-        gridTemplateColumns: '1fr 1fr',
-        gap: 40,
+        gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',
+        gap: isMobile ? 24 : 40,
         alignItems: 'center',
-        marginBottom: index < achievements.length - 1 ? 64 : 0,
+        marginBottom: index < achievements.length - 1 ? (isMobile ? 40 : 64) : 0,
       }}
       className="achievements-row"
     >
@@ -120,7 +130,7 @@ function AchievementRow({ item, index }) {
             background: 'rgb(12, 16, 28)', // Opaque to prevent glow bleed
             border: '1px solid rgba(255,255,255,0.07)',
             borderRadius: 20,
-            padding: '36px 32px',
+            padding: isMobile ? '28px 20px' : '36px 32px',
             position: 'relative',
             overflow: 'hidden',
           }}
@@ -273,7 +283,7 @@ function AchievementRow({ item, index }) {
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
             style={{
               width: '100%',
-              height: 320,
+              height: isMobile ? 220 : 320,
               objectFit: 'cover',
               display: 'block',
             }}

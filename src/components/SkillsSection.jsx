@@ -324,6 +324,15 @@ function RotatingSphere({ icons }) {
 function SphereIconCloud() {
   const containerRef = useRef(null);
   const [hasError, setHasError] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 768px)');
+    setIsMobile(mq.matches);
+    const handler = (e) => setIsMobile(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
 
   // Generate dense points on sphere exactly like before, but now producing 3D vectors
   const denseIcons = [...uniqueIcons, ...uniqueIcons, ...uniqueIcons].map((icon, i) => ({
@@ -358,7 +367,7 @@ function SphereIconCloud() {
       ref={containerRef}
       style={{
         width: '100%',
-        height: '500px',
+        height: isMobile ? '320px' : '500px',
         position: 'relative',
         overflow: 'hidden',
         cursor: 'grab',
@@ -379,6 +388,15 @@ export default function SkillsSection() {
   const [activeCategory, setActiveCategory] = useState(-1);
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 768px)');
+    setIsMobile(mq.matches);
+    const handler = (e) => setIsMobile(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
 
   // Create the combined categories array with "All" at the beginning
   const tabs = [{ name: 'All' }, ...skillCategories];
@@ -387,7 +405,7 @@ export default function SkillsSection() {
     <section
       id="skills"
       ref={ref}
-      style={{ padding: '100px 6% 80px', position: 'relative' }}
+      style={{ padding: isMobile ? '60px 4% 60px' : '100px 6% 80px', position: 'relative' }}
     >
       <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
 
@@ -414,10 +432,13 @@ export default function SkillsSection() {
           transition={{ duration: 0.6, delay: 0.2 }}
           style={{
             display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'center',
-            gap: '12px',
-            marginBottom: '50px',
+            flexWrap: isMobile ? 'nowrap' : 'wrap',
+            justifyContent: isMobile ? 'flex-start' : 'center',
+            gap: isMobile ? '8px' : '12px',
+            marginBottom: isMobile ? '30px' : '50px',
+            overflowX: isMobile ? 'auto' : 'visible',
+            WebkitOverflowScrolling: 'touch',
+            paddingBottom: isMobile ? '8px' : '0',
           }}
         >
           {tabs.map((tab, index) => {
@@ -430,13 +451,15 @@ export default function SkillsSection() {
                 key={catIndex}
                 onClick={() => setActiveCategory(catIndex)}
                 style={{
-                  padding: '12px 28px',
+                  padding: isMobile ? '10px 20px' : '12px 28px',
                   borderRadius: '50px',
-                  fontSize: '0.95rem',
+                  fontSize: isMobile ? '0.8rem' : '0.95rem',
                   fontWeight: 600,
                   letterSpacing: '0.5px',
                   transition: 'all 0.3s ease',
                   cursor: 'pointer',
+                  whiteSpace: 'nowrap',
+                  flexShrink: 0,
                   border: isActive ? '1px solid rgba(var(--neon-rgb), 0.4)' : '1px solid rgba(255,255,255,0.08)',
                   background: isActive ? 'rgba(var(--neon-rgb), 0.1)' : 'rgba(255,255,255,0.03)',
                   color: isActive ? 'var(--color-neon)' : '#9ca3b0',
@@ -476,8 +499,8 @@ export default function SkillsSection() {
             /* Specific Category - Skills Grid */
             <div style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
-              gap: '30px',
+              gridTemplateColumns: `repeat(auto-fit, minmax(${isMobile ? '260px' : '400px'}, 1fr))`,
+              gap: isMobile ? '16px' : '30px',
             }}>
               {skillCategories[activeCategory].skills.map((skill, i) => (
                 <div

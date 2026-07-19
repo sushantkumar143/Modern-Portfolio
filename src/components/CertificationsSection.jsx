@@ -43,6 +43,15 @@ export default function CertificationsSection() {
   const scrollRef = useRef(null);
   const [showAll, setShowAll] = useState(false);
   const [zoomedImage, setZoomedImage] = useState(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 768px)');
+    setIsMobile(mq.matches);
+    const handler = (e) => setIsMobile(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
 
   // Set up horizontal scroll linked to vertical scroll
   const { scrollYProgress } = useScroll({
@@ -63,18 +72,18 @@ export default function CertificationsSection() {
       <section id="certifications" style={{ position: 'relative', background: '#0a0a0f' }}>
 
         {/* Magic scrolling container that is very tall to allow scrolling */}
-        <div ref={scrollRef} style={{ height: `${(totalCards * 60) + 20}vh` }}>
+        <div ref={scrollRef} style={{ height: isMobile ? 'auto' : `${(totalCards * 60) + 20}vh` }}>
 
           {/* This inner div STICKS to the screen while we scroll */}
           <div style={{
-            position: 'sticky',
+            position: isMobile ? 'relative' : 'sticky',
             top: 0,
-            height: '100vh',
+            height: isMobile ? 'auto' : '100vh',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
-            overflow: 'hidden', // hides the overflowing horizontal cards
-            padding: '0'
+            overflow: isMobile ? 'visible' : 'hidden', // hides the overflowing horizontal cards
+            padding: isMobile ? '60px 0' : '0'
           }}>
 
             <div style={{ padding: '0 6%', marginBottom: '40px', textAlign: 'center' }}>
@@ -92,8 +101,8 @@ export default function CertificationsSection() {
               width: '100vw',
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'flex-start',
-              height: '550px',
+              justifyContent: isMobile ? 'center' : 'flex-start',
+              height: isMobile ? 'auto' : '550px',
               perspective: '1500px'
             }}>
 
@@ -101,10 +110,12 @@ export default function CertificationsSection() {
                 style={{
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '40px', // Reduced gap
-                  x: xTransform, // Framer Motion horizontal translate tied to scroll
-                  width: 'max-content',
-                  marginLeft: '30vw' // Start exactly centered (100vw - 40vw)/2
+                  flexDirection: isMobile ? 'column' : 'row',
+                  gap: isMobile ? '24px' : '40px', // Reduced gap
+                  x: isMobile ? 0 : xTransform, // Framer Motion horizontal translate tied to scroll
+                  width: isMobile ? '100%' : 'max-content',
+                  marginLeft: isMobile ? '0' : '30vw', // Start exactly centered (100vw - 40vw)/2
+                  padding: isMobile ? '0 4%' : '0',
                 }}
               >
                 {displayedCertifications.map((cert, index) => {
@@ -119,7 +130,7 @@ export default function CertificationsSection() {
                       }}
                       style={{
                         flexShrink: 0,
-                        width: '40vw',
+                        width: isMobile ? '100%' : '40vw',
                         borderRadius: '24px',
                         boxShadow: '0 10px 40px rgba(0,0,0,0.5)',
                         zIndex: 1
@@ -127,7 +138,7 @@ export default function CertificationsSection() {
                       contentStyle={{
                         background: 'rgba(28, 28, 38, 0.95)', // Lighter card background
                         border: '1px solid rgba(255,255,255,0.05)',
-                        padding: '40px',
+                        padding: isMobile ? '24px' : '40px',
                         display: 'flex',
                         flexDirection: 'column',
                         height: '100%',
@@ -137,7 +148,7 @@ export default function CertificationsSection() {
                       {/* Top: Large Number & Course Name */}
                       <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '24px' }}>
                         <span style={{
-                          fontSize: '3rem',
+                          fontSize: isMobile ? '2.2rem' : '3rem',
                           fontWeight: 900,
                           fontFamily: "'Outfit', sans-serif",
                           background: 'linear-gradient(135deg, var(--color-neon), #7b2ff7)',
@@ -148,7 +159,7 @@ export default function CertificationsSection() {
                           {String(index + 1).padStart(2, '0')}
                         </span>
                         <h3 style={{
-                          fontSize: '1.6rem',
+                          fontSize: isMobile ? '1.3rem' : '1.6rem',
                           fontWeight: 700,
                           fontFamily: "'Outfit', sans-serif",
                           color: '#fff',
@@ -163,7 +174,7 @@ export default function CertificationsSection() {
                       <div
                         style={{
                           width: '100%',
-                          height: '350px', // Taller image for the wider card
+                          height: isMobile ? '220px' : '350px', // Taller image for the wider card
                           borderRadius: '16px',
                           overflow: 'hidden',
                           marginBottom: '30px',
@@ -247,11 +258,12 @@ export default function CertificationsSection() {
                   transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                   style={{
                     flexShrink: 0,
-                    width: '300px',
+                    width: isMobile ? '100%' : '300px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    marginRight: '15vw' // leave space at the end to stop scroll neatly
+                    marginRight: isMobile ? '0' : '15vw', // leave space at the end to stop scroll neatly
+                    marginTop: isMobile ? '20px' : '0'
                   }}
                 >
                   <button
